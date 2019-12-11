@@ -1,0 +1,14 @@
+Testailu
+	\du <--- listaa käyttäjät
+	\dx <--- listaa extensionit
+	\dt <--- listaa tablet
+	SELECT uuid_generate_v4(); <-- generoi id:n
+
+UUID asentaminen
+	sudo su postgres
+	psql kohdetietokanta -c 'CREATE EXTENSION "uuid-ossp";'
+	
+	
+Luo käyttäjä
+	INSERT INTO Users (name, userid) VALUES ( 'nimi', uuid_generate_v4() );
+	
