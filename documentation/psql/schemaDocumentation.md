@@ -98,6 +98,7 @@ Owner of location determines who can search and tag said location
 | permissionChainDegreeFriend| integer|same|
 
 Description for permission values:
+
 |value|lateral/parent/child|spouse|friend|
 |--|--|--|--|--|--|
 |-1|public|public|public|
