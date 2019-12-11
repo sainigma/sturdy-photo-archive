@@ -81,6 +81,7 @@ Owner of location determines who can search and tag said location
 | column | type   | description |
 |--|--|--|
 |id|uuid||
+|name|text||
 |state|text||
 |country|text||
 
