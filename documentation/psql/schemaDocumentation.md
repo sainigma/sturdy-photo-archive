@@ -46,6 +46,7 @@
 | [permissions](#permissions) | uuid[]||
 | equirectangular |bool|Photo is panoramic if true|
 | priority |integer|Integer for sorting, e.g if multiple photos accessed share date|
+
 A photo can have multiple permissions, both from owner and people contained in the photo. All permissions are checked independently, so the most unrestricted rights always win. If user with permission rights is no longer active, the rights are inherited by next of kin.
  <a  name="comments"></a>
 ## comments
@@ -72,6 +73,7 @@ A photo can have multiple permissions, both from owner and people contained in t
 |address|text||
 |postalcode|text||
 |[city](#cities)|uuid||
+
 Owner of location determines who can search and tag said location
 
  <a  name="cities"></a>
@@ -94,6 +96,7 @@ Owner of location determines who can search and tag said location
 | permissionChainDegreeChild |integer|same|
 | permissionChainDegreeSpouse| integer|same|
 | permissionChainDegreeFriend| integer|same|
+
 Description for permission values:
 |value|lateral/parent/child|spouse|friend|
 |--|--|--|--|--|--|
@@ -102,6 +105,7 @@ Description for permission values:
 |1|a relative can see|same|best friend can see
 |2|a relative can share to relatives by degree of separation of 1|same|top 2 friends can see
 |n|a relative can share to relatives by degree of separation of n-1|same|top n friends can see
+
 <a  name="labels"></a>
 ## labels
 <a  name="albums"></a>
