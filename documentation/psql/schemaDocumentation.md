@@ -8,6 +8,7 @@
  6. [permissions](#permissions)
  7. [labels](#labels)
  8. [albums](#albums)
+ 9. [userverification](#userverification)
  
  <a  name="users"></a>
 ## users
@@ -112,3 +113,14 @@ Description for permission values:
 ## labels
 <a  name="albums"></a>
 ## albums
+<a name="userverification"></a>
+## userverification
+
+| column | type   | description |
+|--|--|--|
+|username|text|-|
+|verification|text|hash for verification|
+|timestamp|timestamp without timezone|verification is rejected if it's too old|
+
+Notes
+ - [ ] Make garbage collector that periodically cleans userverification and users tables from unverified entries
