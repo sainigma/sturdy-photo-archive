@@ -11,8 +11,54 @@ const client = new Client({
 
 client.connect()
 
+const getQuery = (sqlcommand) => {
+  return client.query(sqlcommand)
+}
+
+const verify = async(verification) => {
+
+  const fetchUserFromVerifications = () => {
+    return getQuery(`
+      SELECT username FROM userverification
+      WHERE verification='${verification}'
+      AND timestamp > NOW() - INTERVAL '60 minutes'
+  `)
+  }
+
+  const setUserToActive = (username) => {
+    return getQuery(`
+      UPDATE users
+      SET active = TRUE
+      WHERE username = '${username}'
+    `)
+  }
+
+  const removeVerificationsForUser = (username) => {
+    return getQuery(`
+      DELETE FROM userverification
+      WHERE username = '${username}'
+    `)
+  }
+
+  let user = null
+  let hasErrors = false
+  try {
+    const query = await fetchUserFromVerifications()
+    if(query.rows.length>0)user=query.rows[0].username
+    else hasErrors=true
+  }catch(error){console.log(error);hasErrors=true}
+
+  if(!hasErrors){
+    try{ setUserToActive(user) }catch(error){console.log(error);hasErrors=true}
+    try{ removeVerificationsForUser(user) }catch(error){console.log(error);hasErrors=true}
+  }
+
+  console.log(user)
+  return hasErrors
+}
+
 const createNew = async(username,password,email) => {
-  
+
   const hash = await bcrypt.hash(password,10)
   const verification = await bcrypt.hash(username+password+email,5)
   let hasErrors = false
@@ -30,6 +76,8 @@ const createNew = async(username,password,email) => {
       VALUES ( '${username}', '${verification}', now())
     `)
   }catch(error){console.log(error); hasErrors = true }
+
+  return hasErrors
 }
 
 const getAll = async() => {
@@ -60,4 +108,5 @@ module.exports = {
   getAll,
   findOne,
   createNew,
+  verify,
 }

@@ -41,4 +41,21 @@ userRouter.post('/new', async(req,res,next)=>{
   }
 })
 
+//SANITIZATION POINT HERE
+userRouter.post('/verify', async(req,res,next)=>{
+  let result = {
+    status: 400,
+    message: "Verification failed"
+  }
+  const body = await req.body
+  if(body.verification){
+    const hasErrors = await User.verify(body.verification)
+    if(!hasErrors){
+      result.status=200
+      result.message="User has been verified"
+    }
+  }
+  res.status(result.status).json(result.message)
+})
+
 module.exports = userRouter
