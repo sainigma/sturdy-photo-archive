@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken')
 const userRouter = require('express').Router()
 const User = require('./../queries/user')
+const config = require('./../utils/config')
 
 const checkUserFields = (params) => {
   return true
@@ -13,7 +15,7 @@ const createNewUser = async(username, password, email) => {
   if(checkUserFields({username:username,password:password,email:email})){
     const userExists = await User.findOne({username:username})
     if(!userExists){
-      const hasErrors = User.createNew(username,password,email)
+      const hasErrors = await User.createNew(username,password,email)
       if(!hasErrors){
         result.status=200
         result.message="new user created, waiting verification"
@@ -58,4 +60,29 @@ userRouter.post('/verify', async(req,res,next)=>{
   res.status(result.status).json(result.message)
 })
 
+//SANITIZATION POINT HERE
+userRouter.post('/login', async(req,res,next)=>{
+  let result = {
+    status: 400,
+    message: 'Login failed',
+    token: null
+  }
+  const body = await req.body
+  if(body.username&&body.password){
+    const response = await User.login(body.username,body.password)
+    if(!response.hasErrors && response.result && response.active){
+      result.token = jwt.sign({ 
+        username:response.user,
+        id:response.id,
+        exp: Math.floor(Date.now()/1000)+3600
+      },config.SECRET)
+      result.status = 200
+      result.message = 'Login successful'
+    }else if(!response.hasErrors && response.result && !response.active){
+      result.status = 400
+      result.message = 'Account unverified'
+    }
+  }
+  res.status(result.status).json({token:result.token,message:result.message})
+})
 module.exports = userRouter
