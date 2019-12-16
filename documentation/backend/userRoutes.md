@@ -1,3 +1,12 @@
+### Progress
+
+ - [x] Create user
+ - [x] Verify user
+ - [x] Login
+ - [ ] Update user
+ - [ ] Link users
+ - [ ] Create dummy
+
 ## Create user
 
 >api/users/new
@@ -23,3 +32,19 @@
 1. Backend receives `username` or `e-mail` and `password` as POST
 2. Temporary hash is created with supplied `password`
 3. If the hashes match, new hash is generated to the database and the new hash is supplied to the user as a token
+
+## Update user
+
+>api/users
+
+Updates common info for user, e.g. `name`, `coverphoto`, `phone`, `location`
+
+## Link users
+
+>api/users/relations
+
+## Create dummy
+
+>api/users/dummy/new
+
+Placeholder user with no active user. Can be promoted to a proper user with forgotten password prompt, if dummy has valid `email`. Activation removes owner from user.

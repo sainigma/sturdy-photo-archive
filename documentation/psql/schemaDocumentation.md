@@ -26,6 +26,9 @@
 |children|uuid[]|same|
 |siblings|uuid[]|same|
 |friends|uuid[]|same|
+|coverphoto|uuid|Link to a public [photo](#photos)|
+|location|uuid|Link to a [location](#location)|
+|owner|uuid|Normally null, used when user is dummy|
 
  <a  name="photos"></a>
 ## photos

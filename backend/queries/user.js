@@ -15,6 +15,36 @@ const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
 }
 
+const login = async(username,password) => {
+  const fetchUser = () => {
+    return getQuery(`
+      SELECT hash, active, id FROM users
+      WHERE username='${username}'
+    `)
+  }
+  let id = null
+  let user = null
+  let hash = null
+  let active = null
+  let hasErrors = false
+  let result = null
+
+  try {
+    const query = await fetchUser()
+    if(query.rows.length>0){
+      user = username
+      id = query.rows[0].id
+      hash = query.rows[0].hash
+      active = query.rows[0].active
+
+      result = await bcrypt.compare(password,hash)
+
+    }
+  }catch(error){console.log(error);hasErrors=true}
+
+  return {user,hash,active,hasErrors,result}
+}
+
 const verify = async(verification) => {
 
   const fetchUserFromVerifications = () => {
@@ -53,7 +83,6 @@ const verify = async(verification) => {
     try{ removeVerificationsForUser(user) }catch(error){console.log(error);hasErrors=true}
   }
 
-  console.log(user)
   return hasErrors
 }
 
@@ -109,4 +138,5 @@ module.exports = {
   findOne,
   createNew,
   verify,
+  login,
 }
