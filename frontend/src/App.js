@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CreateUser from './components/CreateUser'
 import Login from './components/Login'
-
+import CreatePhoto from './components/CreatePhoto'
 const App = (props) => {
 
   useEffect( ()=>{
@@ -11,12 +11,8 @@ const App = (props) => {
   },[])
 
   return(
-    <div>
-      <Router>
-        <Link to="/">main </Link><Link to="/new"> new user </Link><Link to="/login"> login </Link><br/>
-        <Route exact path='/new' component={CreateUser}/>
-        <Route exact path='/login' component={Login}/>
-      </Router>
+    <div className="container">
+      <CreatePhoto/>
     </div>
   )
 }
