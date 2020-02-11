@@ -1,0 +1,34 @@
+
+.inputField, .selectField{
+  width: 100%;
+  padding: 10px;
+  border:none;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.inputField[type=button],.inputField[type=submit] {
+  background-color: #409443;
+}
+.inputField[type=button]:hover,.inputField[type=submit]:hover {
+  background-color: #4caf50;
+  cursor: pointer;
+}
+.inputField[type=button]:active,.inputField[type=submit]:active {
+  background-color: #cef0cf;
+}
+.inputField[type=text], .inputField[type=password], .selectField {
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+.inputFieldLabel{
+  width:120px;
+  padding:10px;
+}
+.inputContainer{
+  display:flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.formHeading{
+  padding-left: 70px;
+}

@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './App'
 import store from './store'
+import './styles/forms.css'
+import './styles/icons.css'
+import './styles/index.css'
 
 const render = () => {
   ReactDOM.render(
