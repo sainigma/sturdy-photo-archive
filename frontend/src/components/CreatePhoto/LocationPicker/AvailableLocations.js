@@ -6,23 +6,31 @@ import { setLocation } from '../../../reducers/formReducer'
 
 const AvailableLocations = (props) => {
   const [createNew, setCreateNew] = useState(false)
-  const locationList = [{id:"createNewLocation", name:"Create new"}, {id:"separator"}, {id:32424234, name:"Karin koti"}, {id:543957435, name:"Mummola"}, {id:543897589435, name:"Linnanmäki"}]
+  const locationList = [{id:"createNewLocation", name:"Create new"}, {id:"separator"}, {id:"32424234", name:"Karin koti"}, {id:"543957435", name:"Mummola"}, {id:"543897589435", name:"Linnanmäki"}]
 
   const selectionChanged = (event) => {
     console.log(event.target.value)
     if( event.target.value === 'createNewLocation' ){
       setCreateNew(true)
     }else if( event.target.value !== 'selectFieldSeparator0' ){
-      props.setLocation(event.target.value, "id")
-      props.confirmLocation()
+      //props.setLocation(event.target.value, "id")
+      
+      const parameters = {
+        values:{
+          id:event.target.value,
+          name: locationList.find( location => location.id === event.target.value ).name
+        },
+        type: "id"
+      }
+      props.saveLocation(parameters)
     }
   }
 
-  const processNewLocation = () => {
+  const processNewLocation = (parameters) => {
     //event.preventDefault()
     //console.log(event.target.value)
     setCreateNew(false)
-    props.confirmLocation()
+    props.saveLocation(parameters)
   }
 
   if( !createNew ){

@@ -68,8 +68,10 @@ userRouter.post('/login', async(req,res,next)=>{
     token: null
   }
   const body = await req.body
+  //console.log(body)
   if(body.username&&body.password){
     const response = await User.login(body.username,body.password)
+    console.log(response)
     if(!response.hasErrors && response.result && response.active){
       result.token = jwt.sign({ 
         username:response.user,
@@ -79,8 +81,11 @@ userRouter.post('/login', async(req,res,next)=>{
       result.status = 200
       result.message = 'Login successful'
     }else if(!response.hasErrors && response.result && !response.active){
-      result.status = 400
+      result.status = 403
       result.message = 'Account unverified'
+    }else {
+      result.status = 401
+      result.message = 'Invalid request'
     }
   }
   res.status(result.status).json({token:result.token,message:result.message})

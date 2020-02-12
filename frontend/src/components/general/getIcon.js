@@ -28,6 +28,12 @@ const getIcon = (icon) => {
     case 'address':
       iconClass = 'mail-bulk'
       break
+    case 'key':
+      iconClass = 'key'
+      break
+    case 'null':
+      iconClass = 'null'
+      break
     default:
       iconClass = 'user'
   }

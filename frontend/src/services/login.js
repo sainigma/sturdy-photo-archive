@@ -15,8 +15,18 @@ const login = async(username,password) => {
     username:username,
     password:password,
   }
-  const response = await axios.post('http://localhost:3001/api/users/login', content)
-  return response
+  let response
+  try{
+    response = await axios.post('http://localhost:3001/api/users/login', content)
+  } catch (error) {
+    response = {
+      data:{
+        username
+      },
+      status:error.response.status
+    }
+  }
+  return response  
 }
 
 export default {

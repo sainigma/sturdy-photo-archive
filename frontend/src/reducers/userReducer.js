@@ -4,27 +4,38 @@ const initialState = {
   name: '',
   username: '',
   token: '',
+  status: "0",
 }
 
 const userReducer = (state = initialState, action) => {
   if(action.type==='LOGIN'){
-    console.log(action.content)
     if(action.content.status===200){
       return {
         name: '',
         username: action.username,
         token: 'bearer '+action.content.data.token,
+        status: "200",
+      }
+    }else if(action.content.status===403){
+      return {
+        status: "403",
+      }
+    }else if(action.content.status===401){
+      return {
+        status: "401",
       }
     }
   }else if(action.type==='NEWUSER'){
-    console.log(action.content)
     if(action.content.status===200){
       return {
         name: '',
         username: action.username,
         token: '',
+        status: "200",
       }
     }
+  }else if(action.type==='RESET'){
+    return initialState
   }
   return state
 }
@@ -48,6 +59,12 @@ export const newUser = (username,password,email) => {
       content: response,
       username: username,
     })
+  }
+}
+
+export const reset = () => {
+  return{
+    type: 'RESET'
   }
 }
 

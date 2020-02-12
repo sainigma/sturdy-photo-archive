@@ -7,7 +7,7 @@ import formReducer from './reducers/formReducer'
 
 const reducer = combineReducers({
   user: userReducer,
-  state: appStateReducer,
+  appstate: appStateReducer,
   form: formReducer,
 })
 

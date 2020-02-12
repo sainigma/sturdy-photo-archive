@@ -1,5 +1,6 @@
 const initialState = {
   currentView: 'home',
+  loggedIn: false,
   showLogin: false,
   showCreateUser: false,
 }
@@ -9,10 +10,11 @@ const appStateReducer = (state = initialState, action) => {
   if( action.type === 'CHANGEVIEW '){
     newState.currentView = action.newView
   }else if( action.type === 'TOGGLELOGIN' ){
-    newState.showLogin = !newState.showLogin
+    newState.loggedIn = !newState.loggedIn
   }else if( action.type === 'TOGGLECREATEUSER' ){
     newState.showCreateUser = !newState.showCreateUser
   }else if( action.type === 'SETLOGINANDCREATE' ){
+    newState.loggedIn = action.login
     newState.showLogin = action.login
     newState.showCreateUser = action.create
   }

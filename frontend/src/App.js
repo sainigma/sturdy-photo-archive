@@ -1,25 +1,28 @@
-import React, {useEffect} from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import React, {useState,useEffect} from 'react'
 import { connect } from 'react-redux'
-import CreateUser from './components/CreateUser'
-import Login from './components/Login'
 import CreatePhoto from './components/CreatePhoto'
+import UserDialogs from './components/UserDialogs'
+
 const App = (props) => {
+  const [loggedIn,setLoggedIn] = useState(false)
 
   useEffect( ()=>{
-    console.log("start")
+    //console.log("start")
   },[])
 
   return(
-    <div className="container">
-      <CreatePhoto/>
-    </div>
+      <div className="container">
+        <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>
+        {loggedIn ? <CreatePhoto/> : <></>}
+      </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return{
     user:state.user,
+    loggedIn:state.appstate.loggedIn,
+    appstate:state.appstate
   }
 }
 
