@@ -32,3 +32,6 @@
 .formHeading{
   padding-left: 70px;
 }
+.hiddenInput{
+  display:none;
+}

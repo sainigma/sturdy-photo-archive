@@ -1,10 +1,45 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import Input from './../general/Input'
+import { connect } from 'react-redux'
 
 const FileSelector = (props) => {
-  return(
-    <Input type={"button"} icon={"file"} value={"Choose photo"}/>
-  )
+  const inputFile = useRef(null)
+  const [hasFile, setHasFile] = useState(false)
+  const [fileName, setFileName] = useState('')
+
+
+  const activateDialog = () => {
+    inputFile.current.click()
+  }
+
+  const testi = (event) => {
+    const newFile = event.target.files[0]
+    setFileName( newFile.name )
+    setHasFile(true)
+    props.setHasFile(true)
+  }
+
+  if( !hasFile ){
+    return(
+      <>
+      <input className="hiddenInput" type='file' id='file' ref={inputFile} onChange={testi}/>
+      <Input type={"button"} icon={"file"} value={"Choose photo"} onClick={activateDialog}/>
+      </>
+    )
+  } else{
+    return(
+      <>
+      <Input type={"none"} icon={"file"} label={fileName}/>
+      </>
+    )
+  }
+
 }
 
-export default FileSelector
+const mapStateToProps = (state) => {
+  return{
+    form:state.form,
+  }
+}
+
+export default connect(mapStateToProps,null)(FileSelector)

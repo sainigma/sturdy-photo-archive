@@ -7,7 +7,9 @@ const LocationCreator = (props) => {
   const [newName, setNewName] = useState('')
   const [newLongitude, setNewLongitude] = useState('')
   const [newLatitude, setNewLatitude] = useState('')
-
+  const [newAddress, setNewAddress] = useState('')
+  const [newPostal, setNewPostal] = useState('')
+  const [newCity, setNewCity] = useState('')
  
   const changeName = (event) => {
     setNewName( event.target.value )
@@ -20,11 +22,31 @@ const LocationCreator = (props) => {
     }
   }
 
-  const saveLocation = (event) => {
+  const changeAddress = (event) => {
+    if( event.target.name === 'address' ){
+      setNewAddress( event.target.value )
+    }else if( event.target.name === 'postalcode'){
+      setNewPostal( event.target.value )
+    }else if( event.target.name === 'city'){
+      setNewCity( event.target.value )
+    }
+  }
+
+  const sendLocation = (event) => {
     event.preventDefault()
     if( newName !== '' ){
-      props.setLocation(newName,"name")
-      props.processNewLocation()
+      let parameters = {
+        values:{
+          name:newName,
+          address:newAddress,
+          postalcode:newPostal,
+          city:newCity,
+          latitude:newLatitude,
+          longitude:newLongitude,
+        },
+        type: "new"
+      }
+      props.processNewLocation(parameters)
     }else{
       console.log(newName)
     }
@@ -33,11 +55,11 @@ const LocationCreator = (props) => {
   return(
     <div>
         <h3 className="formHeading">Create location</h3>
-        <form onSubmit={saveLocation}>
+        <form onSubmit={sendLocation}>
           <Input type={"text"} icon={"label"} placeholder={"required"} name={"name"} label={"Name"} value={newName} onChange={changeName}/>
-          <Input type={"text"} icon={"address"} name={"address"} label={"Address"}/>
-          <Input type={"text"} icon={"address"} name={"postalcode"} label={"Postal code"}/>
-          <Input type={"text"} icon={"address"} name={"city"} label={"City"}/>
+          <Input type={"text"} icon={"address"} name={"address"} label={"Address"} value={newAddress} onChange={changeAddress}/>
+          <Input type={"text"} icon={"address"} name={"postalcode"} label={"Postal code"} value={newPostal} onChange={changeAddress}/>
+          <Input type={"text"} icon={"address"} name={"city"} label={"City"} value={newCity} onChange={changeAddress}/>
           <Input type={"text"} icon={"map"} name={"longitude"} label={"Longitude"} value={newLongitude} onChange={changeCoordinate}/>
           <Input type={"text"} icon={"map"} name={"latitude"} label={"Latitude"} value={newLatitude} onChange={changeCoordinate} />
           <Input type={"submit"} icon={"save"} value={"Save location"}/>

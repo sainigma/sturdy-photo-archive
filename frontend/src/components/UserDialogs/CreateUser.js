@@ -1,11 +1,15 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
-import { newUser } from './../reducers/userReducer'
+import { newUser } from './../../reducers/userReducer'
 
 const CreateUser = (props) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  if( props.visibility === false ){
+    return(<></>)
+  }
 
   const handleLogin = async(event) => {
     event.preventDefault()

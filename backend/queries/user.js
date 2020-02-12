@@ -31,6 +31,7 @@ const login = async(username,password) => {
 
   try {
     const query = await fetchUser()
+    //console.log(query)
     if(query.rows.length>0){
       user = username
       id = query.rows[0].id
