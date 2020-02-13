@@ -9,4 +9,5 @@
 | 16.12 | 6 | Frontendin alustus, käyttäjän luonti ja verifiointi
 | 11.2 | 8 | Reducerien luontia fronttiin, käyttöliittymä kuvien lisäämiseen ja kirjautumiseen, tyylien kehitystä
 | 12.2 | 6 | Tyylejä ja refaktorointia. Kirjautuminen käsitellään frontissa nyt oikein. Sovelluksessa state machine kirjautumaton tila -> käyttöliittymä kirjautuneille
-| yht   | 39 | | 
+| 13.2 | 2 | Tiedostojen lähetys toimii fronttipuolella. Backendtapahtumat työn alla.
+| yht   | 41 | | 

@@ -7,13 +7,14 @@ const FileSelector = (props) => {
   const [hasFile, setHasFile] = useState(false)
   const [fileName, setFileName] = useState('')
 
-
+  const setFileToUpload = props.setFileToUpload
   const activateDialog = () => {
     inputFile.current.click()
   }
 
   const testi = (event) => {
     const newFile = event.target.files[0]
+    setFileToUpload(newFile)
     setFileName( newFile.name )
     setHasFile(true)
     props.setHasFile(true)
