@@ -1,14 +1,8 @@
 const bcrypt = require('bcryptjs')
+
 const { Client } = require('pg')
-
-const client = new Client({
-  user: 'sturdy-photo-archive',
-  host: '192.168.0.104',
-  database: 'sturdy-photo-archive',
-  password: 'salasana',
-  port: 5432
-})
-
+const config = require('./../utils/config')
+const client = new Client(config.PSQLCONF)
 client.connect()
 
 const getQuery = (sqlcommand) => {
@@ -124,7 +118,7 @@ const findOne = async(params) => {
   let user = null
   try {
     const query = await client.query(`
-      SELECT username FROM users 
+      SELECT username, id FROM users 
       WHERE username='${username}'
       OR name='${name}'
       OR email='${email}'
