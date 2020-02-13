@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
       return {
         name: '',
         username: action.username,
-        token: 'Bearer '+action.content.data.token,
+        token: 'bearer $'+action.content.data.token,
         status: "200",
       }
     }else if(action.content.status===403){
