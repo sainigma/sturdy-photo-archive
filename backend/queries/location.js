@@ -24,6 +24,10 @@ const getCityID = async( originalCityName, originalCountryName ) => {
   const cityName = originalCityName ? originalCityName : null
   const countryName = originalCountryName ? originalCountryName : null
  
+  if( !cityName || cityName === '' ){
+    return null
+  }
+
   const fetchIDbyName = () => {
     return getQuery(`
       SELECT id FROM cities
@@ -84,6 +88,19 @@ const getCityID = async( originalCityName, originalCountryName ) => {
   else return null
 }
 
+const findOne = async(params) => {
+  const id = params.id ? params.id : "null"
+  let location = null
+  try {
+    const query = await client.query(`
+      SELECT name FROM locations
+      WHERE id='${id}'
+    `)
+    location = query.rows[0]
+  } catch(error){ if(error.routine!=="errorMissingColumn")console.log(error); location=null }
+  return location
+}
+
 const createNew = async(userId, params) => {
   const name = params.name
   const owner = userId
@@ -108,19 +125,6 @@ const createNew = async(userId, params) => {
     }
     return null
   }catch(error){console.log(error)}
-}
-
-const findOne = async(params) => {
-  const id = params.id ? params.id : "null"
-  let location = null
-  try {
-    const query = await client.query(`
-      SELECT name FROM locations
-      WHERE id='${id}'
-    `)
-    location = query.rows[0]
-  } catch(error){ if(error.routine!=="errorMissingColumn")console.log(error); location=null }
-  return location
 }
 
 module.exports = {

@@ -1,23 +1,31 @@
 const jwt = require('jsonwebtoken')
 const fileRouter = require('express').Router()
 const FileQuery = require('./../queries/file')
-//const config = require('./../utils/config')
 
 fileRouter.post('/upload', async(req,res,next)=>{
-  const request = await req
-  
+
+  const moveFile = (photoId) => {
+    const filetype = req.files.image.name.split('.').pop()
+    req.files.image.mv( `./photos/${photoId}.${filetype}`, (error) => {
+      if( error ) return res.status(500).send(error)
+    })
+    return res.status(200).end()
+  }
+
   const headersOK = () => {
-    if( request && request.headers ){
-      const decodedToken = jwt.verify( request.headers.authorization.slice(8), process.env.SECRET )
-      if( !decodedToken || decodedToken.username !== request.body.username ) return false
+    if( req && req.headers ){
+      const decodedToken = jwt.verify( req.headers.authorization.slice(8), process.env.SECRET )
+      if( !decodedToken || decodedToken.username !== req.body.username ) return false
       else return true
     }else return false
   }
-  if( headersOK() && request.files ){
-    const username = request.body.username
-    const user = await FileQuery.createFile(username,request.body.labels)
-    res.json({ user:JSON.stringify(user), status:200 })
+  if( headersOK() && req.files ){
+    const username = req.body.username
+    const photoId = await FileQuery.createFile(username,req.body.labels)
+    if( photoId !== null ){
+      moveFile(photoId)
+    }
   }
-  res.status(200).end()
+  res.status(400).end()
 })
 module.exports = fileRouter

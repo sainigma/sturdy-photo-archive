@@ -4,13 +4,15 @@ const uploadFile = async(user, fileToUpload, labels) => {
   
   let formData = new FormData()
 
-  formData.append("files", fileToUpload)
+  formData.append("image", fileToUpload)
   formData.append("username", user.username)
   formData.append("labels", JSON.stringify( labels ))
 
   const config = () => {
     return {
-      headers: { Authorization: user.token }
+      headers: { Authorization: user.token,
+        'Content-type':'multipart/form-data'
+       }
     }
   }
 
