@@ -68,10 +68,8 @@ userRouter.post('/login', async(req,res,next)=>{
     token: null
   }
   const body = await req.body
-  //console.log(body)
   if(body.username&&body.password){
     const response = await User.login(body.username,body.password)
-    console.log(response)
     if(!response.hasErrors && response.result && response.active){
       result.token = jwt.sign({ 
         username:response.user,
