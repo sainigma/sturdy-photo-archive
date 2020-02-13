@@ -5,7 +5,8 @@ const cors = require('cors')
 const app = express()
 
 app.use(fileUpload({
-  createParentPath: true
+  useTempFiles: true,
+  tempFileDir: './tmp/'
 }))
 
 app.use(bodyParser.json())
