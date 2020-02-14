@@ -1,15 +1,21 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import LocationCreator from './LocationCreator'
 import Input from '../../general/Input'
 import { connect } from 'react-redux'
 import { setLocation } from '../../../reducers/formReducer'
+import { getAll } from '../../../reducers/locationReducer'
 
 const AvailableLocations = (props) => {
   const [createNew, setCreateNew] = useState(false)
-  const locationList = [{id:"createNewLocation", name:"Create new"}, {id:"separator"}, {id:"32424234", name:"Karin koti"}, {id:"543957435", name:"Mummola"}, {id:"543897589435", name:"Linnanmäki"}]
+  //const [locationList, setLocationList] = useState([{id:"createNewLocation", name:"Create new"}, {id:"separator"}])
+  const locationDefaults = [{id:"createNewLocation", name:"Create new"}, {id:"separator"}]
+
+  useEffect( ()=>{
+    props.getAll(props.user)
+  },[])
 
   const selectionChanged = (event) => {
-    console.log(event.target.value)
+    const locationList = [...locationDefaults, ...props.locations]
     if( event.target.value === 'createNewLocation' ){
       setCreateNew(true)
     }else if( event.target.value !== 'selectFieldSeparator0' ){
@@ -33,7 +39,7 @@ const AvailableLocations = (props) => {
     return(
       <>
       <h3 className="formHeading">Choose location</h3>
-      <Input type={"select"} icon={"map"} selections={locationList} onChange={selectionChanged}/>
+      <Input type={"select"} icon={"map"} selections={[...locationDefaults, ...props.locations]} onChange={selectionChanged}/>
       </>
     )
   }else{
@@ -45,8 +51,10 @@ const AvailableLocations = (props) => {
 
 const mapStateToProps = (state) => {
   return{
+    user:state.user,
     form:state.form,
+    locations:state.locations.locations
   }
 }
 
-export default connect(mapStateToProps,{setLocation})(AvailableLocations)
+export default connect(mapStateToProps,{setLocation, getAll})(AvailableLocations)
