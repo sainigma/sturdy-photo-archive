@@ -12,9 +12,11 @@ app.use(fileUpload({
 app.use(bodyParser.json())
 const userRouter = require('./controllers/users')
 const fileRouter = require('./controllers/files')
+const locationRouter = require('./controllers/locations')
 
 app.use(cors())
 app.use('/api/users',userRouter)
 app.use('/api/files',fileRouter)
+app.use('/api/locations',locationRouter)
 
 module.exports = app

@@ -13,8 +13,6 @@ const AvailableLocations = (props) => {
     if( event.target.value === 'createNewLocation' ){
       setCreateNew(true)
     }else if( event.target.value !== 'selectFieldSeparator0' ){
-      //props.setLocation(event.target.value, "id")
-      
       const parameters = {
         values:{
           id:event.target.value,
@@ -27,8 +25,6 @@ const AvailableLocations = (props) => {
   }
 
   const processNewLocation = (parameters) => {
-    //event.preventDefault()
-    //console.log(event.target.value)
     setCreateNew(false)
     props.saveLocation(parameters)
   }

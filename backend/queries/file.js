@@ -1,6 +1,7 @@
 const { Client } = require('pg')
 const User = require('./user')
 const LocationQuery = require('./location')
+const PermissionQuery = require('./permission')
 const Utils = require('./../utils/utils')
 const config = require('./../utils/config')
 
@@ -30,9 +31,12 @@ const createFile = async(username,labelsString) => {
       console.log(process.env.PSQLCONF)
     }else if( Utils.varExists(labels.location.name) ){
       const newLocationId = await LocationQuery.createNew( user.id, labels.location )
-      if( newLocationId ){
+      const newPermissionId = newLocationId ? await PermissionQuery.createNew( user.id, true ) : null
+      console.log( newLocationId )
+      console.log( newPermissionId )
+      if( newLocationId && newPermissionId ){
         try{
-          const result = await newFileQuery(labels.name, user.id, newLocationId)
+          const result = await newFileQuery(labels.name, user.id, newLocationId, newPermissionId)
           if( result.rows.length > 0 ){
             return result.rows[0].id
           }
