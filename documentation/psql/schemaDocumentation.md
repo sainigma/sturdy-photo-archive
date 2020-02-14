@@ -106,7 +106,7 @@ Description for permission values:
 
 |value|lateral/parent/child|spouse|friend|
 |--|--|--|--|
-|-1|public|public|public|
+|-1|unlimited|unlimited|public|
 |0|only owner can see|same|same|
 |1|a relative can see|same|best friend can see|
 |2|a relative can share to relatives by degree of separation of 1|same|top 2 friends can see|

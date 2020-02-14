@@ -10,4 +10,5 @@
 | 11.2 | 8 | Reducerien luontia fronttiin, käyttöliittymä kuvien lisäämiseen ja kirjautumiseen, tyylien kehitystä
 | 12.2 | 6 | Tyylejä ja refaktorointia. Kirjautuminen käsitellään frontissa nyt oikein. Sovelluksessa state machine kirjautumaton tila -> käyttöliittymä kirjautuneille
 | 13.2 | 7 | Tiedostonlähetyksen ja -vastaanottamisen toteutus. Tietokantaoperaatiot tiedoston vastaanottamiselle lähes valmiit (vain oikeuksien asetus puuttuu)
-| yht   | 47 | | 
+| 14.2 | 2 | Jokaiselle tiedoston- ja sijainninluonnille luodaan nyt oikeudet. Seuraavaksi työn alla olemassaolevien sijaintien tuonti tietokannasta backiin ja fronttiin ( ja tämän jälkeen haetun datan rajaaminen oikeuksien perusteella )
+| yht   | 49 | | 

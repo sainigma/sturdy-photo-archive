@@ -1,23 +1,13 @@
 const Utils = require('./../utils/utils')
 const { Client } = require('pg')
 const config = require('./../utils/config')
+const PermissionQuery = require('./permission')
 const client = new Client(config.PSQLCONF)
 client.connect()
 
 
 const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
-}
-
-const apostrophize = ( dataToInsert ) => {
-  if( dataToInsert ){
-    if( typeof dataToInsert === "string" ){
-      return "'"+dataToInsert+"'"
-    }else if( typeof dataToInsert === "number" ){
-      return dataToInsert
-    }
-
-  }else return "NULL"
 }
 
 const getCityID = async( originalCityName, originalCountryName ) => {
@@ -44,7 +34,7 @@ const getCityID = async( originalCityName, originalCountryName ) => {
   const insertNewCity = () => {
     return getQuery(`
       INSERT INTO cities ( id, name, country )
-      VALUES ( uuid_generate_v4(), '${cityName}', ${apostrophize(countryName)} )
+      VALUES ( uuid_generate_v4(), '${cityName}', ${Utils.apostrophize(countryName)} )
     `)
   }
 
@@ -101,6 +91,20 @@ const findOne = async(params) => {
   return location
 }
 
+const getAll = async() => {
+  const getAllQuery = () => {
+    return getQuery(`
+    SELECT id,name FROM locations
+  `)
+  }
+  try {
+    const result = await getAllQuery()
+    if( result.rows.length > 0 ){
+      return result.rows
+    }
+  } catch(error){ console.log(error)}
+}
+
 const createNew = async(userId, params) => {
   const name = params.name
   const owner = userId
@@ -109,25 +113,27 @@ const createNew = async(userId, params) => {
   const address = params.address ? params.address : null
   const postalCode = params.postalCode ? params.postalCode.toString() : null
   const cityId = await getCityID( params.city, params.country )
+  const permissions = await PermissionQuery.createNew( userId, true )
 
   const newLocationQuery = () => {
     return getQuery(`
-      INSERT INTO locations ( id, name, owner, latitude, longitude, address, postalcode, city )
-      VALUES( uuid_generate_v4(), '${name}', '${userId}', ${apostrophize(latitude)}, ${apostrophize(longitude)}, ${apostrophize(address)}, ${apostrophize(postalCode)}, ${apostrophize(cityId)} )
+      INSERT INTO locations ( id, name, owner, latitude, longitude, address, postalcode, city, permissions )
+      VALUES( uuid_generate_v4(), '${name}', '${owner}', ${Utils.apostrophize(latitude)}, ${Utils.apostrophize(longitude)}, ${Utils.apostrophize(address)}, ${Utils.apostrophize(postalCode)}, ${Utils.apostrophize(cityId)}, ${Utils.apostrophize(permissions)} )
       RETURNING id
     `)
   }
-
-  try{
+  
+  try {
     const result = await newLocationQuery()
-    if( result.rows.length > 0 ){
+    if (result.rows.length > 0) {
       return result.rows[0].id
     }
-    return null
-  }catch(error){console.log(error)}
+  } catch (error) { console.log(error) }
+  return null
 }
 
 module.exports = {
   findOne,
-  createNew
+  createNew,
+  getAll
 }
