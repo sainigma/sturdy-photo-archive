@@ -19,6 +19,7 @@ const FileSelector = (props) => {
     setHasFile(true)
     props.setHasFile(true)
   }
+  if( !props.visibility ) return(<></>)
 
   if( !hasFile ){
     return(

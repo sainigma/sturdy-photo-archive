@@ -1,6 +1,6 @@
 import locationService from '../services/locations'
 
-const initialState = {
+const exampleState = {
   locations:[
     {
       id:'null',
@@ -14,6 +14,10 @@ const initialState = {
       }
     }
   ]
+}
+
+const initialState = {
+  locations:[]
 }
 
 const locationReducer = (state=initialState, action) => {

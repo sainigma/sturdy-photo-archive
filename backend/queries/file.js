@@ -38,13 +38,6 @@ const createFile = async(username,labelsString) => {
     const newLocationId = await LocationQuery.createNew( user.id, labels.location )
     const newPermissionId = newLocationId ? await PermissionQuery.createNew( user.id, true ) : null
     if( newLocationId && newPermissionId ){
-      /*
-      try{
-        const result = await newFileQuery(labels.name, user.id, newLocationId, newPermissionId)
-        if( result.rows.length > 0 ){
-          return result.rows[0].id
-        }
-      }catch(error){console.log(error)}*/
       return await saveEntry( labels.name, user.id, newLocationId, newPermissionId )
     }
     return null

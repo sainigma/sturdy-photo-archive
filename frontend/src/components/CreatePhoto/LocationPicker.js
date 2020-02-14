@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
-import AvailableLocations from './LocationPicker/AvailableLocations'
+import React, {useState, useEffect} from 'react'
+import AvailableLocations from './Location/AvailableLocations'
 import Input from '../general/Input'
-import { setLocation } from './../../reducers/formReducer'
+import { setLocation } from '../../reducers/formReducer'
 import { connect } from 'react-redux'
 
 const LocationPicker = (props) => {
@@ -13,6 +13,11 @@ const LocationPicker = (props) => {
     setActive( !active )
   }
 
+  if( props.form.createPhoto.location.name !== '' && !hasLocation){
+    setLocationName(props.form.createPhoto.location.name)
+    setHasLocation(true)
+  }
+
   const saveLocation = (parameters) => {
     props.setLocation( parameters.values, parameters.type )
     setLocationName( parameters.values.name )
@@ -20,17 +25,17 @@ const LocationPicker = (props) => {
     setHasLocation(true)
     props.setHasLocation(true)
   }
-
+  if( !props.visibility ) return(<></>)
   if( active ){
     return (
       <div>
-        <AvailableLocations saveLocation={saveLocation} />
+        <AvailableLocations saveLocation={saveLocation} setLocationPickerActive={props.setLocationPickerActive}/>
       </div>
     )
   } else {
     if( !hasLocation ){
       return (
-        <Input type={"button"} icon={"map"} value={"Choose location"} onClick={toggleActive} />
+        <Input type={"button"} icon={"map"} value={"Choose location"} onClick={toggleActive} setShowSubmenu={props.setShowSubmenu} />
       )
     } else{
       return (

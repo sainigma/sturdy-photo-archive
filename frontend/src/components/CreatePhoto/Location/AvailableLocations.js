@@ -7,7 +7,6 @@ import { getAll } from '../../../reducers/locationReducer'
 
 const AvailableLocations = (props) => {
   const [createNew, setCreateNew] = useState(false)
-  //const [locationList, setLocationList] = useState([{id:"createNewLocation", name:"Create new"}, {id:"separator"}])
   const locationDefaults = [{id:"createNewLocation", name:"Create new"}, {id:"separator"}]
 
   useEffect( ()=>{
@@ -18,6 +17,7 @@ const AvailableLocations = (props) => {
     const locationList = [...locationDefaults, ...props.locations]
     if( event.target.value === 'createNewLocation' ){
       setCreateNew(true)
+      props.setLocationPickerActive(true)
     }else if( event.target.value !== 'selectFieldSeparator0' ){
       const parameters = {
         values:{
@@ -32,6 +32,7 @@ const AvailableLocations = (props) => {
 
   const processNewLocation = (parameters) => {
     setCreateNew(false)
+    props.setLocationPickerActive(false)
     props.saveLocation(parameters)
   }
 
