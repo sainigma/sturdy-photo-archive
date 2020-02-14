@@ -3,18 +3,32 @@ const initialState = {
     name:'',
     location:{
       name:'',
-      address:'',
-      postalcode:'',
-      city:'',
-      latitude:'',
-      longitude:'',
-      id:''
+      address:null,
+      postalcode:null,
+      city:null,
+      latitude:null,
+      longitude:null,
+      id:null
+    },
+    daterange:{
+      start:null,
+      end:null
+    },
+    special:{
+      panorama:false,
+      equirectangular:false,
+      height:null,
+      xoffset:null,
+      yoffset:null,
+      azimuth:null,
+      altitude:null
     }
   }
 }
 
 const formReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
+  console.log(action)
   if( action.type === 'location' ){
     if( action.subtype === 'new' ){
       newState.createPhoto.location = action.data
