@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { config } from './general/serviceUtils.js'
 
 const uploadFile = async(user, fileToUpload, labels) => {
   
@@ -8,17 +9,9 @@ const uploadFile = async(user, fileToUpload, labels) => {
   formData.append("username", user.username)
   formData.append("labels", JSON.stringify( labels ))
 
-  const config = () => {
-    return {
-      headers: { Authorization: user.token,
-        'Content-type':'multipart/form-data'
-       }
-    }
-  }
-
   let response
   try{
-    response = await axios.post( 'http://localhost:3001/api/files/upload', formData, config())
+    response = await axios.post( 'http://localhost:3001/api/files/upload', formData, config(user))
   }catch(error){
     response = {
       status:error.response.status

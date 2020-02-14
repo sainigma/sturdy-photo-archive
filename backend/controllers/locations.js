@@ -3,7 +3,7 @@ const locationRouter = require('express').Router()
 const LocationQuery = require('./../queries/location')
 
 locationRouter.get('/all', async(req,res,next)=>{
-  const headersOK = await Security.checkHeaders(req,true)
+  const headersOK = await Security.checkHeaders(req,false)
   if( headersOK ){
     const result = await LocationQuery.getAll()
     if( result ){

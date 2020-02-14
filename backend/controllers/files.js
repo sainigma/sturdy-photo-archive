@@ -9,7 +9,7 @@ fileRouter.post('/upload', async(req,res,next)=>{
     req.files.image.mv( `./photos/${photoId}.${filetype}`, (error) => {
       if( error ) return res.status(500).send(error)
     })
-    return res.status(200).end()
+    return res.json({"photoId":photoId}).status(200).end()
   }
 
   const headersOK = Security.checkHeaders(req, true)
