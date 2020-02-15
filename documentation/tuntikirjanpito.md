@@ -11,4 +11,5 @@
 | 12.2 | 6 | Tyylejä ja refaktorointia. Kirjautuminen käsitellään frontissa nyt oikein. Sovelluksessa state machine kirjautumaton tila -> käyttöliittymä kirjautuneille
 | 13.2 | 7 | Tiedostonlähetyksen ja -vastaanottamisen toteutus. Tietokantaoperaatiot tiedoston vastaanottamiselle lähes valmiit (vain oikeuksien asetus puuttuu)
 | 14.2 | 7 | Jokaiselle tiedoston- ja sijainninluonnille luodaan nyt oikeudet. Olemassaolevat sijainnit haetaan nyt fronttiin, ja kuvia voi lisätä sekä uusiin että olemassaoleviin sijainteihin. Frontissa kuvanluontikäyttöliittymässä siirtymä moduuliputkesta menu -> alimenurakenteeseen, uusien moduulien ja form reducerin rakentamista
-| yht   | 54 | | 
+| 15.2 | 2 | Uusi reducer kuvien tallentamiseen valmis. Kuvanluonnin alimman tason asetukset valmiit toiminnallisesti, kts. [suunnitelma](./frontend/UI/DialogFlowForFileUpload.md) UI:lle
+| yht   | 56 | | 

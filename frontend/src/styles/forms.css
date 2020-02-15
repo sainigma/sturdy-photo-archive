@@ -9,6 +9,9 @@
 .inputField[type=button],.inputField[type=submit] {
   background-color: #409443;
 }
+.inputField[type=checkbox]{
+  width:40px;
+}
 .inputField[type=button]:hover,.inputField[type=submit]:hover {
   background-color: #4caf50;
   cursor: pointer;
@@ -27,6 +30,7 @@
 .inputContainer{
   display:flex;
   width: 100%;
+  height: 40px;
   margin-bottom: 15px;
 }
 .formHeading{
