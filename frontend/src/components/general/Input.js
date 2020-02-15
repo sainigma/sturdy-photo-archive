@@ -1,7 +1,10 @@
 import React, {useState} from 'react'
 import getIcon from './getIcon'
+import { varExists } from './../../utils/utils' 
 
 const Input = (props) => {
+
+  if( varExists(props.visibility) && !props.visibility )return(<></>)
 
   const Icon = (props) => {
     if( props.icon === 'null' ){
@@ -28,7 +31,7 @@ const Input = (props) => {
       <div className="inputContainer">
         <Icon icon={props.icon}/>
         <InputLabel content={props.label}/>
-        <input className="inputField" type={props.type} placeholder={props.placeholder} name={props.name} value={props.value} onClick={props.onClick} onChange={props.onChange}/>
+        <input disabled={props.disabled} checked={props.checked} className="inputField" type={props.type} placeholder={props.placeholder} name={props.name} value={props.value} onClick={props.onClick} onChange={props.onChange}/>
       </div>
     )
   } else if( props.type === 'select' ){
