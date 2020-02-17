@@ -11,6 +11,7 @@ const initialState = {
       id:null
     },
     daterange:{
+      auto:true,
       start:null,
       end:null
     },
@@ -24,9 +25,8 @@ const initialState = {
       altitude:null
     },
     saved:{
-      name:false,
+      options:false,
       location:false,
-      daterange:false,
       special:false,
     }
   }
@@ -35,10 +35,7 @@ const initialState = {
 const formReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
   console.log(action)
-  if( action.type === 'name'){
-    newState.createPhoto.name = action.name
-    newState.createPhoto.saved.name = true
-  }else if( action.type === 'location' ){
+  if( action.type === 'location' ){
     newState.createPhoto.location.name = action.location.name ? action.location.name : ''
     newState.createPhoto.location.address = action.location.address ? action.location.address : null
     newState.createPhoto.location.postalcode = action.location.postalcode ? action.location.postalcode : null
@@ -47,10 +44,12 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.location.longitude = action.location.longitude ? action.location.longitude : null
     newState.createPhoto.location.id = action.location.id ? action.location.id : null
     newState.createPhoto.saved.location = true
-  }else if( action.type === 'daterange' ){
+  }else if( action.type === 'options' ){
+    newState.createPhoto.name = action.name ? action.name : ''
+    newState.createPhoto.daterange.auto = action.daterange.auto
     newState.createPhoto.daterange.start = action.daterange.start ? action.daterange.start : null
     newState.createPhoto.daterange.end = action.daterange.end ? action.daterange.end : null
-    newState.createPhoto.saved.daterange = true
+    newState.createPhoto.saved.options = true
   }else if( action.type === 'special' ){
     newState.createPhoto.special.panorama = action.special.panorama ? action.special.panorama : false
     newState.createPhoto.special.equirectangular = action.special.equirectangular ? action.special.equirectangular : false
@@ -64,14 +63,8 @@ const formReducer = (state = initialState, action) => {
   return newState
 }
 
-export const setName = (name) => {
-  return{
-    type:'name',
-    name
-  }
-}
 
-export const setLocation = (data, subtype) => {
+export const setLocation = (location, subtype) => {
   if( subtype !== 'id'){
     return{
       type: 'location',
@@ -87,20 +80,6 @@ export const setLocation = (data, subtype) => {
   }
 }
 
-export const setDaterange = (daterange) => {
-  if( daterange.start ){
-    return{
-      type: 'daterange',
-      daterange:{
-        start:daterange.start,
-        end:daterange.end ? daterange.end : null
-      }
-    }
-  }else return{
-    type: 'null'
-  }
-}
-
 export const setSpecial = (special) => {
   return{
     type:'special',
@@ -108,5 +87,12 @@ export const setSpecial = (special) => {
   }
 }
 
+export const setOptions = (name, daterange) => {
+  return{
+    type:'options',
+    name,
+    daterange
+  }
+}
 
 export default formReducer

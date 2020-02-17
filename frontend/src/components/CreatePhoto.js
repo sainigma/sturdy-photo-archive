@@ -31,6 +31,7 @@ const CreatePhoto = (props) => {
       location: formData.createPhoto.location,
     }
     const sendFile = () => {
+      console.log(props.form)
       uploadFunction(user, fileToUpload, labels)
     }
 
@@ -46,7 +47,7 @@ const CreatePhoto = (props) => {
       <FileSelector visibility={!showSubmenu} setHasFile={setHasFile} setFileToUpload={setFileToUpload}/>
       <ToggleSubMenu visibility={!showSubmenu} value="Options" setSubmenuVisibility={setShowSubmenu} />
       <Options visibility={showSubmenu} toggleVisibility={setShowSubmenu} setHasLocation={setHasLocation}/>
-      {hasFile ? <Save visibility={!showSubmenu}/> : <></>}
+      {hasFile ? <Save form={props.form} visibility={!showSubmenu}/> : <></>}
     </div>
   )
 }
