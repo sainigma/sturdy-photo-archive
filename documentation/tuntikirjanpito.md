@@ -12,5 +12,5 @@
 | 13.2 | 7 | Tiedostonlähetyksen ja -vastaanottamisen toteutus. Tietokantaoperaatiot tiedoston vastaanottamiselle lähes valmiit (vain oikeuksien asetus puuttuu)
 | 14.2 | 7 | Jokaiselle tiedoston- ja sijainninluonnille luodaan nyt oikeudet. Olemassaolevat sijainnit haetaan nyt fronttiin, ja kuvia voi lisätä sekä uusiin että olemassaoleviin sijainteihin. Frontissa kuvanluontikäyttöliittymässä siirtymä moduuliputkesta menu -> alimenurakenteeseen, uusien moduulien ja form reducerin rakentamista
 | 15.2 | 2 | Uusi reducer kuvien tallentamiseen valmis. Kuvanluonnin alimman tason asetukset valmiit toiminnallisesti, kts. [suunnitelma](./frontend/UI/DialogFlowForFileUpload.md) UI:lle
-| 17.2 | 3 | Koko reducer nyt käytössä. Päivämäärän formatoija nätimpään päivämäärien syöttöön.
+| 17.2 | 4 | Koko reducer nyt käytössä. Päivämäärän formatoija nätimpään päivämäärien syöttöön. Backend vastaanottaa ja syöttää tiedostot tietokantaan oikein.
 | yht   | 59 | | 
