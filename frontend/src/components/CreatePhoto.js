@@ -27,8 +27,7 @@ const CreatePhoto = (props) => {
 
   const Save = (props) => {
     const labels = {
-      name: formData.createPhoto.name,
-      location: formData.createPhoto.location,
+      ...formData.createPhoto
     }
     const sendFile = () => {
       console.log(props.form)
@@ -61,5 +60,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps,{uploadFile})(CreatePhoto)
-
-//<LocationPicker visibility={showSubmenu} toggleVisibility={setShowSubmenu} setHasLocation={setHasLocation}/>
