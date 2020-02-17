@@ -20,6 +20,7 @@ const LocationPicker = (props) => {
 
   const saveLocation = (parameters) => {
     props.setLocation( parameters.values, parameters.type )
+    console.log(parameters)
     setLocationName( parameters.values.name )
     setActive(false)
     setHasLocation(true)

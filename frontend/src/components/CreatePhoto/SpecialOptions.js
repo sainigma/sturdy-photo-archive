@@ -74,9 +74,9 @@ const SpecialOptions = (props) =>{
       <Input type="text" label="Azimuth" name="azimuth" value={azimuth} onChange={changeNumber}/>
       <Input type="text" label="Altitude" name="altitude" value={altitude} onChange={changeNumber}/>
       <Input type="none" icon="map" label="Offsets"/>
-      <Input type="text" label="Height" name="height" value={height} onChange={changeNumber}/>
-      <Input type="text" label="Lateral" name="lateral" value={lateral} onChange={changeNumber}/>
-      <Input type="text" label="Longitudal" name="longitudal" value={longitudal} onChange={changeNumber}/>
+      <Input type="text" icon="rulerVertical" label="Height" name="height" value={height} onChange={changeNumber}/>
+      <Input type="text" icon="arrowUpRight" label="Lateral" name="lateral" value={lateral} onChange={changeNumber}/>
+      <Input type="text" icon="arrowLeftRight" label="Longitudal" name="longitudal" value={longitudal} onChange={changeNumber}/>
       <Save visibility={true} toggleVisibility={saveState}/>
     </>
   )

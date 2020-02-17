@@ -31,6 +31,18 @@ const getIcon = (icon) => {
     case 'key':
       iconClass = 'key'
       break
+    case 'rulerVertical':
+      iconClass = 'arrows-alt'
+      break
+    case 'calendar':
+      iconClass = 'calendar'
+      break
+    case 'empty':
+      iconClass = 'empty'
+      break
+    case 'options':
+      iconClass = 'cog'
+      break
     case 'null':
       iconClass = 'null'
       break
