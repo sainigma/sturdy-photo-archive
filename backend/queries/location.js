@@ -117,7 +117,7 @@ const createNew = async(userId, params) => {
 
   const newLocationQuery = () => {
     return getQuery(`
-      INSERT INTO locations ( id, name, owner, latitude, longitude, address, postalcode, city, permissions )
+      INSERT INTO locations ( id, name, owner, latitude, longitude, address, postalcode, city, permission )
       VALUES( uuid_generate_v4(), '${name}', '${owner}', ${Utils.apostrophize(latitude)}, ${Utils.apostrophize(longitude)}, ${Utils.apostrophize(address)}, ${Utils.apostrophize(postalCode)}, ${Utils.apostrophize(cityId)}, ${Utils.apostrophize(permissions)} )
       RETURNING id
     `)

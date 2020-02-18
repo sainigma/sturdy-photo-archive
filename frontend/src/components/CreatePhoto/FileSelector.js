@@ -6,16 +6,24 @@ const FileSelector = (props) => {
   const inputFile = useRef(null)
   const [hasFile, setHasFile] = useState(false)
   const [fileName, setFileName] = useState('')
+  const [visibleDate, setVisibleDate] = useState('')
 
   const setFileToUpload = props.setFileToUpload
   const activateDialog = () => {
     inputFile.current.click()
   }
 
-  const testi = (event) => {
-    const newFile = event.target.files[0]
+  const processFileRef = async(event) => {
+    const pad = (value) => {
+      return ("0"+value).slice(-2)
+    }
+
+    const newFile = await event.target.files[0]
+    const date = new Date(newFile.lastModified)
     setFileToUpload(newFile)
-    setFileName( newFile.name )
+    setFileName(newFile.name)
+    setVisibleDate( `${pad(date.getDate())}/${pad(date.getMonth()+1)}/${date.getFullYear()} - ${pad( date.getHours())}:${pad( date.getMinutes())}`  )
+    //setFileName( `${newFile.name} ${pad(date.getDate())}/${pad(date.getMonth()+1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}` )
     setHasFile(true)
     props.setHasFile(true)
   }
@@ -25,7 +33,7 @@ const FileSelector = (props) => {
   if( !hasFile ){
     return(
       <>
-      <input className="hiddenInput" type='file' id='file' ref={inputFile} onChange={testi}/>
+      <input className="hiddenInput" type='file' id='file' ref={inputFile} onChange={processFileRef}/>
       <Input type={"button"} icon={"file"} value={"Choose photo"} onClick={activateDialog}/>
       </>
     )
@@ -33,6 +41,7 @@ const FileSelector = (props) => {
     return(
       <>
       <Input type={"none"} icon={"file"} label={fileName}/>
+      <Input type={"none"} icon={"calendar"} label={visibleDate}/>
       </>
     )
   }

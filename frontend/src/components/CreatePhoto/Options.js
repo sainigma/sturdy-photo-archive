@@ -52,7 +52,8 @@ const Options = (props) => {
     const daterange = {
       auto:fetchDate,
       start: fetchDate ? null : startDate,
-      end: fetchDate ? null : endDate
+      end: fetchDate ? null : endDate,
+      lastmodified: props.lastmodified
     }
     props.setOptions(name, daterange)
     props.toggleVisibility()
@@ -71,6 +72,7 @@ const Options = (props) => {
 
   return(
     <>
+      {props.lastmodified}
       <NameSelector visibility={ !(showSubmenu || locationPickerActive) } initial={newName} setNewName={setNewName}/>
       <LocationPicker visibility={!showSubmenu} setLocationPickerActive={setLocationPickerActive} setHasLocation={props.setHasLocation}/>
       <DatePicker visibility={ !(showSubmenu || locationPickerActive) } toggleFetch={toggleFetch} changeDate={changeDate} fetchDate={fetchDate} startDate={startDate} endDate={endDate}/>

@@ -17,5 +17,5 @@ const apostrophize = ( dataToInsert ) => {
 
 module.exports = {
   varExists,
-  apostrophize
+  apostrophize,
 }

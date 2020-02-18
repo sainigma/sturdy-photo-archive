@@ -13,5 +13,5 @@
 | 14.2 | 7 | Jokaiselle tiedoston- ja sijainninluonnille luodaan nyt oikeudet. Olemassaolevat sijainnit haetaan nyt fronttiin, ja kuvia voi lisätä sekä uusiin että olemassaoleviin sijainteihin. Frontissa kuvanluontikäyttöliittymässä siirtymä moduuliputkesta menu -> alimenurakenteeseen, uusien moduulien ja form reducerin rakentamista
 | 15.2 | 2 | Uusi reducer kuvien tallentamiseen valmis. Kuvanluonnin alimman tason asetukset valmiit toiminnallisesti, kts. [suunnitelma](./frontend/UI/DialogFlowForFileUpload.md) UI:lle
 | 17.2 | 4 | Koko reducer nyt käytössä. Päivämäärän formatoija nätimpään päivämäärien syöttöön. Backend vastaanottaa ja syöttää tiedostot tietokantaan oikein.
-| 18.2 | 3 | Frontissa upload-komponentti uudelleenkäytettävissä. Backendissä tiedostojen päivämäärät näyttäisi katoavan jos ne on windowsin file-määrittelyssä EXIF -datan sijaan, kokeilen jos päivämäärän haku frontin puolelta toimisi
-| yht   | 62 | | 
+| 18.2 | 8 | Frontissa upload-komponentti uudelleenkäytettävissä. Päivämäärien hakeminen uploadeihin toimii. Backend sallii vain uniikit lähetykset. Käyttöliittymää alustettu kuvien hakemiseen backendistä. SQL:llää palautettu mieleen ja hakuqueryjä mietitty.
+| yht   | 67 | | 

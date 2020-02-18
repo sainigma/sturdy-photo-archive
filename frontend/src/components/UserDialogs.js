@@ -40,7 +40,7 @@ const UserDialogs = (props) => {
   if( props.visibility === false ) return (<></>)
 
   return(
-    <>
+    <div>
       <Login visibility={showLogin} setLoggedIn={props.setLoggedIn} />
       <CreateUser visibility={showCreateUser}/>
       <ShowLoginControls 
@@ -49,7 +49,7 @@ const UserDialogs = (props) => {
         setShowCreateUser={setShowCreateUser}
         reset={props.reset}
       />
-    </>
+    </div>
   )
 }
 

@@ -4,14 +4,13 @@ import Options from './CreatePhoto/Options'
 import FileSelector from './CreatePhoto/FileSelector'
 import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
-import {uploadFile,uploadReset} from './../reducers/uploadReducer'
-import {resetCreatephoto} from './../reducers/formReducer'
+import {uploadFile} from './../reducers/uploadReducer'
 
 const PreviewImage = (props) => {
   if( props.file && props.visibility ){
     const fileurl = URL.createObjectURL(props.file)
     return(
-      <img src={fileurl}/>
+      <img className="uploadpreview" src={fileurl}/>
     )
   }else return(<></>)
 }
@@ -23,8 +22,12 @@ const CreatePhoto = (props) => {
   const [fileToUpload, setFileToUpload] = useState(undefined)
   const [showSubmenu, setShowSubmenu] = useState(false)
   const [waitStatus, setWaitStatus] = useState(false)
+  const [statusTimestamp, setStatusTimestamp] = useState(-1)
+  const [lastModified, setLastModified] = useState(0)
 
+  if( !props.visibility )return(<></>)
   const toggleUploadActive = () => {
+    props.setSingleUpload(!uploadActive)
     setUploadActive(!uploadActive)
   }
 
@@ -44,11 +47,11 @@ const CreatePhoto = (props) => {
   const formData = props.form
 
   const Save = (props) => {
-    const labels = {
+    let labels = {
       ...formData.createPhoto
     }
     const sendFile = () => {
-      console.log(props.form)
+      labels.lastModified = lastModified
       uploadFunction(user, fileToUpload, labels)
       setWaitStatus(true)
     }
@@ -59,8 +62,22 @@ const CreatePhoto = (props) => {
     )
   }
 
-  if(waitStatus && props.upload.status!==0){
+  const Cancel = (props) =>{
+    if( !props.visibility )return(<></>)
+    const runToggleActive = () => {
+      toggleUploadActive()
+    }
+    return(
+      <div className="cancelbutton">
+        <Input type="button" icon="null" value="cancel" onClick={runToggleActive}/>
+      </div>
+    )
+  }
+
+  if(waitStatus && props.upload.status!==0 && props.upload.timestamp !== statusTimestamp ){
+    setStatusTimestamp(props.upload.timestamp)
     if(props.upload.status===200){
+      console.log("jee!")
       toggleUploadActive()
     }else{
       console.log("fail")
@@ -68,10 +85,17 @@ const CreatePhoto = (props) => {
     setWaitStatus(false)
   }
 
+  if( hasFile && lastModified === 0 ){
+    let internalLastModified = fileToUpload.lastModified
+    setLastModified( internalLastModified )
+  }
+
   return(
     <div className="createPhotoContainer">
+      {!hasFile ? <h3>Single upload</h3> : <></>}
+      <Cancel visibility={!showSubmenu && hasFile}/>
       <PreviewImage visibility={!showSubmenu} file={fileToUpload}/>
-      <FileSelector visibility={!showSubmenu} parentHasFile={hasFile} setHasFile={setHasFile} setFileToUpload={setFileToUpload}/>
+      <FileSelector visibility={!showSubmenu} parentHasFile={hasFile} setHasFile={setHasFile} setFileToUpload={setFileToUpload} multiple={false}/>
       <ToggleSubMenu visibility={!showSubmenu} value="Options" setSubmenuVisibility={setShowSubmenu} />
       <Options visibility={showSubmenu} toggleVisibility={setShowSubmenu} hasLocation={hasLocation} setHasLocation={setHasLocation}/>
       {hasFile ? <Save form={props.form} visibility={!showSubmenu}/> : <></>}
@@ -87,4 +111,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{uploadFile,uploadReset,resetCreatephoto})(CreatePhoto)
+export default connect(mapStateToProps,{uploadFile})(CreatePhoto)
