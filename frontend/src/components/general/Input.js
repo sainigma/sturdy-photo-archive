@@ -31,7 +31,7 @@ const Input = (props) => {
       <div className="inputContainer">
         <Icon icon={props.icon}/>
         <InputLabel content={props.label}/>
-        <input disabled={props.disabled} checked={props.checked} className="inputField" type={props.type} placeholder={props.placeholder} name={props.name} value={props.value} onClick={props.onClick} onChange={props.onChange}/>
+        <input disabled={props.disabled} checked={props.checked} title={props.title} className="inputField" type={props.type} placeholder={props.placeholder} name={props.name} value={props.value} onClick={props.onClick} onChange={props.onChange}/>
       </div>
     )
   } else if( props.type === 'select' ){

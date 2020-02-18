@@ -13,7 +13,7 @@ const LocationPicker = (props) => {
     setActive( !active )
   }
 
-  if( props.form.createPhoto.location.name !== '' && !hasLocation){
+  if( props.form.createPhoto.location.name !== '' && !hasLocation && props.hasLocation){
     setLocationName(props.form.createPhoto.location.name)
     setHasLocation(true)
   }

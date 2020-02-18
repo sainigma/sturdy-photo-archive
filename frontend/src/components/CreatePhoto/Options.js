@@ -40,9 +40,10 @@ const Options = (props) => {
   const [newName, setNewName] = useState('')
   const [showSubmenu, setShowSubmenu] = useState(false)
   const [locationPickerActive, setLocationPickerActive] = useState(false)
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [fetchDate, setFetchDate] = useState(true);
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [fetchDate, setFetchDate] = useState(true)
+  const [hasSpecial, setHasSpecial] = useState(false)
 
   if( !props.visibility ) return(<></>)
 
@@ -75,7 +76,7 @@ const Options = (props) => {
       <DatePicker visibility={ !(showSubmenu || locationPickerActive) } toggleFetch={toggleFetch} changeDate={changeDate} fetchDate={fetchDate} startDate={startDate} endDate={endDate}/>
       <ToggleSubMenu visibility={ !(showSubmenu || locationPickerActive) } value="Special" setSubmenuVisibility={setShowSubmenu} />
       <Save visibility={ !(showSubmenu || locationPickerActive) } toggleVisibility={saveState}/>
-      <SpecialOptions visibility={showSubmenu} toggleVisibility={setShowSubmenu}/>
+      <SpecialOptions visibility={showSubmenu} hasSpecial={hasSpecial} setHasSpecial={setHasSpecial} toggleVisibility={setShowSubmenu}/>
     </>
   )
 }

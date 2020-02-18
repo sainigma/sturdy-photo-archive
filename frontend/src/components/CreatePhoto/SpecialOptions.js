@@ -18,7 +18,7 @@ const SpecialOptions = (props) =>{
 
   if(!props.visibility)return(<></>)
 
-  if( varExists(props.saved) && props.saved.special && !loaded ){
+  if( props.hasSpecial && varExists(props.saved) && props.saved.special && !loaded ){
     setPanorama( props.special.panorama )
     setEquirectangular( props.special.equirectangular )
     setAzimuth( props.special.azimuth ? props.special.azimuth : '' )
@@ -63,6 +63,7 @@ const SpecialOptions = (props) =>{
       xoffset: !isNaN(lateral) ? lateral : null,
       yoffset: !isNaN(longitudal) ? longitudal : null
     }
+    props.setHasSpecial(true)
     props.setSpecial(newSpecial)
     props.toggleVisibility()
   }
