@@ -9,6 +9,12 @@ const checkHeaders = (req, usernameRequired) => {
   }else return false
 }
 
+const sanitizeJSON = (input) => {
+  let output = JSON.parse( input )
+  return output
+}
+
 module.exports = {
-  checkHeaders
+  checkHeaders,
+  sanitizeJSON
 }

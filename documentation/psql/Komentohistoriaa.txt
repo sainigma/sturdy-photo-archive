@@ -12,3 +12,7 @@ UUID asentaminen
 Luo käyttäjä
 	INSERT INTO Users (name, userid) VALUES ( 'nimi', uuid_generate_v4() );
 	
+Poista poistettujen kohteiden oikeudet
+	delete from permissions as i
+	where i.id not in ( select permission from locations )
+	and i.id not in ( select unnest(permissions) from photos )

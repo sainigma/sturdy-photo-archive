@@ -14,20 +14,23 @@ fileRouter.post('/upload', async(req,res,next)=>{
   }
 
   const headersOK = Security.checkHeaders(req, true)
-
-  const getDatesFromFile = (file) =>{
-    //console.log(JSON.parse(file.image.data))
-    console.log( fs.statSync(file.image.data) )
-  }
   
+  const labelString = req.body.labels
+
   if( headersOK && req.files ){
     const username = req.body.username
-    getDatesFromFile(req.files)
-    const photoId = await FileQuery.createFile(username,req.body.labels)
-    if( photoId !== null ){
-      moveFile(photoId)
+    const fileChecksum =  req.files.image.md5
+    const uniqueForUser = await FileQuery.uniqueForUser( username, fileChecksum )
+    if( uniqueForUser ){
+      console.log("upload ok")
+      const photoId = await FileQuery.createFile(username,labelString,fileChecksum)
+      if( photoId !== null ){
+        return await moveFile(photoId)
+      }
+    }else{
+      return res.status(403).end()
     }
   }
-  res.status(400).end()
+  return res.status(400).end()
 })
 module.exports = fileRouter

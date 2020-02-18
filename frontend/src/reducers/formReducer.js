@@ -13,7 +13,7 @@ const initialState = {
     daterange:{
       auto:true,
       start:null,
-      end:null
+      end:null,
     },
     special:{
       panorama:false,
@@ -24,6 +24,7 @@ const initialState = {
       azimuth:null,
       altitude:null
     },
+    lastmodified:null,
     saved:{
       options:false,
       location:false,
@@ -59,12 +60,21 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.special.azimuth = action.special.azimuth ? action.special.azimuth : null
     newState.createPhoto.special.altitude = action.special.altitude ? action.special.altitude : null
     newState.createPhoto.saved.special = true
+  }else if( action.type === 'lastmodified' ){
+    console.log(action.lastmodified)
+    newState.createPhoto.lastmodified = action.lastmodified
   }else if( action.type === 'RESETCREATEPHOTO' ){
     newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
   }
   return newState
 }
 
+export const saveLastModified = (lastmodified) => {
+  return{
+    type: 'lastmodified',
+    lastmodified
+  }
+}
 export const resetCreatephoto = () => {
   return{
     type: 'RESETCREATEPHOTO'

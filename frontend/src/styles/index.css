@@ -1,4 +1,26 @@
+body{
+  background-color: grey;
+  font-family: Arial, Helvetica, Tahoma, Calibri, Verdana, sans-serif;
+}
 #root {
   width:100%;
   height:100%;
+}
+.container{
+  width: 100%;
+  height: 100%;
+}
+.mainscreen{
+  float:left;
+}
+.rightsidebar{
+  float:right;
+  width: 500px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px;
+}
+h3{
+  padding: 10px;
+  margin: 0px;
 }

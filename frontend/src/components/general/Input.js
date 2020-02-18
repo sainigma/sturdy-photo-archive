@@ -19,9 +19,16 @@ const Input = (props) => {
   }
 
   const InputLabel = (props) => {
+    let labelClassName = "inputFieldLabel"
+    if( varExists(props.class) ){
+      if( props.class === "unlimited" ){
+        labelClassName = "inputFieldLabelUnlimited"
+      }
+    }
+
     if( props.content ){
       return(
-        <label className="inputFieldLabel">{props.content}</label>
+        <label className={labelClassName}>{props.content}</label>
       )
     }else return (<></>)
   }
@@ -57,7 +64,7 @@ const Input = (props) => {
     return(
       <div className="inputContainer">
         <Icon icon={props.icon}/>
-        <InputLabel content={props.label}/>
+        <InputLabel content={props.label} class={"unlimited"}/>
       </div>
     )
   }

@@ -4,7 +4,7 @@ import Options from './CreatePhoto/Options'
 import FileSelector from './CreatePhoto/FileSelector'
 import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
-import {uploadFile} from './../reducers/uploadReducer'
+import {uploadFile} from '../reducers/uploadReducer'
 
 const PreviewImage = (props) => {
   if( props.file && props.visibility ){
@@ -27,7 +27,7 @@ const CreatePhoto = (props) => {
 
   if( !props.visibility )return(<></>)
   const toggleUploadActive = () => {
-    props.setSingleUpload(!uploadActive)
+    props.setMassUpload(!uploadActive)
     setUploadActive(!uploadActive)
   }
 
@@ -38,7 +38,7 @@ const CreatePhoto = (props) => {
     if( showSubmenu ) setShowSubmenu(false)
 
     return(
-      <Input type="button" icon="file" value="Upload photo" onClick={toggleUploadActive}/>
+      <Input type="button" icon="file" value="Mass upload photos" onClick={toggleUploadActive}/>
     )
   }
 
@@ -92,7 +92,7 @@ const CreatePhoto = (props) => {
 
   return(
     <div className="createPhotoContainer">
-      {!hasFile ? <h3>Single upload</h3> : <></>}
+      <h3>Mass upload</h3>
       <Cancel visibility={!showSubmenu && hasFile}/>
       <PreviewImage visibility={!showSubmenu} file={fileToUpload}/>
       <FileSelector visibility={!showSubmenu} parentHasFile={hasFile} setHasFile={setHasFile} setFileToUpload={setFileToUpload} multiple={false}/>
