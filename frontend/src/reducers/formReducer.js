@@ -59,25 +59,39 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.special.azimuth = action.special.azimuth ? action.special.azimuth : null
     newState.createPhoto.special.altitude = action.special.altitude ? action.special.altitude : null
     newState.createPhoto.saved.special = true
+  }else if( action.type === 'RESETCREATEPHOTO' ){
+    newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
   }
   return newState
 }
 
+export const resetCreatephoto = () => {
+  return{
+    type: 'RESETCREATEPHOTO'
+  }
+}
+
 
 export const setLocation = (location, subtype) => {
+  return{
+    type: 'location',
+    location
+  }
+  /*
   if( subtype !== 'id'){
     return{
       type: 'location',
       location
     }
   }else{
+    console.log(location)
     //hae nimi, sitten dispatch
     const fetchedData = data
     return{
       type: 'location',
       location:fetchedData
     }
-  }
+  }*/
 }
 
 export const setSpecial = (special) => {

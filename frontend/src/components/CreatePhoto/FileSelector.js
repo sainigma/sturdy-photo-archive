@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import Input from './../general/Input'
 import { connect } from 'react-redux'
 
@@ -19,7 +19,8 @@ const FileSelector = (props) => {
     setHasFile(true)
     props.setHasFile(true)
   }
-  if( !props.visibility ) return(<></>)
+  
+  if( !props.visibility )return(<></>)
 
   if( !hasFile ){
     return(

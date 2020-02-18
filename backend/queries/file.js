@@ -15,7 +15,6 @@ const getQuery = (sqlcommand) => {
 const createFile = async(username,labelsString) => {
   const user = await User.findOne( {username} )
   let labels = JSON.parse( labelsString )
-  //console.log( labels )
 
   const newFileQuery = (name, owner, location, permission, daterange, special) => {
     return getQuery(`
@@ -73,11 +72,20 @@ const createFile = async(username,labelsString) => {
     }
   }
 
+  const createWithoutLocation = async() => {
+    const newPermissionId = await PermissionQuery.createNew( user.id, true )
+    if( newPermissionId ){
+      return await saveEntry( labels.name, user.id, null, newPermissionId )
+    }
+  }
+
   if( Utils.varExists(labels) ){
     if( Utils.varExists(labels.location.id) ){
       return await createWithOldLocation()
-    }else if( Utils.varExists(labels.location.name) ){
+    }else if( Utils.varExists(labels.location.name) && labels.location.name !== '' ){
       return await createWithNewLocation()
+    }else{
+      return await createWithoutLocation()
     }
   }
   return null
