@@ -14,4 +14,5 @@
 | 15.2 | 2 | Uusi reducer kuvien tallentamiseen valmis. Kuvanluonnin alimman tason asetukset valmiit toiminnallisesti, kts. [suunnitelma](./frontend/UI/DialogFlowForFileUpload.md) UI:lle
 | 17.2 | 4 | Koko reducer nyt käytössä. Päivämäärän formatoija nätimpään päivämäärien syöttöön. Backend vastaanottaa ja syöttää tiedostot tietokantaan oikein.
 | 18.2 | 8 | Frontissa upload-komponentti uudelleenkäytettävissä. Päivämäärien hakeminen uploadeihin toimii. Backend sallii vain uniikit lähetykset. Käyttöliittymää alustettu kuvien hakemiseen backendistä. SQL:llää palautettu mieleen ja hakuqueryjä mietitty.
-| yht   | 67 | | 
+| 19.2 | 8 | Olemassaolevat kuvat haetaan nyt käyttäjälle käyttöliittymässä. Myös julkisiksi merkityt kuvat haetaan käyttöliittymään, näytetään jos käyttäjä ei ole kirjautunut. Kuvantunnistukseen ja Yolov3 Darknetiin tutustumista. Luotettava tunnisteiden generointi cpu:lla näyttäisi kestävän ~20s per kuva. Lisätyt kuvatut lisätään käyttöliittymään kuvanlisäysresponsen perusteella. Lisätyistä kuvista tehdään thumbnailit.
+| yht   | 75 | | 

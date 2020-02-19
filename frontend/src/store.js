@@ -6,6 +6,7 @@ import appStateReducer from './reducers/appStateReducer'
 import formReducer from './reducers/formReducer'
 import uploadReducer from './reducers/uploadReducer'
 import locationReducer from './reducers/locationReducer'
+import photoReducer from './reducers/photoReducer'
 
 const reducer = combineReducers({
   user: userReducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   form: formReducer,
   upload: uploadReducer,
   locations: locationReducer,
+  photos: photoReducer,
 })
 
 const store = createStore(reducer,applyMiddleware(thunk))

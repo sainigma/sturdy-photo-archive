@@ -26,13 +26,23 @@ const locationReducer = (state=initialState, action) => {
       locations: action.locations
     }
   }
+  if( action.type === 'initializeLocations'){
+    return {
+      locations: []
+    }
+  }
   return state
 }
 
-export const getAll = (user) => {
+export const initializeLocations = () => {
+  return{
+    type:'initializeLocations'
+  }
+}
+
+export const getAllLocations = (user) => {
   return async dispatch =>{
     const response = await locationService.getAll(user)
-    console.log(response)
     if( response ){
       dispatch({
         type:'LOCATIONGET',

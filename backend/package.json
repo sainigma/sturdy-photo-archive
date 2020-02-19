@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "file-system": "^2.2.2",
+    "jimp": "^0.9.3",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.14.0"
   },

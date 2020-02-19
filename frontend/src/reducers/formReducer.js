@@ -24,7 +24,7 @@ const initialState = {
       azimuth:null,
       altitude:null
     },
-    lastmodified:null,
+    lastModified:null,
     saved:{
       options:false,
       location:false,
@@ -35,7 +35,6 @@ const initialState = {
 
 const formReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
-  console.log(action)
   if( action.type === 'location' ){
     newState.createPhoto.location.name = action.location.name ? action.location.name : ''
     newState.createPhoto.location.address = action.location.address ? action.location.address : null
@@ -61,18 +60,18 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.special.altitude = action.special.altitude ? action.special.altitude : null
     newState.createPhoto.saved.special = true
   }else if( action.type === 'lastmodified' ){
-    console.log(action.lastmodified)
-    newState.createPhoto.lastmodified = action.lastmodified
+    console.log(action.lastModified)
+    newState.createPhoto.lastModified = action.lastModified
   }else if( action.type === 'RESETCREATEPHOTO' ){
     newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
   }
   return newState
 }
 
-export const saveLastModified = (lastmodified) => {
+export const saveLastModified = (lastModified) => {
   return{
     type: 'lastmodified',
-    lastmodified
+    lastModified
   }
 }
 export const resetCreatephoto = () => {
