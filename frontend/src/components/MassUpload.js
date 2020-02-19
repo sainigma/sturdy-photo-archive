@@ -15,7 +15,7 @@ const PreviewImage = (props) => {
   }else return(<></>)
 }
 
-const CreatePhoto = (props) => {
+const MassUpload = (props) => {
   const [uploadActive, setUploadActive] = useState(false)
   const [hasFile, setHasFile] = useState(false)
   const [hasLocation, setHasLocation] = useState(false)
@@ -78,6 +78,7 @@ const CreatePhoto = (props) => {
     setStatusTimestamp(props.upload.timestamp)
     if(props.upload.status===200){
       console.log("jee!")
+      console.log(props.upload.photo)
       toggleUploadActive()
     }else{
       console.log("fail")
@@ -111,4 +112,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{uploadFile})(CreatePhoto)
+export default connect(mapStateToProps,{uploadFile})(MassUpload)

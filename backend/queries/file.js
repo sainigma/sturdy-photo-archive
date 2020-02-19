@@ -29,15 +29,15 @@ const uniqueForUser = async( username, checkSum ) => {
   else return true
 }
 
-const createFile = async(username,labelsString, checkSum) => {
+const createFile = async(username,labelsString, checkSum, filetype) => {
   const user = await User.findOne( {username} )
   let labels = Security.sanitizeJSON( labelsString )
 
   const newFileQuery = (name, owner, location, permission, daterange, special ) => {
     return getQuery(`
-      INSERT INTO photos (id, name, owner, uploader, location, locheight, localtitude, locazimuth, locoffsetx, locoffsety, priority, panorama, equirectangular, permissions, timerange, md5 )
-      VALUES( uuid_generate_v4(), ${Utils.apostrophize(name)}, ${Utils.apostrophize(owner)}, ${Utils.apostrophize(owner)}, ${Utils.apostrophize(location)}, ${Utils.apostrophize(special.height)}, ${Utils.apostrophize(special.altitude)}, ${Utils.apostrophize(special.azimuth)}, ${Utils.apostrophize(special.xoffset)}, ${Utils.apostrophize(special.yoffset)}, 1, ${special.panorama}, ${special.equirectangular}, ARRAY[${Utils.apostrophize(permission)}::uuid], ARRAY[to_timestamp(${parseInt(daterange.start)}),to_timestamp(${parseInt(daterange.end)})], ${Utils.apostrophize(checkSum)} )
-      RETURNING id
+      INSERT INTO photos (id, name, owner, uploader, location, locheight, localtitude, locazimuth, locoffsetx, locoffsety, priority, panorama, equirectangular, permissions, timerange, md5, filetype )
+      VALUES( uuid_generate_v4(), ${Utils.apostrophize(name)}, ${Utils.apostrophize(owner)}, ${Utils.apostrophize(owner)}, ${Utils.apostrophize(location)}, ${Utils.apostrophize(special.height)}, ${Utils.apostrophize(special.altitude)}, ${Utils.apostrophize(special.azimuth)}, ${Utils.apostrophize(special.xoffset)}, ${Utils.apostrophize(special.yoffset)}, 1, ${special.panorama}, ${special.equirectangular}, ARRAY[${Utils.apostrophize(permission)}::uuid], ARRAY[to_timestamp(${parseInt(daterange.start)}),to_timestamp(${parseInt(daterange.end)})], ${Utils.apostrophize(checkSum)}, ${Utils.apostrophize(filetype)} )
+      RETURNING id,filetype,location,equirectangular
     `)
   }
 
@@ -53,10 +53,10 @@ const createFile = async(username,labelsString, checkSum) => {
         end: endDate
       }
     }else{
-      if( labels.lastmodified !== null ){
+      if( labels.lastModified !== null ){
         return{
-          start: labels.lastmodified/1000,
-          end: labels.lastmodified/1000
+          start: labels.lastModified/1000,
+          end: labels.lastModified/1000
         }
       }
       else return {
@@ -71,7 +71,8 @@ const createFile = async(username,labelsString, checkSum) => {
     try{
       const result = await newFileQuery(name, userid, locationid, permissionid, daterange, labels.special)
       if( result.rows.length > 0 ){
-        return result.rows[0].id
+        console.log(result.rows[0])
+        return result.rows[0]
       }
     }catch(error){console.log(error)}
     return null

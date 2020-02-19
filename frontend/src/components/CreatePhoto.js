@@ -5,6 +5,7 @@ import FileSelector from './CreatePhoto/FileSelector'
 import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
 import {uploadFile} from './../reducers/uploadReducer'
+import {appendPhoto} from './../reducers/photoReducer'
 
 const PreviewImage = (props) => {
   if( props.file && props.visibility ){
@@ -77,7 +78,7 @@ const CreatePhoto = (props) => {
   if(waitStatus && props.upload.status!==0 && props.upload.timestamp !== statusTimestamp ){
     setStatusTimestamp(props.upload.timestamp)
     if(props.upload.status===200){
-      console.log("jee!")
+      props.appendPhoto(props.upload.photo)
       toggleUploadActive()
     }else{
       console.log("fail")
@@ -111,4 +112,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{uploadFile})(CreatePhoto)
+export default connect(mapStateToProps,{uploadFile,appendPhoto})(CreatePhoto)

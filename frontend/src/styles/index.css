@@ -14,7 +14,8 @@ body{
   float:left;
 }
 .rightsidebar{
-  float:right;
+  position:absolute;
+  right:10px;
   width: 500px;
   background-color: white;
   border-radius: 4px;
@@ -23,4 +24,8 @@ body{
 h3{
   padding: 10px;
   margin: 0px;
+}
+.imgpreview{
+  max-width:200px;
+  max-height: 200px;
 }

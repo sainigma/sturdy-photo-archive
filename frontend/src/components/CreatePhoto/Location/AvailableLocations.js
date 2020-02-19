@@ -3,14 +3,14 @@ import LocationCreator from './LocationCreator'
 import Input from '../../general/Input'
 import { connect } from 'react-redux'
 import { setLocation } from '../../../reducers/formReducer'
-import { getAll } from '../../../reducers/locationReducer'
+import { getAllLocations } from '../../../reducers/locationReducer'
 
 const AvailableLocations = (props) => {
   const [createNew, setCreateNew] = useState(false)
   const locationDefaults = [{id:"createNewLocation", name:"Create new"}, {id:"separator"}]
 
   useEffect( ()=>{
-    props.getAll(props.user)
+    props.getAllLocations(props.user)
   },[])
 
   const selectionChanged = (event) => {
@@ -58,4 +58,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{setLocation, getAll})(AvailableLocations)
+export default connect(mapStateToProps,{setLocation, getAllLocations})(AvailableLocations)

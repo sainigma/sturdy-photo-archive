@@ -1,31 +1,37 @@
 const Security = require('./../utils/security')
 const fileRouter = require('express').Router()
 const FileQuery = require('./../queries/file')
-const fs = require('file-system')
+const Jimp = require('jimp')
 
 fileRouter.post('/upload', async(req,res,next)=>{
 
-  const moveFile = (photoId) => {
-    const filetype = req.files.image.name.split('.').pop()
-    req.files.image.mv( `./photos/${photoId}.${filetype}`, (error) => {
+  const moveFile = (photo) => {
+    req.files.image.mv( `./public/photos/${photo.id}.${filetype}`, (error) => {
       if( error ) return res.status(500).send(error)
     })
-    return res.json({"photoId":photoId}).status(200).end()
+    Jimp.read(`./public/photos/${photo.id}.${filetype}`, (error,thumbnail) => {
+      if(error)console.log(error)
+      thumbnail.scaleToFit(256,256)
+      .quality(90)
+      .write(`./public/photos/${photo.id}thumb.${filetype}`)
+    })
+    return res.json({"photo":photo}).status(200).end()
   }
 
   const headersOK = Security.checkHeaders(req, true)
-  
+  let filetype = ''
   const labelString = req.body.labels
 
   if( headersOK && req.files ){
     const username = req.body.username
     const fileChecksum =  req.files.image.md5
     const uniqueForUser = await FileQuery.uniqueForUser( username, fileChecksum )
+    filetype = req.files.image.name.split('.').pop()
     if( uniqueForUser ){
       console.log("upload ok")
-      const photoId = await FileQuery.createFile(username,labelString,fileChecksum)
-      if( photoId !== null ){
-        return await moveFile(photoId)
+      const photo = await FileQuery.createFile(username,labelString,fileChecksum,filetype)
+      if( photo !== null ){
+        return await moveFile(photo)
       }
     }else{
       return res.status(403).end()

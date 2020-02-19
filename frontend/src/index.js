@@ -8,7 +8,6 @@ import './styles/icons.css'
 import './styles/index.css'
 
 const render = () => {
-  console.log("rendaus")
   ReactDOM.render(
     <Provider store={store}><App/></Provider>,
     document.getElementById('root')
