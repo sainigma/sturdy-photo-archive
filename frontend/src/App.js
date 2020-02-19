@@ -48,6 +48,7 @@ const App = (props) => {
 
   return(
       <div className="container">
+        <div className="loadingscreen"><img className="loadingwheel" src='http://localhost:3001/ajax.gif'/></div>
         <MainScreen visibility={loggedIn} photos={props.photos} locations={props.locations}/>
         <div className="rightsidebar">
           <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>
