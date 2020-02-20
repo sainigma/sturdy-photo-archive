@@ -15,6 +15,7 @@ const initialState = {
       start:null,
       end:null,
     },
+    privacy:'private',
     special:{
       panorama:false,
       equirectangular:false,
@@ -35,7 +36,7 @@ const initialState = {
 
 const formReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
-  if( action.type === 'location' ){
+  if( action.type === 'createPhotoLocation' ){
     newState.createPhoto.location.name = action.location.name ? action.location.name : ''
     newState.createPhoto.location.address = action.location.address ? action.location.address : null
     newState.createPhoto.location.postalcode = action.location.postalcode ? action.location.postalcode : null
@@ -44,13 +45,14 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.location.longitude = action.location.longitude ? action.location.longitude : null
     newState.createPhoto.location.id = action.location.id ? action.location.id : null
     newState.createPhoto.saved.location = true
-  }else if( action.type === 'options' ){
+  }else if( action.type === 'cretePhotoOptions' ){
     newState.createPhoto.name = action.name ? action.name : ''
     newState.createPhoto.daterange.auto = action.daterange.auto
     newState.createPhoto.daterange.start = action.daterange.start ? action.daterange.start : null
     newState.createPhoto.daterange.end = action.daterange.end ? action.daterange.end : null
+    newState.createPhoto.privacy = action.privacy ? action.privacy : null
     newState.createPhoto.saved.options = true
-  }else if( action.type === 'special' ){
+  }else if( action.type === 'createPhotoSpecial' ){
     newState.createPhoto.special.panorama = action.special.panorama ? action.special.panorama : false
     newState.createPhoto.special.equirectangular = action.special.equirectangular ? action.special.equirectangular : false
     newState.createPhoto.special.height = action.special.height ? action.special.height : null
@@ -59,62 +61,45 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.special.azimuth = action.special.azimuth ? action.special.azimuth : null
     newState.createPhoto.special.altitude = action.special.altitude ? action.special.altitude : null
     newState.createPhoto.saved.special = true
-  }else if( action.type === 'lastmodified' ){
+  }else if( action.type === 'formlastmodified' ){
     console.log(action.lastModified)
     newState.createPhoto.lastModified = action.lastModified
-  }else if( action.type === 'RESETCREATEPHOTO' ){
-    newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
+  }else if( action.type === 'UPLOADPHOTO' ){
+    if( action.status === 200 ){
+      console.log("create photo reset")
+      newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
+    }
   }
   return newState
 }
 
 export const saveLastModified = (lastModified) => {
   return{
-    type: 'lastmodified',
+    type: 'formlastmodified',
     lastModified
   }
 }
-export const resetCreatephoto = () => {
-  return{
-    type: 'RESETCREATEPHOTO'
-  }
-}
-
 
 export const setLocation = (location, subtype) => {
   return{
-    type: 'location',
+    type: 'createPhotoLocation',
     location
   }
-  /*
-  if( subtype !== 'id'){
-    return{
-      type: 'location',
-      location
-    }
-  }else{
-    console.log(location)
-    //hae nimi, sitten dispatch
-    const fetchedData = data
-    return{
-      type: 'location',
-      location:fetchedData
-    }
-  }*/
 }
 
 export const setSpecial = (special) => {
   return{
-    type:'special',
+    type:'createPhotoSpecial',
     special
   }
 }
 
-export const setOptions = (name, daterange) => {
+export const setOptions = (name, daterange, privacy) => {
   return{
-    type:'options',
+    type:'cretePhotoOptions',
     name,
-    daterange
+    daterange,
+    privacy
   }
 }
 

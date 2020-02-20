@@ -12,15 +12,17 @@ const photoReducer = (state=initialState, action) => {
       public:action.public,
       owned:[]
     }
-  }else if( action.type === 'initializeOwned'){
+  }else if( action.type === 'initializeOwnedPhotos'){
     return{
       public:JSON.parse(JSON.stringify(state.public)),
       owned:action.owned
     }
-  }else if( action.type === 'APPENDPHOTO' ){
-    let newState = JSON.parse(JSON.stringify(state))
-    newState.owned = [ ...newState.owned, action.photo ]
-    return newState
+  }else if( action.type === 'UPLOADPHOTO'){
+    if( action.status === 200 ){
+      let newState = JSON.parse(JSON.stringify(state))
+      newState.owned = [ ...newState.owned, action.data.photo ]
+      return newState
+    }
   }
   return state
 }
@@ -46,7 +48,7 @@ export const getOwnedPhotos = (user) => {
     const response = await photoService.getOwned(user)
     if( response ){
       dispatch({
-        type:'initializeOwned',
+        type:'initializeOwnedPhotos',
         owned:response.data.photos
       })
     }else{
@@ -54,13 +56,6 @@ export const getOwnedPhotos = (user) => {
         type:'ERROR'
       })
     }
-  }
-}
-
-export const appendPhoto = (photo) => {
-  return{
-    type:'APPENDPHOTO',
-    photo
   }
 }
 
