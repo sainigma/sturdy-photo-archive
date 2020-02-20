@@ -1,3 +1,5 @@
+import React from 'react'
+
 const getIcon = (icon) => {
   let iconClass = 'null'
   switch (icon){
@@ -53,4 +55,16 @@ const getIcon = (icon) => {
   return iconClass
 } 
 
-export default getIcon
+const Icon = (props) => {
+  if( props.icon === 'null' ){
+    return(<></>)
+  }
+  else{
+    const iconClass = getIcon(props.icon)
+    return(
+      <i className={iconClass}/>
+    )
+  }
+}
+
+export default Icon

@@ -13,10 +13,15 @@ const LocationPicker = (props) => {
     setActive( !active )
   }
 
-  if( props.form.createPhoto.location.name !== '' && !hasLocation && props.hasLocation){
-    setLocationName(props.form.createPhoto.location.name)
-    setHasLocation(true)
-  }
+  useEffect( ()=>{
+    if( props.form.createPhoto.location.name !== '' &&  !hasLocation ){
+      setHasLocation(true)
+      setLocationName( props.form.createPhoto.location.name )
+    }
+    console.log("moi!")
+  },[])
+  
+  if( !props.visibility ) return(<></>)
 
   const saveLocation = (parameters) => {
     props.setLocation( parameters.values, parameters.type )
@@ -24,9 +29,8 @@ const LocationPicker = (props) => {
     setLocationName( parameters.values.name )
     setActive(false)
     setHasLocation(true)
-    props.setHasLocation(true)
   }
-  if( !props.visibility ) return(<></>)
+  
   if( active ){
     return (
       <div>

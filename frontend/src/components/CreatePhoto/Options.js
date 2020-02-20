@@ -5,6 +5,7 @@ import Input from './../general/Input'
 import LocationPicker from './LocationPicker'
 import ToggleSubMenu, {Save} from './../general/ToggleSubmenu'
 import SpecialOptions from './SpecialOptions'
+import PrivacySelector from './PrivacySelector'
 import dateFormatter from './../general/dateFormatter'
 
 const NameSelector = (props) => {
@@ -40,11 +41,12 @@ const Options = (props) => {
   const [newName, setNewName] = useState('')
   const [showSubmenu, setShowSubmenu] = useState(false)
   const [locationPickerActive, setLocationPickerActive] = useState(false)
+  const [locationChanged, setLocationChanged] = useState(false)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [fetchDate, setFetchDate] = useState(true)
   const [hasSpecial, setHasSpecial] = useState(false)
-
+  const [selectedPrivacy, setSelectedPrivacy] = useState('private')
   if( !props.visibility ) return(<></>)
 
   const saveState = () => {
@@ -55,7 +57,8 @@ const Options = (props) => {
       end: fetchDate ? null : endDate,
       lastmodified: props.lastmodified
     }
-    props.setOptions(name, daterange)
+    const privacy = selectedPrivacy
+    props.setOptions(name, daterange, selectedPrivacy)
     props.toggleVisibility()
   }
 
@@ -74,8 +77,9 @@ const Options = (props) => {
     <>
       {props.lastmodified}
       <NameSelector visibility={ !(showSubmenu || locationPickerActive) } initial={newName} setNewName={setNewName}/>
-      <LocationPicker visibility={!showSubmenu} setLocationPickerActive={setLocationPickerActive} setHasLocation={props.setHasLocation}/>
+      <LocationPicker visibility={!showSubmenu} setLocationPickerActive={setLocationPickerActive} locationChanged={locationChanged} setLocationChanged={setLocationChanged}/>
       <DatePicker visibility={ !(showSubmenu || locationPickerActive) } toggleFetch={toggleFetch} changeDate={changeDate} fetchDate={fetchDate} startDate={startDate} endDate={endDate}/>
+      <PrivacySelector visibility={ !(showSubmenu || locationPickerActive) } selected={selectedPrivacy} setSelected={setSelectedPrivacy}/>
       <ToggleSubMenu visibility={ !(showSubmenu || locationPickerActive) } value="Special" setSubmenuVisibility={setShowSubmenu} />
       <Save visibility={ !(showSubmenu || locationPickerActive) } toggleVisibility={saveState}/>
       <SpecialOptions visibility={showSubmenu} hasSpecial={hasSpecial} setHasSpecial={setHasSpecial} toggleVisibility={setShowSubmenu}/>

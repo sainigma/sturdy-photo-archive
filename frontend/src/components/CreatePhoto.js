@@ -5,17 +5,22 @@ import FileSelector from './CreatePhoto/FileSelector'
 import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
 import {uploadFile} from './../reducers/uploadReducer'
-import {appendPhoto} from './../reducers/photoReducer'
 
 const PreviewImage = (props) => {
   if( props.file && props.visibility ){
     const fileurl = URL.createObjectURL(props.file)
     return(
-      <img className="uploadpreview" src={fileurl}/>
+      <div className="uploadpreviewContainer">
+        <div className="uploadpreviewContent">
+          <img className="uploadpreviewImg" src={fileurl}/>
+        </div>
+        <div className="uploadpreviewBackground" style={{backgroundImage: `url(${fileurl})`}}/>
+      </div>
     )
   }else return(<></>)
 }
-
+//<img className="uploadpreview" src={fileurl}/>
+//
 const CreatePhoto = (props) => {
   const [uploadActive, setUploadActive] = useState(false)
   const [hasFile, setHasFile] = useState(false)
@@ -54,7 +59,8 @@ const CreatePhoto = (props) => {
     const sendFile = () => {
       labels.lastModified = lastModified
       uploadFunction(user, fileToUpload, labels)
-      setWaitStatus(true)
+      toggleUploadActive()
+      //setWaitStatus(true)
     }
 
     if( !props.visibility )return(<></>)
@@ -75,6 +81,7 @@ const CreatePhoto = (props) => {
     )
   }
 
+  /*
   if(waitStatus && props.upload.status!==0 && props.upload.timestamp !== statusTimestamp ){
     setStatusTimestamp(props.upload.timestamp)
     if(props.upload.status===200){
@@ -85,6 +92,7 @@ const CreatePhoto = (props) => {
     }
     setWaitStatus(false)
   }
+  */
 
   if( hasFile && lastModified === 0 ){
     let internalLastModified = fileToUpload.lastModified
@@ -112,4 +120,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{uploadFile,appendPhoto})(CreatePhoto)
+export default connect(mapStateToProps,{uploadFile})(CreatePhoto)

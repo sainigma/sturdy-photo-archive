@@ -9,12 +9,6 @@ fileRouter.post('/upload', async(req,res,next)=>{
     let thumbnail = await Jimp.read(`./public/photos/${photo.id}.${filetype}`)
     await thumbnail.scaleToFit(256,256).quality(90).writeAsync(`./public/photos/${photo.id}thumb.${filetype}`)
     return true
-    Jimp.read(`./public/photos/${photo.id}.${filetype}`, (error,thumbnail) => {
-      if(error)console.log(error)
-      thumbnail.scaleToFit(256,256)
-      .quality(90)
-      .writeAsync(`./public/photos/${photo.id}thumb.${filetype}`)
-    })
   }
 
   const moveFile = async(photo) => {

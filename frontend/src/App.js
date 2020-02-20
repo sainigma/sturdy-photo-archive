@@ -14,7 +14,7 @@ const PreviewLocation = (props) => {
     <div>
       <h3>{props.location.name}</h3>
       {photosToShow.map( photo =>
-        <img className='imgpreview' src={ 'http://localhost:3001/photos/'+photo.id + 'thumb.' + photo.filetype }/>
+        <img key={photo.id} className='imgpreview' src={ 'http://localhost:3001/photos/'+photo.id + 'thumb.' + photo.filetype }/>
       )}
     </div>
   )
@@ -35,7 +35,7 @@ const App = (props) => {
     const locations = [...props.locations.locations,{id:null,name:'Unlabeled'}]
     return(
       <div className="mainscreen">
-        {locations.map( location => <PreviewLocation location={location} photos={props.photos.owned}/> )}
+        {locations.map( location => <PreviewLocation key={location.id} location={location} photos={props.photos.owned}/> )}
       </div>
     )
   }
