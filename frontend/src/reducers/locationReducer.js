@@ -26,18 +26,12 @@ const locationReducer = (state=initialState, action) => {
       locations: action.locations
     }
   }
-  if( action.type === 'initializeLocations'){
+  if( action.type === 'initializePublic'){
     return {
-      locations: []
+      locations: action.locations
     }
   }
   return state
-}
-
-export const initializeLocations = () => {
-  return{
-    type:'initializeLocations'
-  }
 }
 
 export const getAllLocations = (user) => {

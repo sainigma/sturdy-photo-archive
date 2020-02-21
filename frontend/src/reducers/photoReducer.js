@@ -2,20 +2,22 @@ import photoService from '../services/photos'
 
 const initialState = {
   public:[],
-  owned:[]
+  owned:[],
+  initialized:false
 }
 
 const photoReducer = (state=initialState, action) => {
-  if( action.type === 'initializePublicPhotos' ){
-    console.log("Public photos initialized")
+  if( action.type === 'initializePublic' ){
     return{
-      public:action.public,
-      owned:[]
+      public:action.photos,
+      owned:[],
+      initialized:true
     }
   }else if( action.type === 'initializeOwnedPhotos'){
     return{
       public:JSON.parse(JSON.stringify(state.public)),
-      owned:action.owned
+      owned:action.owned,
+      initialized:true
     }
   }else if( action.type === 'UPLOADPHOTO'){
     if( action.status === 200 ){
@@ -31,9 +33,11 @@ export const initializePhotos = () => {
   return async dispatch => {
     const response = await photoService.getPublic()
     if( response ){
+      console.log(response)
       dispatch({
-        type:'initializePublicPhotos',
-        public:response.data.photos
+        type:'initializePublic',
+        photos:response.data.photos,
+        locations:response.data.locations
       })
     }else{
       dispatch({

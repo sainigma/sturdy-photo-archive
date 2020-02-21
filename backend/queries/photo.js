@@ -21,13 +21,21 @@ const getPublic = async() => {
   let hasErrors = false
   const getPublicQuery = () => {
     return getQuery(`
-    select id,filetype,equirectangular from photos as photo
-      where (	select count(*) from unnest(photo.permissions)) = (
-        select count(n) from unnest(photo.permissions) as n 
+      select
+        photos.id,
+        filetype,
+        equirectangular,
+        case when friend = -1 then location else null end as location
+      from photos 
+
+      left join locations on (photos.location = locations.id)
+      left join permissions on (locations.permission = permissions.id)
+      where ( select count(*) from unnest(photos.permissions) as n ) = (
+        select count(n) from unnest(photos.permissions) as n
         where n in (
           select id from permissions where friend = -1
         )
-    )
+      )
     `)
   }
   return await photosFromQuery(getPublicQuery,null)
@@ -36,7 +44,13 @@ const getPublic = async() => {
 const getOwnedByUser = async(username) => {
   const getOwnedQuery = (params) => {
     return getQuery(`
-      select id,filetype,equirectangular,location from photos as photo
+      select
+        id,
+        filetype,
+        equirectangular,
+        location 
+      from photos as photo
+      
       where photo.owner = (
         select id from users where username='${params.username}'
       )

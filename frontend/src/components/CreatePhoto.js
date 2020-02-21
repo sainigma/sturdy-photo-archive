@@ -5,6 +5,7 @@ import FileSelector from './CreatePhoto/FileSelector'
 import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
 import {uploadFile} from './../reducers/uploadReducer'
+import {notifyUploadStart} from './../reducers/notifications'
 
 const PreviewImage = (props) => {
   if( props.file && props.visibility ){
@@ -50,6 +51,7 @@ const CreatePhoto = (props) => {
 
   const user = props.user
   const uploadFunction = props.uploadFile
+  const notifyUploadStart = props.notifyUploadStart
   const formData = props.form
 
   const Save = (props) => {
@@ -58,9 +60,9 @@ const CreatePhoto = (props) => {
     }
     const sendFile = () => {
       labels.lastModified = lastModified
+      notifyUploadStart()
       uploadFunction(user, fileToUpload, labels)
       toggleUploadActive()
-      //setWaitStatus(true)
     }
 
     if( !props.visibility )return(<></>)
@@ -80,19 +82,6 @@ const CreatePhoto = (props) => {
       </div>
     )
   }
-
-  /*
-  if(waitStatus && props.upload.status!==0 && props.upload.timestamp !== statusTimestamp ){
-    setStatusTimestamp(props.upload.timestamp)
-    if(props.upload.status===200){
-      props.appendPhoto(props.upload.photo)
-      toggleUploadActive()
-    }else{
-      console.log("fail")
-    }
-    setWaitStatus(false)
-  }
-  */
 
   if( hasFile && lastModified === 0 ){
     let internalLastModified = fileToUpload.lastModified
@@ -120,4 +109,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{uploadFile})(CreatePhoto)
+export default connect(mapStateToProps,{uploadFile,notifyUploadStart})(CreatePhoto)

@@ -4,13 +4,22 @@ import CreatePhoto from './components/CreatePhoto'
 import MassUpload from './components/MassUpload'
 import UserDialogs from './components/UserDialogs'
 import {initializePhotos,getOwnedPhotos} from './reducers/photoReducer'
-import {getAllLocations,initializeLocations} from './reducers/locationReducer'
+import {getAllLocations} from './reducers/locationReducer'
+
+const Notifications = (props) => {
+  const visibility = props.visibility ? 'block' : 'none'
+  return(
+    <div className="loadingscreen" style={{display:visibility }} ><img className="loadingwheel" src='http://localhost:3001/ajax.gif'/></div>
+  )
+}
 
 const PreviewLocation = (props) => {
+
   const photosToShow = props.photos.filter( photo => {
     return photo.location === props.location.id
   })
-  return(
+
+  if( photosToShow.length >0 )return(
     <div>
       <h3>{props.location.name}</h3>
       {photosToShow.map( photo =>
@@ -18,6 +27,7 @@ const PreviewLocation = (props) => {
       )}
     </div>
   )
+  return (<></>)
 }
 
 const App = (props) => {
@@ -31,11 +41,14 @@ const App = (props) => {
   },[])
 
   const MainScreen = (props) => {
-    if(!props.visibility)return(<></>)
+    if(!props.photos.initialized)return(<></>)
+    console.log( props.locations )
     const locations = [...props.locations.locations,{id:null,name:'Unlabeled'}]
+    //const locations = props.locations.length > 0 ? [...props.locations.locations,{id:null,name:'Unlabeled'}] : [ {id:null,name:'Unlabeled'} ]
     return(
       <div className="mainscreen">
-        {locations.map( location => <PreviewLocation key={location.id} location={location} photos={props.photos.owned}/> )}
+        {props.photos.public.length}
+        {locations.map( location => <PreviewLocation key={location.id} location={location} photos={ props.visibility ? props.photos.owned : props.photos.public }/> )}
       </div>
     )
   }
@@ -48,7 +61,7 @@ const App = (props) => {
 
   return(
       <div className="container">
-        <div className="loadingscreen"><img className="loadingwheel" src='http://localhost:3001/ajax.gif'/></div>
+        <Notifications visibility={props.notify.loading}/>
         <MainScreen visibility={loggedIn} photos={props.photos} locations={props.locations}/>
         <div className="rightsidebar">
           <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>
@@ -67,7 +80,8 @@ const mapStateToProps = (state) => {
     appstate:state.appstate,
     locations:state.locations,
     photos:state.photos,
+    notify:state.notify
   }
 }
 
-export default connect(mapStateToProps,{initializePhotos,getOwnedPhotos,getAllLocations,initializeLocations})(App)
+export default connect(mapStateToProps,{initializePhotos,getOwnedPhotos,getAllLocations})(App)
