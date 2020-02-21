@@ -19,12 +19,16 @@
 .inputField[type=button]:active,.inputField[type=submit]:active {
   background-color: #cef0cf;
 }
-.inputField[type=text], .inputField[type=password], .selectField {
+.inputField[type=text], .inputField[type=password] {
   display: inline-block;
+  width:50%;
+  margin-left:auto;
   border: 1px solid #ccc;
 }
+.selectField{
+  display: inline-block;
+}
 .inputFieldLabel{
-  width:120px;
   padding:10px;
 }
 .inputFieldLabelUnlimited{
@@ -54,6 +58,7 @@
 .uploadpreviewContent{
   position:relative;
   z-index:100;
+  height:300px;
 }
 .uploadpreviewBackground{
   position: absolute;
@@ -68,12 +73,16 @@
   filter: brightness(50%) blur(5px);
 }
 .uploadpreviewImg{
+  opacity:1;
+  position: relative;
   display:block;
+  top:50%;
   max-width:100%;
-  max-height: 300px;
+  max-height: 100%;
   margin-left:auto;
   margin-right:auto;
   box-shadow: 0px 0px 10px black;
+  transform: translateY(-50%);
 }
 .cancelbutton{
   width:75px;
