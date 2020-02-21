@@ -46,7 +46,7 @@ const Options = (props) => {
   const [endDate, setEndDate] = useState('')
   const [fetchDate, setFetchDate] = useState(true)
   const [hasSpecial, setHasSpecial] = useState(false)
-  const [selectedPrivacy, setSelectedPrivacy] = useState('private')
+  const [selectedPrivacy, setSelectedPrivacy] = useState(props.options.privacy)
   if( !props.visibility ) return(<></>)
 
   const saveState = () => {

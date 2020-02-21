@@ -3,17 +3,7 @@ import { connect } from 'react-redux'
 import { login } from '../../reducers/userReducer'
 import Input from '../general/Input' 
 import { varExists } from '../../utils/utils'
-
-const Message = (props) => {
-  let message = ''
-  if( props.status === "403" ) message = "Account unverified, [click here] to resend verification e-mail"
-  else if( props.status === "401") message = "Invalid credentials"
-  if( message !== '' ){
-    return(
-      <h3>{message}</h3>
-    )
-  }else return(<></>)
-}
+import Notify from './../general/Notify'
 
 const Login = (props) => {
   const [username, setUsername] = useState('')
@@ -43,8 +33,8 @@ const Login = (props) => {
       <form onSubmit={handleLogin}>
           <Input type={"text"} icon={"user"} label={"username"} name={"username"} onChange={handleChange}/>
           <Input type={"password"} icon={"key"} label={"password"} name={"password"} onChange={handleChange}/>
+          <Notify message={ props.messages.length>0 ? props.messages[0] : null} />
           <Input type={"submit"} icon={"null"} label={" "} value={"Login"}/>
-          <Message status={props.status}/>
       </form>
     </div>
     
@@ -54,7 +44,8 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
   return{
     user:state.user,
-    status:state.user.status
+    status:state.user.status,
+    messages:state.notify.messages
   }
 }
 
