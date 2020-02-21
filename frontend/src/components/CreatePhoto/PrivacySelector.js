@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Input from '../general/Input'
 
 const PrivacySelector = (props) => {
-  //const [selected, setSelected] = useState('private')
+  if( !props.visibility ) return(<></>)
   const selections = ['public','private','hidden'].map( (item,index) => { return { id:index, name:item } } )
 
   const selectionChanged = (event) => {
@@ -10,8 +10,7 @@ const PrivacySelector = (props) => {
   }
 
   return (
-    <Input type={"select"} icon={"user"} selections={selections} selected={props.selected} onChange={selectionChanged}/>
+    <Input type={"select"} icon={"user"} label={props.label} selections={selections} selected={props.selected} onChange={selectionChanged}/>
   )
 }
-
 export default PrivacySelector

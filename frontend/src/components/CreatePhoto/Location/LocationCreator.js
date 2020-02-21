@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import Input from '../../general/Input'
 import { setLocation } from '../../../reducers/formReducer'
+import PrivacySelector from '../PrivacySelector'
 
 const LocationCreator = (props) => {
   const [newName, setNewName] = useState('')
@@ -10,7 +11,8 @@ const LocationCreator = (props) => {
   const [newAddress, setNewAddress] = useState('')
   const [newPostal, setNewPostal] = useState('')
   const [newCity, setNewCity] = useState('')
- 
+  const [privacy, setPrivacy] = useState('private')
+
   const changeName = (event) => {
     setNewName( event.target.value )
   }
@@ -43,6 +45,7 @@ const LocationCreator = (props) => {
           city:newCity,
           latitude:newLatitude,
           longitude:newLongitude,
+          privacy
         },
         type: "new"
       }
@@ -62,6 +65,7 @@ const LocationCreator = (props) => {
           <Input type={"text"} icon={"address"} name={"city"} label={"City"} value={newCity} onChange={changeAddress}/>
           <Input type={"text"} icon={"map"} name={"latitude"} label={"Latitude"} title="In decimal form" value={newLatitude} onChange={changeCoordinate} />
           <Input type={"text"} icon={"map"} name={"longitude"} label={"Longitude"} title="In decimal form" value={newLongitude} onChange={changeCoordinate}/>
+          <PrivacySelector visibility={true} selected={privacy} setSelected={setPrivacy} label={"Visibility"}/>
           <Input type={"submit"} icon={"save"} value={"Save location"}/>
         </form>
     </div>

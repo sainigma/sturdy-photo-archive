@@ -8,6 +8,7 @@ const initialState = {
       city:null,
       latitude:null,
       longitude:null,
+      privacy:'private',
       id:null
     },
     daterange:{
@@ -37,6 +38,8 @@ const initialState = {
 const formReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
   if( action.type === 'createPhotoLocation' ){
+    newState.createPhoto.location = action.location
+    /*
     newState.createPhoto.location.name = action.location.name ? action.location.name : ''
     newState.createPhoto.location.address = action.location.address ? action.location.address : null
     newState.createPhoto.location.postalcode = action.location.postalcode ? action.location.postalcode : null
@@ -44,6 +47,8 @@ const formReducer = (state = initialState, action) => {
     newState.createPhoto.location.latitude = action.location.latitude ? action.location.latitude : null
     newState.createPhoto.location.longitude = action.location.longitude ? action.location.longitude : null
     newState.createPhoto.location.id = action.location.id ? action.location.id : null
+    newState.createPhoto.location.privacy = action.location.privacy ? action.location.privacy : null
+    */
     newState.createPhoto.saved.location = true
   }else if( action.type === 'cretePhotoOptions' ){
     newState.createPhoto.name = action.name ? action.name : ''

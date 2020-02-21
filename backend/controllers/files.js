@@ -12,7 +12,7 @@ fileRouter.post('/upload', async(req,res,next)=>{
   }
 
   const moveFile = async(photo) => {
-    req.files.image.mv( `./public/photos/${photo.id}.${filetype}`, (error) => {
+    await req.files.image.mv( `./public/photos/${photo.id}.${filetype}`, (error) => {
       if( error ) return res.status(500).send(error)
     })
     await generateThumbnail(photo)
@@ -22,14 +22,13 @@ fileRouter.post('/upload', async(req,res,next)=>{
   const headersOK = Security.checkHeaders(req, true)
   let filetype = ''
   const labelString = req.body.labels
-
   if( headersOK && req.files ){
     const username = req.body.username
     const fileChecksum =  req.files.image.md5
     const uniqueForUser = await FileQuery.uniqueForUser( username, fileChecksum )
     filetype = req.files.image.name.split('.').pop()
     if( uniqueForUser ){
-      console.log("upload ok")
+      console.log(labelString)
       const photo = await FileQuery.createFile(username,labelString,fileChecksum,filetype)
       if( photo !== null ){
         return await moveFile(photo)
