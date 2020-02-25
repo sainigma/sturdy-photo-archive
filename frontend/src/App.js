@@ -5,6 +5,7 @@ import MassUpload from './components/MassUpload'
 import UserDialogs from './components/UserDialogs'
 import LoadingScreen from './components/LoadingScreen'
 import MainScreen from './components/MainScreen'
+import ImageEditor from './components/ImageEditor'
 import {initializePhotos,getOwnedPhotos} from './reducers/photoReducer'
 import {getAllLocations} from './reducers/locationReducer'
 
@@ -28,6 +29,7 @@ const App = (props) => {
   return(
       <div className="container scroller">
         <LoadingScreen visibility={props.notify.loading} messages={props.notify.messages}/>
+        <ImageEditor/>
         <MainScreen visibility={loggedIn} photos={props.photos} locations={props.locations}/>
         <div className="rightsidebar">
           <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>

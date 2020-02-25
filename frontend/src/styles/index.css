@@ -72,11 +72,7 @@ body{
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
 }
-.imgpreview{
-  padding-top:1em;
-  padding-bottom:1em;
-  height: 10em;
-}
+
 .loadingscreen{
   z-index:1000;
   width:100%;
