@@ -8,6 +8,7 @@ import './styles/forms.css'
 import './styles/icons.css'
 import './styles/imgpreview.css'
 import './styles/imageeditor.css'
+import './styles/comments.css'
 
 const render = () => {
   ReactDOM.render(

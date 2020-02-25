@@ -17,7 +17,8 @@ const InputText = (props) => {
         name={props.params.name}
         value={props.params.value}
         onClick={props.params.onClick}
-        onChange={props.params.onChange} 
+        onChange={props.params.onChange}
+        style={ props.params.label ? {} : {width:"100%"} }
       />
     </div>
   )
