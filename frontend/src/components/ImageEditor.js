@@ -1,4 +1,9 @@
 import React from 'react'
+import Comments from './general/Comments'
+import Labels from './ImageEditor/Labels'
+import Closer from './general/Closer'
+import { connect } from 'react-redux'
+import {changeView} from './../reducers/appStateReducer'
 
 const LeftContainer = (props) => {
   return(
@@ -17,25 +22,31 @@ const RightContainer = (props) => {
   )
 }
 
+
+
 const ImageEditor = (props) => {
+  if( !props.visibility )return(<></>)
+  const id = props.photo.id
+  const filetype = props.photo.filetype
   const url = 'http://localhost:3001/photos/'
-  const id = '4a7a8ddd-1e13-411e-8e95-be3adee1c5b8'
-  const id2 = '7fa73427-9d79-46d6-9695-eae69d1bc91c'
-  const filetype = 'jpg'
+
+  const goHome = (event) => {
+    props.changeView('home',{})
+  }
   const fileurl = `${url}${id}.${filetype}`
   return(
     <div className="imgeditorbackground">
-      <div className="imgeditorcontainer">
+      <Closer onClick={goHome}/>
+      <div className="imgeditorcontainer scroller">
         <LeftContainer fileurl={fileurl}/>
         <RightContainer>
-          <p>Header</p>
-          <p>Location</p>
-          <p>Labels</p>
-          <p>Comments</p>
+          <h3>Info</h3>
+          <h3>Location</h3>
+          <Labels/>
+          <Comments/>
         </RightContainer>
       </div>
     </div>
   )
 }
-
-export default ImageEditor
+export default connect(null,{changeView})(ImageEditor)

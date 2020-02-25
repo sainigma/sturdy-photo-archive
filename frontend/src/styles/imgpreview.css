@@ -14,6 +14,14 @@
   height: 10em;
   border-radius:4px;
 }
+.iconbutton{
+  z-index: 999;
+  width:100%;
+  height:100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
 .previewleftbutton,.previewrightbutton{
   z-index: 999;
   width:1.4em;

@@ -6,6 +6,7 @@ import UserDialogs from './components/UserDialogs'
 import LoadingScreen from './components/LoadingScreen'
 import MainScreen from './components/MainScreen'
 import ImageEditor from './components/ImageEditor'
+import ImageViewer from './components/ImageViewer'
 import {initializePhotos,getOwnedPhotos} from './reducers/photoReducer'
 import {getAllLocations} from './reducers/locationReducer'
 
@@ -18,6 +19,7 @@ const App = (props) => {
 
   useEffect( ()=>{
     props.initializePhotos()
+    console.log(props.appstate)
   },[])
 
   if( !userInit && loggedIn ){
@@ -27,16 +29,21 @@ const App = (props) => {
   }
 
   return(
+    <>
       <div className="container scroller">
         <LoadingScreen visibility={props.notify.loading} messages={props.notify.messages}/>
-        <ImageEditor/>
-        <MainScreen visibility={loggedIn} photos={props.photos} locations={props.locations}/>
-        <div className="rightsidebar">
-          <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>
-          <CreatePhoto visibility={loggedIn&&!massUpload} setSingleUpload={setSingleUpload}/>
-          <MassUpload visibility={loggedIn&&!singleUpload} setMassUpload={setMassUpload}/>
+        <ImageEditor visibility={props.appstate.currentView==="imageEditor"} photo={props.appstate.options.photo} />
+        <ImageViewer visibility={props.appstate.currentView==="imageViewer"} photo={props.appstate.options.photo} />
+        <div className="container scroller">
+          <MainScreen visibility={loggedIn} photos={props.photos} locations={props.locations}/>
+          <div className="rightsidebar">
+            <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>
+            <CreatePhoto visibility={loggedIn&&!massUpload} setSingleUpload={setSingleUpload}/>
+            <MassUpload visibility={loggedIn&&!singleUpload} setMassUpload={setMassUpload}/>
+          </div>
         </div>
       </div>
+    </>
   )
 }
 
