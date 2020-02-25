@@ -18,4 +18,4 @@
 | 20.2 | 3 | Parantelin tyylejä, nyt kuvauploadiin tulevat kuvat sovitetaan tietynkokoiseen konttiin. Ylijäävä osa täytetään saman kuvan blurratulla versiolla. Refaktorointia, Input-moduulia siistitty, reducereissa upload dispatch käsitellään muissakin reducereissa. Kuville voi määrittää näkyvyysasteen uploadin yhteydessä, ei käsitellä vielä backendissä. 
 | 21.2 | 9 | Backend jakaa julkiset sijainnit julkisten kuvien yhteydessä. Upload käynnistää latausruudun, katoaa kun response ok. Näkyvyysaste käsitellään backendissä ja tallennetaan tietokantaan. Refaktorointia, epämääräiset pyynnöt puidaan backendissä, joten frontissa ei tarvetta pyyntöjen oikeellisuuden tarkistukselle dispatchin yhteydessä. Alustava toteutus notificationeille. Tyylien parissa työskentelyä, yleisilmeen pohdintaa ja responsiivisuuden kehitystä.
 | 25.2 | 8 | Käyttöliittymän suunnittelua. Editointi- ja tarkastelunäkymä yksittäisille kuville. Responsiivisuuden hiomista. Custom ikoneita ja font-awesomesta pois siirtymisen alustamista. Reducer appstaten seurantaan.
-| yht   | 88 | | 
+| yht   | 96 | | 
