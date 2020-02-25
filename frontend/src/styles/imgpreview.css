@@ -1,0 +1,38 @@
+.divpreview{
+  position: relative;
+  padding-top:1em;
+  padding-bottom:1em;
+  height: 10em;
+  display:inline-block;
+}
+.imgpreview{
+  padding:0px;
+  margin-top:0;
+  margin-bottom:0;
+  margin-left:0.4em;
+  margin-right:0;
+  height: 10em;
+  border-radius:4px;
+}
+.previewleftbutton,.previewrightbutton{
+  z-index: 999;
+  width:1.4em;
+  height:1.4em;
+  bottom:1.2em;
+  position: absolute;
+  color:red;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.previewleftbutton:hover,.previewrightbutton:hover{
+  opacity: 1;
+}
+.previewleftbutton{
+  left:0.5em;
+}
+.previewrightbutton{
+  right:0.1em;
+}

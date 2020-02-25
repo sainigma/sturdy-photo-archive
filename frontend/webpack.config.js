@@ -1,7 +1,7 @@
 const path = require('path')
 //const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
-//const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
   entry: ['@babel/polyfill','./src/index.js',],
@@ -41,6 +41,10 @@ const config = {
       template: './public/index.html',
       filename: './index.html'
     }),
+    new CopyWebpackPlugin([
+      {from:'./public/icons',to:'icons'},
+      {from:'./public/backgrounds',to:'backgrounds'},
+    ])
     //new UglifyJSPlugin()
   ],
   stats: {

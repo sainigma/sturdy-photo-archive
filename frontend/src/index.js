@@ -6,6 +6,8 @@ import store from './store'
 import './styles/index.css'
 import './styles/forms.css'
 import './styles/icons.css'
+import './styles/imgpreview.css'
+import './styles/imageeditor.css'
 
 const render = () => {
   ReactDOM.render(

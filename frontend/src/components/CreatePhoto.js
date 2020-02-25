@@ -20,8 +20,7 @@ const PreviewImage = (props) => {
     )
   }else return(<></>)
 }
-//<img className="uploadpreview" src={fileurl}/>
-//
+
 const CreatePhoto = (props) => {
   const [uploadActive, setUploadActive] = useState(false)
   const [hasFile, setHasFile] = useState(false)

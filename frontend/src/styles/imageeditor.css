@@ -1,0 +1,79 @@
+.imgeditorbackground{
+  z-index:1000;
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0px;
+  left:0px;
+  color:white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.imgeditorcontainer{
+  position: relative;
+  z-index:1001;
+  width:95%;
+  height:98%;
+  margin:auto;
+  margin-top:2%;
+  background-color: white;
+  border-radius:0.4em;
+}
+
+.imgeditorleftcontainer,.imgeditorrightcontainer{
+  position: absolute;
+  top:0.2em;
+  width:98%;
+  height: calc(50% - 0.4em);
+  border-radius: 0.4em;
+}
+
+.imgeditorleftcontainer{
+  left:1%;
+  background-color: black;
+  overflow:hidden;
+}
+
+.imgeditorrightcontainer{
+  color:black;
+  left:1%;
+  top: calc(50% + 0.2em);
+}
+
+.imgeditorimg{
+  position: relative;
+  top:50%;
+  width: 100%;
+  transform: translateY(-50%);
+  box-shadow: 0px 0px 10px black;
+}
+
+@media only screen and (min-width: 500px){
+  .imgeditorcontainer{
+    position: relative;
+    z-index:1001;
+    width:80%;
+    height:80%;
+    margin:auto;
+    margin-top:2%;
+    background-color: white;
+    border-radius:2em;
+  }
+  
+  .imgeditorleftcontainer,.imgeditorrightcontainer{
+    position: absolute;
+    top:1em;
+    width:calc(50% - 2em);
+    height: 96%;
+    border-radius: 2em;
+  }
+  
+  .imgeditorleftcontainer{
+    left:1em;
+    background-color: black;
+  }
+  .imgeditorrightcontainer{
+    left:calc(50% + 1em);
+  }
+}

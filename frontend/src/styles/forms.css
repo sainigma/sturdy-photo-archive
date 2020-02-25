@@ -73,6 +73,7 @@
   filter: brightness(50%) blur(5px);
 }
 .uploadpreviewImg{
+  z-index: 500;
   opacity:1;
   position: relative;
   display:block;

@@ -1,4 +1,6 @@
 import React from 'react'
+import ThumbnailButton from './../general/ThumbnailButton'
+
 
 const PreviewLocation = (props) => {
   const photosToShow = props.photos.filter( photo => {
@@ -11,7 +13,7 @@ const PreviewLocation = (props) => {
     <div className="horizontalScrollerContainer scroller">
       <div className="horizontalScroller">
         {photosToShow.map( photo =>
-          <img key={photo.id} className='imgpreview' src={ 'http://localhost:3001/photos/'+photo.id + 'thumb.' + photo.filetype }/>
+          <ThumbnailButton photo={photo} key={photo.id}/>
         )}
       </div>
     </div></>
