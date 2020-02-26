@@ -34,7 +34,7 @@ const Comment = (props) => {
     return ("00"+value).slice(-2)
   }
 
-  const timeobject = new Date(props.comment.timestamp)
+  const timeobject = new Date(props.comment.timestamp*1E3)
   const date = `${timeobject.getDate()}/${timeobject.getMonth()+1}/${timeobject.getFullYear()}`;
   const time = `${pad(timeobject.getHours())}:${pad(timeobject.getMinutes())}`
 
@@ -43,7 +43,7 @@ const Comment = (props) => {
       <div className="commenticon"></div>
       <div className="commentinfo">
         <span className="commentor">
-          <strong>{props.comment.user}</strong>
+          <strong>{props.comment.username}</strong>
         </span>
         <span className="commentdate">{date}</span>
         <div className="commenttime">{time}</div>

@@ -81,7 +81,8 @@ export const sendComment = (target, content) => {
   return async dispatch => {
     const response = await photoService.sendComment(target, content)
     if( response ){
-      const comments = response.data.comments[0].comments
+      console.log(response.data.comments)
+      const comments = response.data.comments
       dispatch({
         type:'appendComments',
         comments
