@@ -1,3 +1,5 @@
+import photoService from '../services/photos'
+
 const initialState = {
   currentView: 'home',
   options:{},
@@ -17,6 +19,18 @@ const appStateReducer = (state = initialState, action) => {
 
 export const changeView = (newView, options) => {
   return async dispatch => {
+    if( newView === 'imageEditor' ){
+      const response = await photoService.fetchSingle(options.photo.id, options.user)
+      if( response ){
+        console.log( response.data.result[0] )
+        dispatch({
+          type: 'CHANGEVIEW',
+          newView,
+          options,
+          response: response.data.result[0]
+        })
+      }
+    }
     dispatch({
       type: 'CHANGEVIEW',
       newView,

@@ -33,7 +33,7 @@ const Labels = (props) => {
 
   return (
     <SectionToggler
-      title="Labels"
+      title={ props.album ? "Albums" : "Labels" }
       size={labels.length}
       collapsed={collapsed}
       toggleCollapsed={toggleCollapsed}

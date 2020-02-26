@@ -13,10 +13,14 @@ const Info = (props) => {
       collapsed={collapsed}
       toggleCollapsed={toggleCollapsed}
     >
-      <p>Date</p>
-      <p>Owner</p>
+      <p>Description: </p>
+      <p>{ props.daterange[0] === props.daterange[1] ?
+        `Date: ${props.daterange[0]}`:
+        'Daterange'}
+      </p>
       <p>People</p>
-      <p>Uploader</p>
+      <p>Owner: {props.owner}</p>
+      <p>Uploader {props.uploader}</p>
     </SectionToggler>
   )
 }

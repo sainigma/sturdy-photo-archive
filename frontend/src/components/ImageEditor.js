@@ -24,14 +24,13 @@ const RightContainer = (props) => {
   )
 }
 
-
-
 const ImageEditor = (props) => {
   if( !props.visibility )return(<></>)
   const id = props.photo.id
   const filetype = props.photo.filetype
   const url = 'http://localhost:3001/photos/'
 
+  console.log(props.selected)
   const goHome = (event) => {
     props.changeView('home',{})
   }
@@ -40,15 +39,28 @@ const ImageEditor = (props) => {
     <div className="imgeditorbackground">
       <Closer onClick={goHome}/>
       <div className="imgeditorcontainer">
+        {JSON.stringify(props.selected)}
         <LeftContainer fileurl={fileurl}/>
         <RightContainer>
-          <Info/>
-          <Location/>
-          <Labels/>
-          <Comments collapsed={true}/>
+          <Info
+            name={props.selected.name}
+            daterange={props.selected.daterange}
+            owner={props.selected.owner}
+            uploader={props.selected.uploader}
+          />
+          <Location location={props.selected.location}/>
+          <Labels album={true} labels={props.selected.albums}/>
+          <Labels labels={props.selected.labels}/>
+          <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
         </RightContainer>
       </div>
     </div>
   )
 }
-export default connect(null,{changeView})(ImageEditor)
+
+const mapStateToProps = (state) => {
+  return{
+    selected:state.photos.selected,
+  }
+}
+export default connect(mapStateToProps,{changeView})(ImageEditor)

@@ -24,4 +24,26 @@ photoRouter.get('/user', async(req,res,next)=>{
   res.status(400).end()
 })
 
+photoRouter.get('/:id', async(req,res,next)=>{
+  //const username = await Security.checkHeaders(req,false)
+
+  let username
+  try{
+    username = await Security.checkHeaders(req,false)
+  }catch(error){
+    username=undefined
+  }
+  //sanitize!
+  const id = req.params.id
+  if( id ){
+    const result = await photoQuery.getSingle(username,id)
+    if( result ){
+      console.log(`${username} fetched image info`)
+      console.log(result)
+      res.json({result}).status(200).end()
+    }
+  }
+  res.status(400).end()
+})
+
 module.exports = photoRouter
