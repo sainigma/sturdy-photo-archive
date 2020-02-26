@@ -85,12 +85,18 @@ const getSingle = async (username, id) => {
   }
   const fetchComments = (params) => {
     return getQuery(`
-      select 
-      json_agg(row_to_json(comments)) as comments
-      from comments
-      where comments.id in
-      (select
-        unnest(comments)
+      select username, content, date_part('epoch',timestamp) as timestamp from users, comments
+      where users.id in(
+        select userid from comments
+        where comments.id in(
+          select
+          unnest(comments)
+          from photos
+          where photos.id = '${params.id}'
+        )
+      )
+      and comments.id in(
+        select unnest(comments)
         from photos
         where photos.id = '${params.id}'
       )
@@ -103,7 +109,7 @@ const getSingle = async (username, id) => {
     if (photoInfo) {
       const comments = await photosFromQuery(fetchComments, {id})
       if( comments ){
-        photoInfo[0].comments = await JSON.parse(JSON.stringify(comments[0].comments))
+        photoInfo[0].comments = await JSON.parse(JSON.stringify(comments))
         return photoInfo
       }
     }
