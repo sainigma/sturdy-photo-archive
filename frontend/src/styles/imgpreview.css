@@ -21,6 +21,10 @@
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
+  opacity:0.5;
+}
+.iconbutton:hover{
+  opacity:1;
 }
 .previewleftbutton,.previewrightbutton{
   z-index: 999;

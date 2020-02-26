@@ -19,7 +19,26 @@
   margin-top:2%;
   background-color: white;
   border-radius:0.4em;
-  overflow:auto;
+  overflow:hidden;
+}
+
+.sectionheader{
+  position: relative;
+  float:left;
+  width:400px;
+  height:2em;
+}
+.tighth3{
+  padding:0;
+  margin:0;
+  margin-left:0.25em;
+}
+.sectiontoggler{
+  position: absolute;
+  top:0%;
+  left:calc(99% - 2em);
+  width:2em;
+  height: 2em;
 }
 
 .imgeditorleftcontainer,.imgeditorrightcontainer{
@@ -40,6 +59,7 @@
   color:black;
   left:1%;
   top: calc(50% + 0.2em);
+  overflow-x:hidden;
 }
 .imgviewercontainer{
   width:98%;
@@ -91,17 +111,18 @@
   
   .imgeditorleftcontainer,.imgeditorrightcontainer{
     position: absolute;
-    top:1em;
-    width:calc(50% - 2em);
+    top: 2%;
+    width: 49%;
     height: 96%;
-    border-radius: 2em;
   }
   
   .imgeditorleftcontainer{
-    left:1em;
+    left:1%;
     background-color: black;
+    border-radius: 2em;
   }
   .imgeditorrightcontainer{
-    left:calc(50% + 1em);
+    left:51%;
+    border-radius: 0;
   }
 }
