@@ -7,17 +7,17 @@ const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
 }
 
-const photosFromQuery = async(Query,params) =>{
-  try{
+const photosFromQuery = async (Query, params) => {
+  try {
     const query = await Query(params)
-    if( query.rowCount>0 ){
+    if (query.rowCount > 0) {
       return query.rows
-    }else return []
-  }catch(error){console.log(error)}
+    } else return []
+  } catch (error) { console.log(error) }
   return null
 }
 
-const getPublic = async() => {
+const getPublic = async () => {
   let hasErrors = false
   const getPublicQuery = () => {
     return getQuery(`
@@ -38,10 +38,10 @@ const getPublic = async() => {
       )
     `)
   }
-  return await photosFromQuery(getPublicQuery,null)
+  return await photosFromQuery(getPublicQuery, null)
 }
 
-const getOwnedByUser = async(username) => {
+const getOwnedByUser = async (username) => {
   const getOwnedQuery = (params) => {
     return getQuery(`
       select
@@ -56,19 +56,63 @@ const getOwnedByUser = async(username) => {
       )
     `)
   }
-  return await photosFromQuery(getOwnedQuery,{username})
+  return await photosFromQuery(getOwnedQuery, { username })
 }
 
-const getFullInfo = async(username,id) => {
-  const getFullInfoQuery = (params) => {
+const getSingle = async (username, id) => {
+  const getBasicInfoQuery = (params) => {
     return getQuery(`
       select * from photos as photo
       where photo.id = '${params.id}'
     `)
   }
+  const getFullInfoQuery = (params) => {
+    return getQuery(`
+      select
+          photos.id,
+          photos.name,
+          photos.description,
+          array[date_part('epoch', timerange[1]),date_part('epoch', timerange[2])] as daterange,
+          row_to_json(locations.*) as location,
+          owner.username as owner,
+          uploader.username as uploader
+        from photos
+        left join locations on(photos.location = locations.id)
+        left join users owner on(photos.owner = owner.id)
+        left join users uploader on(photos.uploader = uploader.id)
+      where photos.id = '${params.id}'
+ `)
+  }
+  const fetchComments = (params) => {
+    return getQuery(`
+      select 
+      json_agg(row_to_json(comments)) as comments
+      from comments
+      where comments.id in
+      (select
+        unnest(comments)
+        from photos
+        where photos.id = '${params.id}'
+      )
+    `)
+  }
+
+
+  if (username) {
+    let photoInfo = await photosFromQuery(getFullInfoQuery, { username, id })
+    if (photoInfo) {
+      const comments = await photosFromQuery(fetchComments, {id})
+      if( comments ){
+        photoInfo[0].comments = await JSON.parse(JSON.stringify(comments[0].comments))
+        return photoInfo
+      }
+    }
+  }
+  return await photosFromQuery(getFullInfoQuery, { id })
 }
 
 module.exports = {
   getPublic,
-  getOwnedByUser
+  getOwnedByUser,
+  getSingle
 }

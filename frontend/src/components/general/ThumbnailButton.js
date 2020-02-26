@@ -10,7 +10,8 @@ const ThumbnailButton = (props) => {
 
   const showDialog = (event) => {
     const options = {
-      photo:props.photo
+      photo:props.photo,
+      user:props.user
     }
     props.changeView( event.target.attributes.type.value, options )
   }
@@ -27,4 +28,10 @@ const ThumbnailButton = (props) => {
   )
 }
 
-export default connect(null,{changeView})(ThumbnailButton)
+const mapStateToProps = (state) => {
+  return{
+    user:state.user,
+  }
+}
+
+export default connect(mapStateToProps,{changeView})(ThumbnailButton)

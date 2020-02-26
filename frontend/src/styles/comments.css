@@ -44,7 +44,13 @@
   position:relative;
 }
 
+.commentfield{
+  display:flex;
+  float:left;
+  width:calc(90% - 150px);
+}
+
 .commentsubmit{
-  float:right;
+  float:left;
   width:150px;
 }

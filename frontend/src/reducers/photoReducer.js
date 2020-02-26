@@ -1,6 +1,7 @@
 import photoService from '../services/photos'
 
 const initialState = {
+  selected:{},
   public:[],
   owned:[],
   initialized:false
@@ -25,6 +26,19 @@ const photoReducer = (state=initialState, action) => {
       newState.owned = [ ...newState.owned, action.data.photo ]
       return newState
     }
+  }else if( action.type === 'CHANGEVIEW' ){
+    let newState = JSON.parse(JSON.stringify(state))
+    if( action.newView === 'home' ){
+      newState.selected = {}
+    }else if( action.newView === 'imageEditor' && action.response ){
+      console.log( action.response )
+      newState.selected = action.response
+    }
+    return newState
+  }else if( action.type === 'appendComments' ){
+    let newState = JSON.parse(JSON.stringify(state))
+    newState.selected.comments = action.comments
+    return newState
   }
   return state
 }
@@ -60,6 +74,22 @@ export const getOwnedPhotos = (user) => {
         type:'ERROR'
       })
     }
+  }
+}
+
+export const sendComment = (target, content) => {
+  return async dispatch => {
+    const response = await photoService.sendComment(target, content)
+    if( response ){
+      const comments = response.data.comments[0].comments
+      dispatch({
+        type:'appendComments',
+        comments
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
   }
 }
 

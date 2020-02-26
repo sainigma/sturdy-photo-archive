@@ -1,15 +1,28 @@
 import React,{useState} from 'react'
 import Input from './../general/Input'
 import SectionToggler from './SectionToggler'
+import { connect } from 'react-redux'
+import {sendComment} from './../../reducers/photoReducer'
 
 const CommentInput = (props) =>{
+  const [newComment, setNewComment] = useState('')
+
+  const onChange = (event) => {
+    setNewComment(event.target.value)
+  }
+
+  const sendComment = () => {
+    props.sendComment(props.target, newComment)
+    setNewComment('')
+  }
+
   return(
     <>
     <div className="commentfield">
-      <Input type="text" icon="null"/>
+      <Input type="text" icon="null" value={newComment} placeholder="Type new comment here.." onChange={onChange}/>
     </div>
     <div className="commentsubmit">
-      <Input type="button" icon="null" value="submit"/>
+      <Input type="button" icon="null" value="submit" onClick={sendComment}/>
     </div>
     </>
   )
@@ -83,14 +96,17 @@ const Comments = (props) => {
   return(
     <SectionToggler
       title="Comments"
-      size={comments.length}
+      size={ props.comments ? props.comments.length : 0 }
       collapsed={collapsed}
       toggleCollapsed={toggleCollapsed}
     >
-        { comments.map( comment => <Comment key={comment.timestamp+"comment"} comment={comment} />)  }
-      <CommentInput/>
+        { props.comments 
+          ? props.comments.map( comment => <Comment key={comment.timestamp+"comment"} comment={comment} />)
+          : `No comments yet`
+        }<br/>
+      <CommentInput target={props.id} sendComment={props.sendComment}/>
     </SectionToggler>
   )
 }
 
-export default Comments
+export default connect(null,{sendComment})(Comments)
