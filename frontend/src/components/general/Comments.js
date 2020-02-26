@@ -1,5 +1,6 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Input from './../general/Input'
+import SectionToggler from './SectionToggler'
 
 const CommentInput = (props) =>{
   return(
@@ -13,11 +14,6 @@ const CommentInput = (props) =>{
     </>
   )
 }
-
-/*
-<div style={{width:"49.8%", float:"left"}}><Input name={"login"} type={"button"} icon={"null"} value={"Login"} onClick={handleClick}/></div>
-      <div style={{width:"49.8%", float:"right"}}><Input name={"createuser"} type={"button"} icon={"null"} value={"Create user"} onClick={handleClick}/></div>
-*/
 
 const Comment = (props) => {
 
@@ -46,6 +42,10 @@ const Comment = (props) => {
 }
 
 const Comments = (props) => {
+  const [collapsed,setCollapsed] = useState(true)
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed)
+  }
 
   const comments = [
     {
@@ -81,15 +81,15 @@ const Comments = (props) => {
   ]
 
   return(
-    <div className="commentsection">
-      <div><h3>Comments <em>({comments.length})</em></h3></div>
-      <div className="comments scroller">
+    <SectionToggler
+      title="Comments"
+      size={comments.length}
+      collapsed={collapsed}
+      toggleCollapsed={toggleCollapsed}
+    >
         { comments.map( comment => <Comment key={comment.timestamp+"comment"} comment={comment} />)  }
-      </div>
-      <div>
-        <CommentInput/>
-      </div>
-    </div>
+      <CommentInput/>
+    </SectionToggler>
   )
 }
 

@@ -9,7 +9,8 @@ const IconButton = (props) => {
       onClick={props.onClick}
       style={{
         display:props.visibility,
-        backgroundImage:backgroundImage
+        backgroundImage:backgroundImage,
+        filter:`invert(${ props.invert ? 1 : 0 })`
       }}
       type={ props.type ? props.type : null }
     />

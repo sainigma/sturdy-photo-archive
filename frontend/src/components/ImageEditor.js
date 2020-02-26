@@ -4,6 +4,8 @@ import Labels from './ImageEditor/Labels'
 import Closer from './general/Closer'
 import { connect } from 'react-redux'
 import {changeView} from './../reducers/appStateReducer'
+import Location from './ImageEditor/Location'
+import Info from './ImageEditor/Info'
 
 const LeftContainer = (props) => {
   return(
@@ -16,7 +18,7 @@ const LeftContainer = (props) => {
 
 const RightContainer = (props) => {
   return(
-    <div className="imgeditorrightcontainer">
+    <div className="imgeditorrightcontainer scroller">
       {props.children}
     </div>
   )
@@ -37,13 +39,13 @@ const ImageEditor = (props) => {
   return(
     <div className="imgeditorbackground">
       <Closer onClick={goHome}/>
-      <div className="imgeditorcontainer scroller">
+      <div className="imgeditorcontainer">
         <LeftContainer fileurl={fileurl}/>
         <RightContainer>
-          <h3>Info</h3>
-          <h3>Location</h3>
+          <Info/>
+          <Location/>
           <Labels/>
-          <Comments/>
+          <Comments collapsed={true}/>
         </RightContainer>
       </div>
     </div>
