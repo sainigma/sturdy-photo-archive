@@ -2,7 +2,6 @@ const { Client } = require('pg')
 const config = require('./../utils/config')
 const client = new Client(config.PSQLCONF)
 client.connect()
-const Utils = require('./../utils/utils')
 
 const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
@@ -18,7 +17,7 @@ const addNew = async(username,target,content) => {
         timestamp
       )
       values( 
-        (select id from users where users.username = '${params.username}'),
+        username_to_uuid('${params.username}'),
         uuid_generate_v4(),
         '${params.content}',
         now()

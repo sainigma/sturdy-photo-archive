@@ -75,7 +75,8 @@ const getSingle = async (username, id) => {
           array[date_part('epoch', timerange[1]),date_part('epoch', timerange[2])] as daterange,
           row_to_json(locations.*) as location,
           owner.username as owner,
-          uploader.username as uploader
+          uploader.username as uploader,
+          labeluuids_to_names(labels) as labels
         from photos
         left join locations on(photos.location = locations.id)
         left join users owner on(photos.owner = owner.id)
