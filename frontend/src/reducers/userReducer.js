@@ -1,4 +1,6 @@
 import loginService from './../services/login'
+import photoService from './../services/photos'
+import locationService from '../services/locations'
 
 const initialState = {
   name: '',
@@ -8,22 +10,10 @@ const initialState = {
 }
 
 const userReducer = (state = initialState, action) => {
-  if(action.type==='LOGIN'){
-    if(action.content.status===200){
-      return {
-        name: '',
-        username: action.username,
-        token: 'bearer $'+action.content.data.token,
-        status: "200",
-      }
-    }else if(action.content.status===403){
-      return {
-        status: "403",
-      }
-    }else if(action.content.status===401){
-      return {
-        status: "401",
-      }
+
+  if(action.type==='failedLogin'){
+    return{
+      status:action.status
     }
   }else if(action.type==='NEWUSER'){
     if(action.content.status===200){
@@ -36,18 +26,101 @@ const userReducer = (state = initialState, action) => {
     }
   }else if(action.type==='RESET'){
     return initialState
+  }else if(action.type==='initializeUser'){
+    return{
+      name:'',
+      username: action.user.username,
+      token: action.user.token,
+      status: "200"
+    }
   }
   return state
 }
 
+const spawnUser = async(login) => {
+  let user = false
+  if( login ){
+    const response = await loginService.login(login.username,login.password)
+    if( !response ) return false
+    user = {
+      name:'',
+      username:login.username,
+      token:'bearer $'+response.data.token,
+      status:`${response.status}`
+    }
+    if( response.status !== 200 ) return{
+      loggedIn: false,
+      status: response.status
+    }
+  }else{
+    let savedUser = window.localStorage.getItem('credentials')
+    if( savedUser ){
+      savedUser = JSON.parse(savedUser)
+      const response = await loginService.test(savedUser)
+      user = response.status === 200 ? savedUser : false
+    }
+  }
+  if( user ){
+    const photoQuery = await photoService.getOwned(user)
+    const locationQuery = await locationService.getAll(user)
+    if( photoQuery && locationQuery ){
+      return {
+        loggedIn: true,
+        photos: photoQuery.data.photos,
+        locations: locationQuery.data.locations,
+        user
+      }
+    }
+  }else{
+    const photoQuery = await photoService.getPublic()
+    if( photoQuery ){
+      return{
+        loggedIn: false,
+        photos: photoQuery.data.photos,
+        locations: photoQuery.data.locations,
+        user:{}
+      }
+    }
+  }
+  return false
+}
+
+export const initializeUser = () => {
+  return async dispatch => {
+    const spawnedUser = await spawnUser()
+    if( spawnedUser ){
+      dispatch({
+        type: spawnedUser.loggedIn ? 'initializeUser' : 'initializePublic',
+        owned: spawnedUser.loggedIn ? spawnedUser.photos : {},
+        photos: !spawnedUser.loggedIn ? spawnedUser.photos : {},
+        locations: spawnedUser.locations,
+        user: spawnedUser.user
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
 export const login = (username,password) => {
   return async dispatch => {
-    const response = await loginService.login(username,password)
-    dispatch({
-      type: 'LOGIN',
-      content: response,
-      username: username,
-    })
+    const spawnedUser = await spawnUser({username,password})
+    if( spawnedUser && spawnedUser.loggedIn ){
+      window.localStorage.setItem('credentials', JSON.stringify(spawnedUser.user))
+      dispatch({
+        type: 'initializeUser',
+        owned: spawnedUser.photos,
+        photos: {},
+        locations: spawnedUser.locations,
+        user: spawnedUser.user
+      })
+    }else{
+      dispatch({
+        type: 'failedLogin',
+        status: spawnedUser.user.status
+      })
+    }
   }
 }
 

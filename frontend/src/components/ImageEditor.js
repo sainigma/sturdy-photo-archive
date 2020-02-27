@@ -35,6 +35,7 @@ const ImageEditor = (props) => {
     props.changeView('home',{})
   }
   const fileurl = `${url}${id}.${filetype}`
+  console.log(props.selected)
   return(
     <div className="imgeditorbackground">
       <Closer onClick={goHome}/>

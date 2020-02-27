@@ -26,8 +26,14 @@ const locationReducer = (state=initialState, action) => {
       locations: action.locations
     }
   }
-  if( action.type === 'initializePublic'){
+  else if( action.type === 'initializePublic'){
+    console.log("moi!")
     return {
+      locations: action.locations
+    }
+  }
+  else if( action.type === 'initializeUser' ){
+    return{
       locations: action.locations
     }
   }

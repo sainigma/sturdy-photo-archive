@@ -7,7 +7,8 @@ import LoadingScreen from './components/LoadingScreen'
 import MainScreen from './components/MainScreen'
 import ImageEditor from './components/ImageEditor'
 import ImageViewer from './components/ImageViewer'
-import {initializePhotos,getOwnedPhotos} from './reducers/photoReducer'
+import {initializeUser} from './reducers/userReducer'
+import {getOwnedPhotos} from './reducers/photoReducer'
 import {getAllLocations} from './reducers/locationReducer'
 
 
@@ -18,7 +19,8 @@ const App = (props) => {
   const [userInit, setUserInit] = useState(false)
 
   useEffect( ()=>{
-    props.initializePhotos()
+    props.initializeUser()
+    //props.initializePhotos()
     console.log(props.appstate)
   },[])
 
@@ -35,11 +37,11 @@ const App = (props) => {
         <ImageEditor visibility={props.appstate.currentView==="imageEditor"} photo={props.appstate.options.photo} />
         <ImageViewer visibility={props.appstate.currentView==="imageViewer"} photo={props.appstate.options.photo} />
         <div className="container scroller">
-          <MainScreen visibility={loggedIn} photos={props.photos} locations={props.locations}/>
+          <MainScreen visibility={props.loggedIn} photos={props.photos} locations={props.locations}/>
           <div className="rightsidebar">
-            <UserDialogs visibility={!loggedIn} setLoggedIn={setLoggedIn}/>
-            <CreatePhoto visibility={loggedIn&&!massUpload} setSingleUpload={setSingleUpload}/>
-            <MassUpload visibility={loggedIn&&!singleUpload} setMassUpload={setMassUpload}/>
+            <UserDialogs visibility={!props.loggedIn} setLoggedIn={setLoggedIn}/>
+            <CreatePhoto visibility={props.loggedIn&&!massUpload} setSingleUpload={setSingleUpload}/>
+            <MassUpload visibility={props.loggedIn&&!singleUpload} setMassUpload={setMassUpload}/>
           </div>
         </div>
       </div>
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{initializePhotos,getOwnedPhotos,getAllLocations})(App)
+export default connect(mapStateToProps,{initializeUser,getOwnedPhotos,getAllLocations})(App)

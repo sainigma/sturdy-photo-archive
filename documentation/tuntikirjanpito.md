@@ -19,4 +19,5 @@
 | 21.2 | 9 | Backend jakaa julkiset sijainnit julkisten kuvien yhteydessä. Upload käynnistää latausruudun, katoaa kun response ok. Näkyvyysaste käsitellään backendissä ja tallennetaan tietokantaan. Refaktorointia, epämääräiset pyynnöt puidaan backendissä, joten frontissa ei tarvetta pyyntöjen oikeellisuuden tarkistukselle dispatchin yhteydessä. Alustava toteutus notificationeille. Tyylien parissa työskentelyä, yleisilmeen pohdintaa ja responsiivisuuden kehitystä.
 | 25.2 | 8 | Käyttöliittymän suunnittelua. Editointi- ja tarkastelunäkymä yksittäisille kuville. Responsiivisuuden hiomista. Custom ikoneita ja font-awesomesta pois siirtymisen alustamista. Reducer appstaten seurantaan.
 | 26.2 | 9 | Ikonien autogenerointi blenderistä suoraan tiedostoihin. Editointiosion tyylejä hiottu, osion osia tehty modulaarisimmiksi. SQL:n kanssa taistelua, editoriin haetaan nyt tietoa esimerkiksi kommenttien muodossa. Kommentteja voi lisätä ja ne päivittyy näkymään automaattisesti.
-| yht   | 105 | | 
+| 27.2 | 2 | Loginin reduceria refaktoroitu, login onnistuu myös localstoragen kautta, vanhan tokenin oikeellisuuden testaamiseen tehty uusi route. Kuvien ja sijaintien alkuhaun dispatch siirretty kuva- ja sijaintireducereista loginista vastaavaan user reduceriin.
+| yht   | 107 | | 

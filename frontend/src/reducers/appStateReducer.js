@@ -13,6 +13,8 @@ const appStateReducer = (state = initialState, action) => {
   if( action.type === 'CHANGEVIEW' ){
     newState.currentView = action.newView
     newState.options = action.options
+  }else if( action.type === 'initializeUser' ){
+    newState.loggedIn = true
   }
   return newState
 }
