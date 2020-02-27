@@ -60,39 +60,6 @@ const Comments = (props) => {
     setCollapsed(!collapsed)
   }
 
-  const comments = [
-    {
-      user:'kekkonen',
-      content:'asdf',
-      timestamp:Date.now()-3600*1E3
-    },
-    {
-      user:'koivisto',
-      content:'flsajflöksdajflksd afasdfasdfj lakfjölasjfökl jafasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jlkjfdöklsajf ölakjfölak jfölajdfölakjdfl klaöjfölasjfl aölf jadfölf',
-      timestamp:Date.now()
-    },
-    {
-      user:'koivisto',
-      content:'flsajflöksdajflksd afasdfasdfj lakfjölasjfökl jafasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jlkjfdöklsajf ölakjfölak jfölajdfölakjdfl klaöjfölasjfl aölf jadfölf',
-      timestamp:Date.now()+4
-    },
-    {
-      user:'koivisto',
-      content:'flsajflöksdajflksd afasdfasdfj lakfjölasjfökl jafasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jlkjfdöklsajf ölakjfölak jfölajdfölakjdfl klaöjfölasjfl aölf jadfölf',
-      timestamp:Date.now()+2
-    },
-    {
-      user:'koivisto',
-      content:'flsajflöksdajflksd afasdfasdfj lakfjölasjfökl jafasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jlkjfdöklsajf ölakjfölak jfölajdfölakjdfl klaöjfölasjfl aölf jadfölf',
-      timestamp:Date.now()+8
-    },
-    {
-      user:'koivisto',
-      content:'flsajflöksdajflksd afasdfasdfj lakfjölasjfökl jafasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jasdfasdfj lakfjölasjfökl jaflkjfdöklsajf ölakjfölak jlkjfdöklsajf ölakjfölak jfölajdfölakjdfl klaöjfölasjfl aölf jadfölf',
-      timestamp:Date.now()+1
-    }
-  ]
-
   return(
     <SectionToggler
       title="Comments"

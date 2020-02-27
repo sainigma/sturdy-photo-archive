@@ -18,7 +18,7 @@ const ThumbnailButton = (props) => {
 
   return (
     <div className='divpreview' onMouseOver={imgOver} onMouseOut={imgExit}>
-      <IconButton type='imageEditor' icon="edit" className="previewleftbutton" visibility={visibility} onClick={showDialog}/>
+      <IconButton type='imageEditor' icon="edit" className="previewleftbutton" visibility={props.user.token!==''?visibility:'none'} onClick={showDialog}/>
       <IconButton type='imageViewer' icon="view" className="previewrightbutton" visibility={visibility} onClick={showDialog}/>
       <img
         className='imgpreview'

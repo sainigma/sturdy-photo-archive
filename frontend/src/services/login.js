@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {config} from './general/serviceUtils'
 
 const newUser = async(username,password,email) => {
   const content = {
@@ -29,7 +30,18 @@ const login = async(username,password) => {
   return response  
 }
 
+const test = async(user) => {
+  if( user.username && user.token ){
+    try{
+      const response = await axios.get('http://localhost:3001/api/users/test', config(user))
+      return response
+    }catch(error){}
+  }
+  return false
+}
+
 export default {
   newUser,
-  login
+  login,
+  test
 }

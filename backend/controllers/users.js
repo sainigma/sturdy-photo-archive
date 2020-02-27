@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const userRouter = require('express').Router()
 const User = require('./../queries/user')
 const config = require('./../utils/config')
+const Security = require('./../utils/security')
 
 const checkUserFields = (params) => {
   return true
@@ -26,6 +27,13 @@ const createNewUser = async(username, password, email) => {
   }
   return result
 }
+
+userRouter.get('/test', async(req,res,next) => {
+  console.log("test")
+  const hasToken = Security.checkHeaders(req, false)
+  if( hasToken ) res.status(200).end()
+  res.status(400).end()
+})
 
 userRouter.get('/', async(req,res,next) => {
   

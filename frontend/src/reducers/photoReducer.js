@@ -14,7 +14,7 @@ const photoReducer = (state=initialState, action) => {
       owned:[],
       initialized:true
     }
-  }else if( action.type === 'initializeOwnedPhotos'){
+  }else if( action.type === 'initializeUser'){
     return{
       public:JSON.parse(JSON.stringify(state.public)),
       owned:action.owned,
@@ -66,7 +66,7 @@ export const getOwnedPhotos = (user) => {
     const response = await photoService.getOwned(user)
     if( response ){
       dispatch({
-        type:'initializeOwnedPhotos',
+        type:'initializeUser',
         owned:response.data.photos
       })
     }else{
