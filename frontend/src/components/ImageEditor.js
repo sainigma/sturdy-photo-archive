@@ -4,6 +4,7 @@ import Labels from './ImageEditor/Labels'
 import Closer from './general/Closer'
 import { connect } from 'react-redux'
 import {changeView} from './../reducers/appStateReducer'
+import {newLabel} from './../reducers/photoReducer'
 import Location from './ImageEditor/Location'
 import Info from './ImageEditor/Info'
 
@@ -30,12 +31,10 @@ const ImageEditor = (props) => {
   const filetype = props.photo.filetype
   const url = 'http://localhost:3001/photos/'
 
-  console.log(props.selected)
   const goHome = (event) => {
     props.changeView('home',{})
   }
   const fileurl = `${url}${id}.${filetype}`
-  console.log(props.selected)
   return(
     <div className="imgeditorbackground">
       <Closer onClick={goHome}/>
@@ -50,8 +49,8 @@ const ImageEditor = (props) => {
             uploader={props.selected.uploader}
           />
           <Location location={props.selected.location}/>
-          <Labels album={true} labels={props.selected.albums}/>
-          <Labels labels={props.selected.labels}/>
+          
+          <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
           <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
         </RightContainer>
       </div>
@@ -64,4 +63,5 @@ const mapStateToProps = (state) => {
     selected:state.photos.selected,
   }
 }
-export default connect(mapStateToProps,{changeView})(ImageEditor)
+export default connect(mapStateToProps,{changeView,newLabel})(ImageEditor)
+//<Labels collapsed={true} album={true} labels={props.selected.albums}/>

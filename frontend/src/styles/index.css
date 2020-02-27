@@ -25,6 +25,9 @@ body{
   padding:5px;
   width: calc(100% - 25px);
 }
+.floatLeft{
+  float:left;
+}
 @media only screen and (min-width: 500px) {
   .rightsidebar{
     width: 500px;

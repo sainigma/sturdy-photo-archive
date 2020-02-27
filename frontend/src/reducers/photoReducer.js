@@ -8,6 +8,7 @@ const initialState = {
 }
 
 const photoReducer = (state=initialState, action) => {
+  let newState = JSON.parse(JSON.stringify(state))
   if( action.type === 'initializePublic' ){
     return{
       public:action.photos,
@@ -22,12 +23,11 @@ const photoReducer = (state=initialState, action) => {
     }
   }else if( action.type === 'UPLOADPHOTO'){
     if( action.status === 200 ){
-      let newState = JSON.parse(JSON.stringify(state))
       newState.owned = [ ...newState.owned, action.data.photo ]
       return newState
     }
   }else if( action.type === 'CHANGEVIEW' ){
-    let newState = JSON.parse(JSON.stringify(state))
+    
     if( action.newView === 'home' ){
       newState.selected = {}
     }else if( action.newView === 'imageEditor' && action.response ){
@@ -36,8 +36,10 @@ const photoReducer = (state=initialState, action) => {
     }
     return newState
   }else if( action.type === 'appendComments' ){
-    let newState = JSON.parse(JSON.stringify(state))
     newState.selected.comments = action.comments
+    return newState
+  }else if( action.type === 'appendLabels' ){
+    newState.selected.labels = action.labels
     return newState
   }
   return state
@@ -79,13 +81,28 @@ export const getOwnedPhotos = (user) => {
 
 export const sendComment = (target, content) => {
   return async dispatch => {
-    const response = await photoService.sendComment(target, content)
+    const response = await photoService.sendInfo(target, content, 'comment')
     if( response ){
-      console.log(response.data.comments)
       const comments = response.data.comments
       dispatch({
         type:'appendComments',
         comments
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
+export const newLabel = (target, content) => {
+  return async dispatch => {
+    const response = await photoService.sendInfo(target, content, 'label')
+    if( response ){
+      const labels = response.data.labels
+      dispatch({
+        type:'appendLabels',
+        labels
       })
     }
     dispatch({

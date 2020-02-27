@@ -33,7 +33,7 @@ const fetchSingle = async(id, user) => {
   return false
 }
 
-const sendComment = async(target,content) => {
+const sendInfo = async(target,content,type) => {
   const user = getUser()
   if( !user )return false
   let response
@@ -42,7 +42,7 @@ const sendComment = async(target,content) => {
   formData.append("content",content)
   console.log(`${target} ${content}`)
   try{
-    response = await axios.post('http://localhost:3001/api/comments/', formData, config(user))
+    response = await axios.post(`http://localhost:3001/api/info/${type}`, formData, config(user))
     return response
   }catch(error){
     console.log(error)
@@ -50,9 +50,10 @@ const sendComment = async(target,content) => {
   return false
 }
 
+
 export default{
   getPublic,
   getOwned,
   fetchSingle,
-  sendComment
+  sendInfo
 }
