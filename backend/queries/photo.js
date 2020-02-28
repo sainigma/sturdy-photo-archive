@@ -72,11 +72,12 @@ const getSingle = async (username, id) => {
           photos.id,
           photos.name,
           photos.description,
-          array[date_part('epoch', timerange[1]),date_part('epoch', timerange[2])] as daterange,
+          array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
           row_to_json(locations.*) as location,
           owner.username as owner,
           uploader.username as uploader,
-          labeluuids_to_names(labels) as labels
+          labeluuids_to_names(labels) as labels,
+          commentuuids_to_comments(photos.comments) as comments
         from photos
         left join locations on(photos.location = locations.id)
         left join users owner on(photos.owner = owner.id)
@@ -84,35 +85,12 @@ const getSingle = async (username, id) => {
       where photos.id = '${params.id}'
  `)
   }
-  const fetchComments = (params) => {
-    return getQuery(`
-      select username, content, date_part('epoch',timestamp) as timestamp from users, comments
-      where users.id in(
-        select userid from comments
-        where comments.id in(
-          select
-          unnest(comments)
-          from photos
-          where photos.id = '${params.id}'
-        )
-      )
-      and comments.id in(
-        select unnest(comments)
-        from photos
-        where photos.id = '${params.id}'
-      )
-    `)
-  }
-
 
   if (username) {
     let photoInfo = await photosFromQuery(getFullInfoQuery, { username, id })
     if (photoInfo) {
-      const comments = await photosFromQuery(fetchComments, {id})
-      if( comments ){
-        photoInfo[0].comments = await JSON.parse(JSON.stringify(comments))
-        return photoInfo
-      }
+      console.log(photoInfo)
+      return photoInfo
     }
   }
   return await photosFromQuery(getFullInfoQuery, { id })
