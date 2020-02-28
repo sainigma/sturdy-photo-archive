@@ -20,4 +20,5 @@
 | 25.2 | 8 | Käyttöliittymän suunnittelua. Editointi- ja tarkastelunäkymä yksittäisille kuville. Responsiivisuuden hiomista. Custom ikoneita ja font-awesomesta pois siirtymisen alustamista. Reducer appstaten seurantaan.
 | 26.2 | 9 | Ikonien autogenerointi blenderistä suoraan tiedostoihin. Editointiosion tyylejä hiottu, osion osia tehty modulaarisimmiksi. SQL:n kanssa taistelua, editoriin haetaan nyt tietoa esimerkiksi kommenttien muodossa. Kommentteja voi lisätä ja ne päivittyy näkymään automaattisesti.
 | 27.2 | 7 | Loginin reduceria refaktoroitu, login onnistuu myös localstoragen kautta, vanhan tokenin oikeellisuuden testaamiseen tehty uusi route. Kuvien ja sijaintien alkuhaun dispatch siirretty kuva- ja sijaintireducereista loginista vastaavaan user reduceriin. Front lähettää labeleita ja backend osaa prosessoida ne. PSQL:ssä harjoiteltu funktioiden käyttöä, queryt on nyt tiiviimpiä ja enemmän abstrakteja.
-| yht   | 112 | | 
+| 28.2 | 1 | Lisää PSQL -funktioita, backendiä refaktoroitu vastaamaan tätä. Backendin moniosaisia queryjä supistettu yksiosaisiksi.
+| yht   | 113 | | 

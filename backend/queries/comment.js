@@ -35,21 +35,10 @@ const addNew = async(username,target,content) => {
   }
   const fetchComments = (params) => {
     return getQuery(`
-      select username, content, date_part('epoch',timestamp) as timestamp from users, comments
-      where users.id in(
-        select userid from comments
-        where comments.id in(
-          select
-          unnest(comments)
-          from photos
-          where photos.id = '${params.target}'
-        )
-      )
-      and comments.id in(
-        select unnest(comments)
+      select
+        commentuuids_to_comments(comments) as comments
         from photos
-        where photos.id = '${params.target}'
-      )
+      where photos.id = '${params.target}'
     `)
   }
 
@@ -64,7 +53,7 @@ const addNew = async(username,target,content) => {
             try{
               const newcomments = await fetchComments({target})
               if( newcomments.rowCount > 0 ){
-                return newcomments.rows
+                return newcomments.rows[0].comments
               }
             }catch(error){}
           }
