@@ -76,7 +76,7 @@ const getSingle = async (username, id) => {
           row_to_json(locations.*) as location,
           owner.username as owner,
           uploader.username as uploader,
-          labeluuids_to_names(labels) as labels,
+          labeluuids_to_labels(labels) as labels,
           commentuuids_to_comments(photos.comments) as comments
         from photos
         left join locations on(photos.location = locations.id)
@@ -89,7 +89,6 @@ const getSingle = async (username, id) => {
   if (username) {
     let photoInfo = await photosFromQuery(getFullInfoQuery, { username, id })
     if (photoInfo) {
-      console.log(photoInfo)
       return photoInfo
     }
   }

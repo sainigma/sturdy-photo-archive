@@ -39,7 +39,6 @@ photoRouter.get('/:id', async(req,res,next)=>{
     const result = await photoQuery.getSingle(username,id)
     if( result ){
       console.log(`${username} fetched image info`)
-      console.log(result)
       res.json({result}).status(200).end()
     }
   }

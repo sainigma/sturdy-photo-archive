@@ -40,7 +40,7 @@ const addNew = async(username,target,content) => {
         or username_to_uuid('${params.username}') = uploader
         or username_to_uuid('${params.username}') = any (people) 
       )
-      returning id
+      returning labeluuids_to_labels(labels) as labels
     `)
   }
 
@@ -53,6 +53,9 @@ const addNew = async(username,target,content) => {
     const id = labelQuery.rows[0].id
     //console.log(`${username}, ${target}, ${id}`)
     result = await appendLabelToTarget({username, target, id})
+    if( result.rowCount > 0 ){
+      result = result.rows[0].labels
+    }
   }
   return result
 }

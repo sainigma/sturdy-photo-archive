@@ -22,6 +22,20 @@
   overflow:hidden;
 }
 
+.imageeditorsectioncontent{
+  width:95%;
+  float:left;
+  max-height: 95%;
+  overflow-y: auto;
+  margin-left:1em;
+  margin-bottom:1em;
+}
+.imageeditorsection{
+  width:100%;
+  float:left;
+  position:relative;
+}
+
 .sectionheader{
   position: relative;
   float:left;

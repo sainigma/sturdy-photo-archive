@@ -30,19 +30,6 @@
   margin-top:0.4em;
   margin-left:4em;
 }
-.imageeditorsectioncontent{
-  width:100%;
-  float:left;
-  max-height: 95%;
-  overflow-y: auto;
-  margin-left:1em;
-  margin-bottom:1em;
-}
-.imageeditorsection{
-  width:100%;
-  float:left;
-  position:relative;
-}
 
 .commentfield{
   display:flex;
