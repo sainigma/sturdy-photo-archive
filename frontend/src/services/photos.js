@@ -22,7 +22,8 @@ const getOwned = async(newuser) => {
   return false
 }
 
-const fetchSingle = async(id, user) => {
+const fetchSingle = async(id, userOut) => {
+  let user = userOut ? userOut : getUser()
   let response
   try{
     response = await axios.get(`http://localhost:3001/api/photos/${id}`, config(user))

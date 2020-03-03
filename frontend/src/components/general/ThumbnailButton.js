@@ -16,13 +16,18 @@ const ThumbnailButton = (props) => {
     props.changeView( event.target.attributes.type.value, options )
   }
 
+  const specialStyle = props.thumbnailOnClick ? {cursor:'pointer'} : {}
+  const previousView = props.appendix ? props.appendix : ''
+
   return (
     <div className='divpreview' onMouseOver={imgOver} onMouseOut={imgExit}>
-      <IconButton type='imageEditor' icon="edit" className="previewleftbutton" visibility={props.user.token!==''?visibility:'none'} onClick={showDialog}/>
-      <IconButton type='imageViewer' icon="view" className="previewrightbutton" visibility={visibility} onClick={showDialog}/>
+      <IconButton type={`imageEditor${previousView}`} icon="edit" className="previewleftbutton" visibility={props.user.token!==''?visibility:'none'} onClick={showDialog}/>
+      <IconButton type={`imageViewer`} icon="view" className="previewrightbutton" visibility={visibility} onClick={props.thumbnailOnClick ? props.thumbnailOnClick : showDialog}/>
       <img
         className='imgpreview'
         src={'http://localhost:3001/photos/' + props.photo.id + 'thumb.' + props.photo.filetype}
+        style={specialStyle}
+        onClick={props.thumbnailOnClick ? props.thumbnailOnClick : null}
       />
     </div>
   )

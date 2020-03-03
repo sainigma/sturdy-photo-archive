@@ -7,6 +7,7 @@ import LoadingScreen from './components/LoadingScreen'
 import MainScreen from './components/MainScreen'
 import ImageEditor from './components/ImageEditor'
 import ImageViewer from './components/ImageViewer'
+import FilmStrip from './components/FilmStrip'
 import {initializeUser} from './reducers/userReducer'
 import {getOwnedPhotos} from './reducers/photoReducer'
 import {getAllLocations} from './reducers/locationReducer'
@@ -34,8 +35,9 @@ const App = (props) => {
     <>
       <div className="container scroller">
         <LoadingScreen visibility={props.notify.loading} messages={props.notify.messages}/>
-        <ImageEditor visibility={props.appstate.currentView==="imageEditor"} photo={props.appstate.options.photo} />
-        <ImageViewer visibility={props.appstate.currentView==="imageViewer"} photo={props.appstate.options.photo} />
+        <ImageViewer visibility={props.appstate.currentView.includes("imageViewer")} photo={props.appstate.options.photo} />
+        <FilmStrip visibility={props.appstate.currentView.includes('filmstrip')} />
+        <ImageEditor visibility={props.appstate.currentView.includes("imageEditor")} photo={props.appstate.options.photo} />
         <div className="container scroller">
           <MainScreen visibility={props.loggedIn} photos={props.photos} locations={props.locations}/>
           <div className="rightsidebar">

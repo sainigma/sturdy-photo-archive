@@ -27,11 +27,10 @@ const photoReducer = (state=initialState, action) => {
       return newState
     }
   }else if( action.type === 'CHANGEVIEW' ){
-    
     if( action.newView === 'home' ){
       newState.selected = {}
-    }else if( action.newView === 'imageEditor' && action.response ){
-      console.log( action.response )
+      newState.previous = undefined
+    }else if( action.newView.includes('imageEditor') && action.response){
       newState.selected = action.response
     }
     return newState
@@ -41,6 +40,9 @@ const photoReducer = (state=initialState, action) => {
   }else if( action.type === 'appendLabels' ){
     newState.selected.labels = action.labels
     return newState
+  }else if( action.type === 'UPDATESELECTED' ){
+    newState.selected = action.response
+    return newState
   }
   return state
 }
@@ -49,11 +51,27 @@ export const initializePhotos = () => {
   return async dispatch => {
     const response = await photoService.getPublic()
     if( response ){
-      console.log(response)
       dispatch({
         type:'initializePublic',
         photos:response.data.photos,
         locations:response.data.locations
+      })
+    }else{
+      dispatch({
+        type:'ERROR'
+      })
+    }
+  }
+}
+
+export const updateSelected = (photoId,user) => {
+  return async dispatch => {
+    const response = await photoService.fetchSingle(photoId, user)
+    if( response ){
+      console.log( response.data.result[0] )
+      dispatch({
+        type: 'UPDATESELECTED',
+        response: response.data.result[0]
       })
     }else{
       dispatch({
