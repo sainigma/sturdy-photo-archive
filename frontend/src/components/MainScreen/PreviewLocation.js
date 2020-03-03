@@ -13,7 +13,12 @@ const PreviewLocation = (props) => {
     <div className="horizontalScrollerContainer scroller">
       <div className="horizontalScroller">
         {photosToShow.map( photo =>
-          <ThumbnailButton photo={photo} key={photo.id}/>
+          <ThumbnailButton 
+            photo={photo}
+            key={photo.id}
+            thumbnailOnClick={props.thumbnailOnClick}
+            appendix={props.appendix}
+          />
         )}
       </div>
     </div></>

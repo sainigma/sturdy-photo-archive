@@ -3,7 +3,7 @@
 
 | päivä | aika | mitä tein  |
 | :----:|:-----| :-----|
-| 9.12. | 6| Projektin alustus ja suunnittelu, PostgreSQL:ään tutustumista |
+| 9.12 | 6| Projektin alustus ja suunnittelu, PostgreSQL:ään tutustumista |
 | 11.12| 6 | psql conffaus, tietokantojen luonti ja niiden dokumentointi, kts. [schemaDocumentation](./psql/schemaDocumentation.md)|
 | 12.12 | 7 | Backendiin routeja kirjautumiseen, näiden dokumentointia, kts. [userRoutes.md](./backend/userRoutes.md)
 | 16.12 | 6 | Frontendin alustus, käyttäjän luonti ja verifiointi
@@ -21,4 +21,5 @@
 | 26.2 | 9 | Ikonien autogenerointi blenderistä suoraan tiedostoihin. Editointiosion tyylejä hiottu, osion osia tehty modulaarisimmiksi. SQL:n kanssa taistelua, editoriin haetaan nyt tietoa esimerkiksi kommenttien muodossa. Kommentteja voi lisätä ja ne päivittyy näkymään automaattisesti.
 | 27.2 | 7 | Loginin reduceria refaktoroitu, login onnistuu myös localstoragen kautta, vanhan tokenin oikeellisuuden testaamiseen tehty uusi route. Kuvien ja sijaintien alkuhaun dispatch siirretty kuva- ja sijaintireducereista loginista vastaavaan user reduceriin. Front lähettää labeleita ja backend osaa prosessoida ne. PSQL:ssä harjoiteltu funktioiden käyttöä, queryt on nyt tiiviimpiä ja enemmän abstrakteja.
 | 28.2 | 2 | Lisää PSQL -funktioita, backendiä refaktoroitu vastaamaan tätä. Backendin moniosaisia queryjä supistettu yksiosaisiksi. Tunnisteiden hakeminen ja lisääminen toimii nyt frontpuolellakin.
-| yht   | 114 | | 
+| 3.3 | 3 | Tunnisteiden klikkaaminen kuvanäkymässä aukaisee hakunäkymän jossa kuvia voi avata samalla logiikalla kuin päänäkymässäkin. Sovelluksen tilasta pidetään kirjaa uusia näkymiä availlessa ja sulkunappi siirtää edelliseen näkymään kotinäkymään palauttamisen sijaan.
+| yht   | 117 | | 

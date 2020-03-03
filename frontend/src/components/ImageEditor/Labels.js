@@ -2,13 +2,22 @@ import React,{useState} from 'react'
 import SectionToggler from '../general/SectionToggler'
 import IconButton from '../general/IconButton'
 import Input from '../general/Input'
+import { connect } from 'react-redux'
+import { changeView } from './../../reducers/appStateReducer'
 
 const Label = (props) => {
   const [labelName,setLabelName] = useState('')
   const [newLabel, setNewLabel] = useState(false)
 
-  const activateLabeler = () => {
-    setNewLabel(true)
+  const labelClicker = () => {
+    if( props.label.id === '-1' ){
+      setNewLabel(true)
+      console.log("moi!")
+    }else{
+      props.changeView('filmstrip',{
+        searchterms:[ { type:'label', id:props.label.id } ]
+      })
+    }
   }
   const modifyLabel = (event) => {
     setLabelName(event.target.value)
@@ -22,7 +31,7 @@ const Label = (props) => {
     <>
         { !newLabel || props.label.id !== '-1' 
           ? <div className="labelcontainer">
-              <div className="labeltitle" onClick={activateLabeler}>
+              <div className="labeltitle" onClick={labelClicker}>
                 {props.label.name}
               </div>
               <div className="labelcloser">
@@ -50,45 +59,6 @@ const Labels = (props) => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed)
   }
-  const labels2 = props.labels ? props.labels : [
-    {
-      id: '1',
-      name: 'nature'
-    },
-    {
-      id: '213',
-      name: 'forest'
-    },
-    {
-      id: '321',
-      name: 'sunset'
-    },
-    {
-      id: '12',
-      name: 'nature'
-    },
-    {
-      id: '2132',
-      name: 'forest'
-    },
-    {
-      id: '3212',
-      name: 'sunset'
-    },
-    {
-      id: '122',
-      name: 'nature'
-    },
-    {
-      id: '21322',
-      name: 'forest'
-    },
-    {
-      id: '32122',
-      name: 'sunset'
-    },
-    
-  ]
 
   const labels = props.labels ? props.labels : []
   return (
@@ -99,11 +69,11 @@ const Labels = (props) => {
       toggleCollapsed={toggleCollapsed}
     >
       <div>
-        {labels.map(label => <Label key={label.id} label={label} />)}
+        {labels.map(label => <Label key={label.id} label={label} changeView={props.changeView}/>)}
         <Label newLabel={props.newLabel} label={{ id: '-1', target:props.id, name: 'Create new' }} />
       </div>
     </SectionToggler>
   )
 }
 
-export default Labels
+export default connect(null,{changeView})(Labels)

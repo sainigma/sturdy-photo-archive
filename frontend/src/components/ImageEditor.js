@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Comments from './general/Comments'
 import Labels from './ImageEditor/Labels'
 import Closer from './general/Closer'
 import { connect } from 'react-redux'
 import {changeView} from './../reducers/appStateReducer'
-import {newLabel} from './../reducers/photoReducer'
+import {newLabel,updateSelected} from './../reducers/photoReducer'
 import Location from './ImageEditor/Location'
 import Info from './ImageEditor/Info'
 
@@ -27,12 +27,17 @@ const RightContainer = (props) => {
 
 const ImageEditor = (props) => {
   if( !props.visibility )return(<></>)
+
+  useEffect( ()=>{
+    props.updateSelected(props.photo.id)
+  },[])
+
   const id = props.photo.id
   const filetype = props.photo.filetype
   const url = 'http://localhost:3001/photos/'
 
   const goHome = (event) => {
-    props.changeView('home',{})
+    props.changeView('previous',{})
   }
   const fileurl = `${url}${id}.${filetype}`
   return(
@@ -63,5 +68,5 @@ const mapStateToProps = (state) => {
     selected:state.photos.selected,
   }
 }
-export default connect(mapStateToProps,{changeView,newLabel})(ImageEditor)
+export default connect(mapStateToProps,{changeView,newLabel,updateSelected})(ImageEditor)
 //<Labels collapsed={true} album={true} labels={props.selected.albums}/>
