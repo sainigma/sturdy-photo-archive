@@ -12,10 +12,10 @@ const Label = (props) => {
   const labelClicker = () => {
     if( props.label.id === '-1' ){
       setNewLabel(true)
-      console.log("moi!")
     }else{
+      const searchterms = [ ...props.previousLabels, { type:'label', id:props.label.id, name:props.label.name }]
       props.changeView('filmstrip',{
-        searchterms:[ { type:'label', id:props.label.id } ]
+        searchterms
       })
     }
   }
@@ -60,6 +60,13 @@ const Labels = (props) => {
     setCollapsed(!collapsed)
   }
 
+  console.log(props.previous)
+  let previousLabels = []
+  const previousLength = props.previous.length
+  if( previousLength > 0 && props.previous[previousLength-1].currentView === 'filmstrip' ){
+    previousLabels = props.previous[previousLength-1].options.searchterms
+  }
+
   const labels = props.labels ? props.labels : []
   return (
     <SectionToggler
@@ -69,11 +76,28 @@ const Labels = (props) => {
       toggleCollapsed={toggleCollapsed}
     >
       <div>
-        {labels.map(label => <Label key={label.id} label={label} changeView={props.changeView}/>)}
-        <Label newLabel={props.newLabel} label={{ id: '-1', target:props.id, name: 'Create new' }} />
+        {
+          labels.map(label =>
+          <Label
+            key={label.id}
+            label={label}
+            changeView={props.changeView}
+            previousLabels={previousLabels}
+          />)
+        }
+        <Label
+          newLabel={props.newLabel}
+          label={{ id: '-1', target:props.id, name: 'Create new' }} 
+        />
       </div>
     </SectionToggler>
   )
 }
 
-export default connect(null,{changeView})(Labels)
+const mapStateToProps = (state) => {
+  return{
+    previous:state.appstate.previous,
+  }
+}
+
+export default connect(mapStateToProps,{changeView})(Labels)

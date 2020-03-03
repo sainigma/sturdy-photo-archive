@@ -14,6 +14,10 @@ body{
   position: absolute;
   overflow: auto;
 }
+.filmstripPreview{
+  width:100%;
+  height:calc(100% - 13em);
+}
 .rightsidebar{
   position:absolute;
   right:10px;

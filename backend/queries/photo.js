@@ -95,8 +95,37 @@ const getSingle = async (username, id) => {
   return await photosFromQuery(getFullInfoQuery, { id })
 }
 
+const search = async (username,labels,locations) => {
+  const searchQuery = (params) => {
+    return getQuery(`
+      select
+        id,
+        filetype,
+        equirectangular,
+        location 
+      from photos as p
+      where (${labelConditions}) and (${locationConditions})
+    `)
+  }
+  const buildConditions = (terms, table) => {
+    if( terms && terms.length > 0 ){
+      const size = terms.length
+      let result = ''
+      for( let i=0; i<size; i++ ){
+        result+=`'${terms[i].id}' = ${table} or `
+      }
+      return result.slice(0,-4)
+    }else return 'true'
+  }
+  const labelConditions = buildConditions(labels,'any(p.labels)')
+  const locationConditions = buildConditions(locations,'p.location')
+
+  return await photosFromQuery(searchQuery, labelConditions, locationConditions)
+}
+
 module.exports = {
   getPublic,
   getOwnedByUser,
-  getSingle
+  getSingle,
+  search
 }
