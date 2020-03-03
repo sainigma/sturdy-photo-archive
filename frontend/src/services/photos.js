@@ -34,14 +34,14 @@ const fetchSingle = async(id, userOut) => {
   return false
 }
 
-const sendInfo = async(target,content,type) => {
+const sendInfo = async(target,content,type,additive) => {
   const user = getUser()
   if( !user )return false
   let response
   let formData = new FormData()
   formData.append("target",target)
   formData.append("content",content)
-  //console.log(`${target} ${content}`)
+  formData.append("additive",additive)
   try{
     response = await axios.post(`http://localhost:3001/api/info/${type}`, formData, config(user))
     return response

@@ -32,7 +32,13 @@ const photoReducer = (state=initialState, action) => {
   }else if( action.type === 'CHANGEVIEW' ){
     if( action.newView === 'home' || action.newView === 'previous' ){
       newState.selected = {}
-    }return newState
+      if( action.newView === 'home' ){
+        console.log("koti!")
+        newState.searchresult = []
+      }
+    }
+    return newState
+
   }else if( action.type === 'appendComments' ){
     newState.selected.comments = action.comments
     return newState
@@ -44,7 +50,6 @@ const photoReducer = (state=initialState, action) => {
     return newState
   }else if( action.type === 'searchresults' ){
     newState.searchresult = action.searchresult
-    console.log(newState)
     return newState
   }
   return state
@@ -102,7 +107,7 @@ export const getOwnedPhotos = (user) => {
 
 export const sendComment = (target, content) => {
   return async dispatch => {
-    const response = await photoService.sendInfo(target, content, 'comment')
+    const response = await photoService.sendInfo(target, content, 'comment', true)
     if( response ){
       const comments = response.data.comments
       dispatch({
@@ -118,7 +123,7 @@ export const sendComment = (target, content) => {
 
 export const newLabel = (target, content) => {
   return async dispatch => {
-    const response = await photoService.sendInfo(target, content, 'label')
+    const response = await photoService.sendInfo(target, content, 'label', true)
     if( response ){
       const labels = response.data.labels
       dispatch({

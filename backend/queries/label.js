@@ -34,7 +34,7 @@ const addNew = async(username,target,content) => {
       update photos
       set labels = array_append(labels,'${params.id}')
       where id = '${params.target}'
-      and '${params.id}' != any (labels)
+      and (labels is null or '${params.id}' != any (labels))
       and(
         username_to_uuid('${params.username}') = owner
         or username_to_uuid('${params.username}') = uploader
@@ -43,15 +43,15 @@ const addNew = async(username,target,content) => {
       returning labeluuids_to_labels(labels) as labels
     `)
   }
-
+  console.log("moi!")
   let result = false
   let labelQuery = await getExistingLabel({content})
   if( !labelQuery.rowCount > 0 ){
-    labelQuery = await createNewLabel({content})
+    labelQuery = await createNewLabel({content}) //toimii
   }
   if( labelQuery.rowCount > 0 ){
     const id = labelQuery.rows[0].id
-    //console.log(`${username}, ${target}, ${id}`)
+    console.log
     result = await appendLabelToTarget({username, target, id})
     if( result.rowCount > 0 ){
       result = result.rows[0].labels
