@@ -35,6 +35,13 @@ const ImageEditor = (props) => {
   const id = props.photo.id
   const filetype = props.photo.filetype
   const url = 'http://localhost:3001/photos/'
+  const hideRightContainer = (
+    props.selected === undefined || 
+    props.selected.daterange === undefined || 
+    props.selected.owner === undefined ||
+    props.selected.uploader === undefined
+  ) ? true : false
+
 
   const goHome = (event) => {
     props.changeView('previous',{})
@@ -44,19 +51,22 @@ const ImageEditor = (props) => {
     <div className="imgeditorbackground">
       <Closer onClick={goHome}/>
       <div className="imgeditorcontainer">
-        {JSON.stringify(props.selected)}
         <LeftContainer fileurl={fileurl}/>
         <RightContainer>
-          <Info
-            name={props.selected.name}
-            daterange={props.selected.daterange}
-            owner={props.selected.owner}
-            uploader={props.selected.uploader}
-          />
-          <Location location={props.selected.location}/>
-          
-          <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
-          <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
+          { hideRightContainer ? <></> :
+          <>
+            <Info
+              name={props.selected.name}
+              daterange={props.selected.daterange}
+              owner={props.selected.owner}
+              uploader={props.selected.uploader}
+            />
+            <Location location={props.selected.location}/>
+            
+            <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
+            <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
+          </>
+          }
         </RightContainer>
       </div>
     </div>

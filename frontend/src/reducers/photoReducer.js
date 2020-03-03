@@ -4,6 +4,7 @@ const initialState = {
   selected:{},
   public:[],
   owned:[],
+  searchresult:[],
   initialized:false
 }
 
@@ -13,12 +14,14 @@ const photoReducer = (state=initialState, action) => {
     return{
       public:action.photos,
       owned:[],
+      searchresult:[],
       initialized:true
     }
   }else if( action.type === 'initializeUser'){
     return{
       public:JSON.parse(JSON.stringify(state.public)),
       owned:action.owned,
+      searchresult:[],
       initialized:true
     }
   }else if( action.type === 'UPLOADPHOTO'){
@@ -27,13 +30,9 @@ const photoReducer = (state=initialState, action) => {
       return newState
     }
   }else if( action.type === 'CHANGEVIEW' ){
-    if( action.newView === 'home' ){
+    if( action.newView === 'home' || action.newView === 'previous' ){
       newState.selected = {}
-      newState.previous = undefined
-    }else if( action.newView.includes('imageEditor') && action.response){
-      newState.selected = action.response
-    }
-    return newState
+    }return newState
   }else if( action.type === 'appendComments' ){
     newState.selected.comments = action.comments
     return newState
@@ -42,6 +41,10 @@ const photoReducer = (state=initialState, action) => {
     return newState
   }else if( action.type === 'UPDATESELECTED' ){
     newState.selected = action.response
+    return newState
+  }else if( action.type === 'searchresults' ){
+    newState.searchresult = action.searchresult
+    console.log(newState)
     return newState
   }
   return state
@@ -68,7 +71,7 @@ export const updateSelected = (photoId,user) => {
   return async dispatch => {
     const response = await photoService.fetchSingle(photoId, user)
     if( response ){
-      console.log( response.data.result[0] )
+      //console.log( response.data.result[0] )
       dispatch({
         type: 'UPDATESELECTED',
         response: response.data.result[0]
@@ -126,6 +129,23 @@ export const newLabel = (target, content) => {
     dispatch({
       type:'ERROR'
     })
+  }
+}
+
+export const conductSearch = (options) => {
+  return async dispatch => {
+    const response = await photoService.search(options)
+    if( response && response.status === 200 ){
+      const searchresult = response.data.searchresult
+      dispatch({
+        type:'searchresults',
+        searchresult
+      })
+    }else{
+      dispatch({
+        type:'previous'
+      })
+    }
   }
 }
 

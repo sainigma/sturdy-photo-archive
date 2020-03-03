@@ -25,8 +25,6 @@ photoRouter.get('/user', async(req,res,next)=>{
 })
 
 photoRouter.get('/:id', async(req,res,next)=>{
-  //const username = await Security.checkHeaders(req,false)
-
   let username
   try{
     username = await Security.checkHeaders(req,false)
@@ -42,6 +40,36 @@ photoRouter.get('/:id', async(req,res,next)=>{
       res.json({result}).status(200).end()
     }
   }
+  res.status(400).end()
+})
+
+photoRouter.post('/search', async(req,res,next)=>{
+  const getType = (terms, type) => {
+    return terms.filter( term => term.type===type )
+  }
+
+  let username
+  try{
+    username = await Security.checkHeaders(req,false)
+  }catch(error){
+    username=undefined
+  }
+
+  if( username ){
+    //sanitize!
+    const searchterms = JSON.parse(req.body.searchterms)
+
+    const labels = getType(searchterms,'label')
+    const locations = getType(searchterms,'location')
+    if( labels || locations ){
+      const result = await photoQuery.search(username,labels,locations)
+      if( result ){
+        console.log(result)
+        res.json({searchresult:result}).status(200).end()
+      }
+    }
+  }
+  
   res.status(400).end()
 })
 

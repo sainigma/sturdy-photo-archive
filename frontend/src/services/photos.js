@@ -41,7 +41,7 @@ const sendInfo = async(target,content,type) => {
   let formData = new FormData()
   formData.append("target",target)
   formData.append("content",content)
-  console.log(`${target} ${content}`)
+  //console.log(`${target} ${content}`)
   try{
     response = await axios.post(`http://localhost:3001/api/info/${type}`, formData, config(user))
     return response
@@ -51,10 +51,23 @@ const sendInfo = async(target,content,type) => {
   return false
 }
 
+const search = async(options) => {
+  const user = getUser()
+  if( !user )return false
+  let response
+  let formData = new FormData()
+  formData.append("searchterms",JSON.stringify(options.searchterms))
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/search`, formData, config(user))
+    return response
+  }catch(error){}
+  return false
+}
 
 export default{
   getPublic,
   getOwned,
   fetchSingle,
-  sendInfo
+  sendInfo,
+  search
 }
