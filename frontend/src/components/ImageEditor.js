@@ -44,7 +44,9 @@ const ImageEditor = (props) => {
 
 
   const goHome = (event) => {
-    props.changeView('previous',{})
+    if( props.previous.length === 1 ){
+      props.changeView('home',{})
+    }else props.changeView('previous',{})
   }
   const fileurl = `${url}${id}.${filetype}`
   return(
@@ -76,6 +78,7 @@ const ImageEditor = (props) => {
 const mapStateToProps = (state) => {
   return{
     selected:state.photos.selected,
+    previous:state.appstate.previous
   }
 }
 export default connect(mapStateToProps,{changeView,newLabel,updateSelected})(ImageEditor)

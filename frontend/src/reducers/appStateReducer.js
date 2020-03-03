@@ -32,8 +32,9 @@ const appStateReducer = (state = initialState, action) => {
       newState.currentView = action.newView
       newState.options = action.options
     }
-    if( newState.currentView === undefined ){
-      newState.currentView = 'home'
+    if( newState.currentView === 'home' ){
+      console.log("kodissa")
+      newState.previous = []
       newState.options = {}
     }
   }else if( action.type === 'initializeUser' ){

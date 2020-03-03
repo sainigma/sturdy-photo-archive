@@ -21,8 +21,6 @@ const App = (props) => {
 
   useEffect( ()=>{
     props.initializeUser()
-    //props.initializePhotos()
-    console.log(props.appstate)
   },[])
 
   if( !userInit && loggedIn ){

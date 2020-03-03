@@ -64,7 +64,6 @@ photoRouter.post('/search', async(req,res,next)=>{
     if( labels || locations ){
       const result = await photoQuery.search(username,labels,locations)
       if( result ){
-        console.log(result)
         res.json({searchresult:result}).status(200).end()
       }
     }

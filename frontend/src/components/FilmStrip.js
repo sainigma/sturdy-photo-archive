@@ -12,26 +12,33 @@ const PreviewImage = (props) => {
 }
 
 const FilmStrip = (props) => {
-  if( !props.visibility )return(<></>)
+  const [searchtermLength, setSearchtermsLength] = useState(0)
+  const [active, setActive] = useState(false)
 
-  useEffect( ()=>{
-    //props.updateSelected(props.photo.id)
-    props.conductSearch(props.options)
-  },[])
+  if( !props.visibility ){
+    if( active ){
+      setActive(false)
+    }
+    return(<></>)
+  }
 
   const goHome = () => {
     props.changeView('previous',{})
   }
 
-  console.log(props.options.searchterms)
+  if( !active || ( props.options.searchterms !== undefined && props.options.searchterms.length !== searchtermLength ) ){
+    props.conductSearch(props.options)
+    setSearchtermsLength( props.options.searchterms.length )
+    setActive(true)
+  }
+
   const testi = (event) => {
     console.log("moi!")
   }
 
   let searchterms = ''
-  console.log(props.options.searchterms)
   if( props.options.searchterms ){
-    searchterms = props.options.searchterms.map( term => term.name+', ' ).toString().slice(0,-2)
+    searchterms = props.options.searchterms.map( term => term.name+' ' )
   }
  
   return(
