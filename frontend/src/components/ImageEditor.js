@@ -43,14 +43,20 @@ const ImageEditor = (props) => {
   ) ? true : false
 
 
-  const goHome = (event) => {
+  const goBack = (event) => {
     if( props.previous.length === 1 ){
       props.changeView('home',{})
     }else props.changeView('previous',{})
   }
+
+  const goHome = () => {
+    props.changeView('home',{})
+  }
+
   const fileurl = `${url}${id}.${filetype}`
   return(
     <div className="imgeditorbackground">
+      <Closer onClick={goBack} previous={true}/>
       <Closer onClick={goHome}/>
       <div className="imgeditorcontainer">
         <LeftContainer fileurl={fileurl}/>

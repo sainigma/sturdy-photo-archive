@@ -22,8 +22,12 @@ const FilmStrip = (props) => {
     return(<></>)
   }
 
-  const goHome = () => {
+  const goBack = () => {
     props.changeView('previous',{})
+  }
+
+  const goHome = () => {
+    props.changeView('home',{})
   }
 
   if( !active || ( props.options.searchterms !== undefined && props.options.searchterms.length !== searchtermLength ) ){
@@ -43,6 +47,7 @@ const FilmStrip = (props) => {
  
   return(
     <div className="imgeditorbackground">
+      <Closer onClick={goBack} previous={true}/>
       <Closer onClick={goHome}/>
       <PreviewImage/>
       <PreviewLocation 
