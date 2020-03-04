@@ -89,6 +89,19 @@ export const updateSelected = (photoId,user) => {
   }
 }
 
+export const changeLocation = (targetDiv, imgdivId, destination) => {
+  return async dispatch => {
+    const photoId = imgdivId.slice(10)
+    const response = await photoService.changeLocation(photoId,destination.id)
+    if( response.status === 200 ){
+      targetDiv.appendChild( document.getElementById(imgdivId) )
+    }
+    dispatch({
+      type:'changeLocation'
+    })
+  }
+}
+
 export const getOwnedPhotos = (user) => {
   return async dispatch => {
     const response = await photoService.getOwned(user)

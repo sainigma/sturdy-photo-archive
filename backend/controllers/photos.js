@@ -72,4 +72,31 @@ photoRouter.post('/search', async(req,res,next)=>{
   res.status(400).end()
 })
 
+photoRouter.post('/modify', async(req,res,next) => {
+  let username
+  try{
+    username = await Security.checkHeaders(req,false)
+  }catch(error){
+    username=undefined
+  }
+  let result = false
+  if( username ){
+    //sanitize!
+    const type = req.body.type
+    
+    switch(type){
+      case 'location':
+        const photoId = req.body.photoId
+        const destination = req.body.destination
+        result = await photoQuery.changeLocation( username, photoId, destination )
+        break
+      default:
+        break
+    }
+  }
+
+  if( result ) res.status(200).end()
+  res.status(400).end()
+})
+
 module.exports = photoRouter

@@ -6,14 +6,16 @@ import { conductSearch } from './../reducers/photoReducer'
 import PreviewLocation from './MainScreen/PreviewLocation'
 
 const PreviewImage = (props) => {
+  if( !props.photo )return(<div className="filmstripPreview" ></div>)
   return(
-    <div className="filmstripPreview" ></div>
+    <div className="filmstripPreview" >{props.photo.id}</div>
   )
 }
 
 const FilmStrip = (props) => {
   const [searchtermLength, setSearchtermsLength] = useState(0)
   const [active, setActive] = useState(false)
+  const [selectedPhoto, setSelectedPhoto] = useState(undefined)
 
   if( !props.visibility ){
     if( active ){
@@ -37,7 +39,10 @@ const FilmStrip = (props) => {
   }
 
   const testi = (event) => {
-    console.log("moi!")
+    const targetId = event.target.attributes.value
+    const foundPhoto = props.photos.searchresult.find( photo => photo.id === targetId )
+    setSelectedPhoto(foundPhoto)
+    console.log(props.photos.searchresult)
   }
 
   let searchterms = ''
@@ -49,12 +54,15 @@ const FilmStrip = (props) => {
     <div className="imgeditorbackground">
       <Closer onClick={goBack} previous={true}/>
       <Closer onClick={goHome}/>
-      <PreviewImage/>
+      <PreviewImage
+        photo={selectedPhoto}
+      />
       <PreviewLocation 
         location={{id:'searchresult',name:searchterms}}
         photos={ props.photos.searchresult }
         thumbnailOnClick={ testi }
         appendix={"filmstrip"}
+        notDraggable={true}
       />
     </div>
   )
