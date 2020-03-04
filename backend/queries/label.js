@@ -62,7 +62,6 @@ const addNew = async(username,target,content) => {
       returning labeluuids_to_labels(labels) as labels
     `)
   }
-  console.log("moi!")
   let result = false
   let labelQuery = await getExistingLabel({content})
   if( !labelQuery.rowCount > 0 ){

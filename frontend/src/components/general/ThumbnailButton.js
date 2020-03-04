@@ -5,6 +5,7 @@ import IconButton from './IconButton'
 
 const ThumbnailButton = (props) => {
   const [visibility, setVisibility] = useState('none')
+  const [className, setClassName] = useState('divpreview')
   const imgOver = () => { if (visibility === 'none') setVisibility('block') }
   const imgExit = () => { if (visibility === 'block') setVisibility('none') }
 
@@ -16,11 +17,32 @@ const ThumbnailButton = (props) => {
     props.changeView( event.target.attributes.type.value, options )
   }
 
+  const dragStart = (event) => {
+    if( !props.notDraggable ){
+      console.log( props.notDraggable )
+      event.dataTransfer.setData("imagepreviewtransfer", event.target.id)
+      setClassName('divpreviewhidden')
+    }
+  }
+  const dragEnd = (event) => {
+    if( !props.notDraggable ){
+      setClassName('divpreview')
+    }
+  }
+
   const specialStyle = props.thumbnailOnClick ? {cursor:'pointer'} : {}
   const previousView = props.appendix ? props.appendix : ''
 
   return (
-    <div className='divpreview' onMouseOver={imgOver} onMouseOut={imgExit}>
+    <div 
+    className={className}
+    onMouseOver={imgOver}
+    onMouseOut={imgExit}
+    onDragStart={dragStart}
+    onDragEnd={dragEnd}
+    id={`divpreview${props.photo.id}`}
+    draggable={ props.notDraggable ? 'false' : 'true' }
+    >
       <IconButton type={`imageEditor${previousView}`} icon="edit" className="previewleftbutton" visibility={props.user.token!==''?visibility:'none'} onClick={showDialog}/>
       <IconButton type={`imageViewer`} icon="view" className="previewrightbutton" visibility={visibility} onClick={props.thumbnailOnClick ? props.thumbnailOnClick : showDialog}/>
       <img
@@ -28,6 +50,8 @@ const ThumbnailButton = (props) => {
         src={'http://localhost:3001/photos/' + props.photo.id + 'thumb.' + props.photo.filetype}
         style={specialStyle}
         onClick={props.thumbnailOnClick ? props.thumbnailOnClick : null}
+        draggable='false'
+        value={props.photo.id}
       />
     </div>
   )

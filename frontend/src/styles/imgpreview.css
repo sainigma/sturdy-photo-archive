@@ -1,9 +1,25 @@
-.divpreview{
+.divpreview,.divpreviewhidden{
   position: relative;
   padding-top:1em;
   padding-bottom:1em;
   height: 10em;
   display:inline-block;
+}
+.divpreviewhidden{
+  animation-name: hidediv;
+  animation-duration: 0.5s;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+.divpreviewhidden:active{
+  cursor: grabbing;
+}
+.divpreview:active{
+  cursor: grabbing;
+}
+@keyframes hidediv {
+  0% { opacity: 1; transform: scale(1);}
+  100% { opacity:0.5; transform: scale(0); }
 }
 .imgpreview{
   padding:0px;
