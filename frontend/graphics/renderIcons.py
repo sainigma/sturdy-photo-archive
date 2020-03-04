@@ -10,7 +10,8 @@ icons = [
     'angledown',
     'angleup',
     'angleright',
-    'angleleft'
+    'angleleft',
+    'back'
 ]
 output='//output/'
 filetype='.png'

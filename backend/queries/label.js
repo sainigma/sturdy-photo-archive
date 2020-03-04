@@ -7,6 +7,25 @@ const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
 }
 
+const remove = async(username,target,id) => {
+  const removeLabel = (params) => {
+    return getQuery(`
+    update photos
+    set labels = array_remove(labels,'${params.id}')
+    where id = '${params.target}'
+    and(
+      username_to_uuid('${params.username}') = owner
+      or username_to_uuid('${params.username}') = uploader
+      or username_to_uuid('${params.username}') = any (people) 
+    )
+    returning labeluuids_to_labels(labels) as labels
+    `)
+  }
+  const result = await removeLabel({username, target, id})
+  if( result.rowCount > 0 ) return result.rows[0].labels
+  return false
+}
+
 const addNew = async(username,target,content) => {
 
   const getExistingLabel = (params) => {
@@ -61,5 +80,6 @@ const addNew = async(username,target,content) => {
 }
 
 module.exports = {
-  addNew
+  addNew,
+  remove
 }

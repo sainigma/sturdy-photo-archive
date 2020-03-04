@@ -23,12 +23,21 @@ infoRouter.post('/label', async(req,res,next)=>{
   //sanitize!
   const target = req.body.target
   const content = req.body.content
-  if( username && target && content ){
-    try{
-      const response = await LabelQuery.addNew(username,target,content)
-      console.log(response)
-      res.json({labels:response}).status(200).end()
-    }catch(error){}
+  const additive = req.body.additive
+  if( username && target && content && additive){
+    if( additive === 'true' ){
+      try{
+        const response = await LabelQuery.addNew(username,target,content)
+        console.log(response)
+        if( response ) res.json({labels:response}).status(200).end()
+      }catch(error){}
+    }else{
+      try{
+        const response = await LabelQuery.remove(username,target,content)
+        console.log(response)
+        if( response ) res.json({labels:response}).status(200).end()
+      }catch(error){}
+    }
   }
   return res.status(400).end()
 })

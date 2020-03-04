@@ -42,7 +42,7 @@ const photoReducer = (state=initialState, action) => {
   }else if( action.type === 'appendComments' ){
     newState.selected.comments = action.comments
     return newState
-  }else if( action.type === 'appendLabels' ){
+  }else if( action.type === 'updateLabels' ){
     newState.selected.labels = action.labels
     return newState
   }else if( action.type === 'UPDATESELECTED' ){
@@ -123,11 +123,27 @@ export const sendComment = (target, content) => {
 
 export const newLabel = (target, content) => {
   return async dispatch => {
-    const response = await photoService.sendInfo(target, content, 'label', true)
-    if( response ){
+    const response = await photoService.sendInfo(target, content, 'label', 'true')
+    if( response.status === 200 ){
       const labels = response.data.labels
       dispatch({
-        type:'appendLabels',
+        type:'updateLabels',
+        labels
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
+export const removeLabel = (target, labelid) => {
+  return async dispatch => {
+    const response = await photoService.sendInfo(target, labelid, 'label', 'false')
+    if( response.status === 200 ){
+      const labels = response.data.labels
+      dispatch({
+        type:'updateLabels',
         labels
       })
     }

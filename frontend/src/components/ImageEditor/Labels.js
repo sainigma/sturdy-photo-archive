@@ -4,6 +4,7 @@ import IconButton from '../general/IconButton'
 import Input from '../general/Input'
 import { connect } from 'react-redux'
 import { changeView } from './../../reducers/appStateReducer'
+import { removeLabel } from './../../reducers/photoReducer'
 
 const Label = (props) => {
   const [labelName,setLabelName] = useState('')
@@ -19,6 +20,10 @@ const Label = (props) => {
       })
     }
   }
+  const removeLabel = () => {
+    props.removeLabel(props.target, props.label.id)
+  }
+
   const modifyLabel = (event) => {
     setLabelName(event.target.value)
   }
@@ -36,7 +41,7 @@ const Label = (props) => {
               </div>
               <div className="labelcloser">
                 {props.label.id !== '-1'
-                  ? <IconButton icon="close" invert={true}/>
+                  ? <IconButton icon="close" onClick={removeLabel} invert={true}/>
                   : <></>
                 }
               </div>
@@ -80,7 +85,9 @@ const Labels = (props) => {
           <Label
             key={label.id}
             label={label}
+            target={props.id}
             changeView={props.changeView}
+            removeLabel={props.removeLabel}
             previousLabels={previousLabels}
           />)
         }
@@ -99,4 +106,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{changeView})(Labels)
+export default connect(mapStateToProps,{changeView,removeLabel})(Labels)
