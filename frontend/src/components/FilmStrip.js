@@ -6,9 +6,15 @@ import { conductSearch } from './../reducers/photoReducer'
 import PreviewLocation from './MainScreen/PreviewLocation'
 
 const PreviewImage = (props) => {
-  if( !props.photo )return(<div className="filmstripPreview" ></div>)
+  if( !props.photo && !props.default )return(<div className="filmstripPreview" ></div>)
+  const photo = props.photo ? props.photo : props.default
   return(
-    <div className="filmstripPreview" >{props.photo.id}</div>
+    <div className="filmstripPreview" >
+      <img
+        className="imgeditorimg"
+        src={`http://localhost:3001/photos/${photo.id}.${photo.filetype}`}
+      />
+    </div>
   )
 }
 
@@ -35,14 +41,14 @@ const FilmStrip = (props) => {
   if( !active || ( props.options.searchterms !== undefined && props.options.searchterms.length !== searchtermLength ) ){
     props.conductSearch(props.options)
     setSearchtermsLength( props.options.searchterms.length )
+    setSelectedPhoto( props.photos.searchresult[0] )
     setActive(true)
   }
 
   const testi = (event) => {
-    const targetId = event.target.attributes.value
-    const foundPhoto = props.photos.searchresult.find( photo => photo.id === targetId )
+    const targetId = event.target.attributes.value.value
+    const foundPhoto = props.photos.searchresult.find( ({id}) => id === targetId )
     setSelectedPhoto(foundPhoto)
-    console.log(props.photos.searchresult)
   }
 
   let searchterms = ''
@@ -56,6 +62,7 @@ const FilmStrip = (props) => {
       <Closer onClick={goHome}/>
       <PreviewImage
         photo={selectedPhoto}
+        default={ props.photos.searchresult[0] }
       />
       <PreviewLocation 
         location={{id:'searchresult',name:searchterms}}
