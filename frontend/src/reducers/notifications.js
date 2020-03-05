@@ -1,5 +1,5 @@
 const initialState = {
-  loading:false,
+  loading:true,
   messages:[]
 }
 
@@ -33,7 +33,12 @@ const notificationsReducer = (state=initialState,action) => {
       loading:true,
       messages:state.messages
     }
-  }else if( action.type === 'LOGIN' ){
+  }else if( action.type === 'initializeUser' || action.type === 'initializePublic' ){
+    return{
+      loading:false,
+      messages:[ ...state.messages ]
+    }
+  }else if( action.type === 'failedLogin' ){
 
     const content = ( (status)=>{
       switch(status){
@@ -42,12 +47,9 @@ const notificationsReducer = (state=initialState,action) => {
         case 403:
           return 'Account unverified, check your email for verification message'
         default:
-          return 'Login successful!'
+          return 'Something weird happened!'
       }
-    })(action.content.status)
-
-    const success = action.content.status === 200 ? true : false
-
+    })(action.status)
     return{
       loading:false,
       messages:[
@@ -55,7 +57,7 @@ const notificationsReducer = (state=initialState,action) => {
           autodismiss:true,
           timestamp:Date.now(),
           content,
-          success
+          success:false
         },
         ...state.messages,
       ]

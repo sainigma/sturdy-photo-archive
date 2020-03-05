@@ -6,6 +6,7 @@ import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
 import {uploadFile} from './../reducers/uploadReducer'
 import {notifyUploadStart} from './../reducers/notifications'
+import Closer from './general/Closer'
 
 const PreviewImage = (props) => {
   if( props.file && props.visibility ){
@@ -32,9 +33,13 @@ const CreatePhoto = (props) => {
   const [lastModified, setLastModified] = useState(0)
 
   if( !props.visibility )return(<></>)
+
   const toggleUploadActive = () => {
     props.setSingleUpload(!uploadActive)
     setUploadActive(!uploadActive)
+    if( uploadActive ){
+      props.exitMenu()
+    }
   }
 
   if( !uploadActive ){
@@ -70,18 +75,6 @@ const CreatePhoto = (props) => {
     )
   }
 
-  const Cancel = (props) =>{
-    if( !props.visibility )return(<></>)
-    const runToggleActive = () => {
-      toggleUploadActive()
-    }
-    return(
-      <div className="cancelbutton">
-        <Input type="button" icon="null" value="cancel" onClick={runToggleActive}/>
-      </div>
-    )
-  }
-
   if( hasFile && lastModified === 0 ){
     let internalLastModified = fileToUpload.lastModified
     setLastModified( internalLastModified )
@@ -90,11 +83,11 @@ const CreatePhoto = (props) => {
   return(
     <div className="createPhotoContainer">
       {!hasFile ? <h3>Single upload</h3> : <></>}
-      <Cancel visibility={!showSubmenu && hasFile}/>
+      <Closer onClick={toggleUploadActive}/>
       <PreviewImage visibility={!showSubmenu} file={fileToUpload}/>
       <FileSelector visibility={!showSubmenu} parentHasFile={hasFile} setHasFile={setHasFile} setFileToUpload={setFileToUpload} multiple={false}/>
       <ToggleSubMenu visibility={!showSubmenu} value="Options" setSubmenuVisibility={setShowSubmenu} />
-      <Options visibility={showSubmenu} toggleVisibility={setShowSubmenu} hasLocation={hasLocation} setHasLocation={setHasLocation}/>
+      <Options hasFile={hasFile} visibility={showSubmenu} toggleVisibility={setShowSubmenu} hasLocation={hasLocation} setHasLocation={setHasLocation}/>
       {hasFile ? <Save form={props.form} visibility={!showSubmenu}/> : <></>}
     </div>
   )

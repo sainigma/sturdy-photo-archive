@@ -118,7 +118,7 @@ export const login = (username,password) => {
     }else{
       dispatch({
         type: 'failedLogin',
-        status: spawnedUser.user.status
+        status: spawnedUser.status
       })
     }
   }

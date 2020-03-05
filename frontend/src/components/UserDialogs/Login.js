@@ -8,11 +8,15 @@ import Notify from './../general/Notify'
 const Login = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  if( props.visibility === false )return(<></>)
+  const [active, setActive] = useState(false)
+  if( props.visibility === false ){
+    if( active ) setActive(false)
+    return(<></>)
+  }
 
   const handleLogin = async(event) => {
     event.preventDefault()
+    setActive(true)
     props.login(username,password)
   }
 
@@ -33,7 +37,7 @@ const Login = (props) => {
       <form onSubmit={handleLogin}>
           <Input type={"text"} icon={"user"} label={"username"} name={"username"} onChange={handleChange}/>
           <Input type={"password"} icon={"key"} label={"password"} name={"password"} onChange={handleChange}/>
-          <Notify message={ props.messages.length>0 ? props.messages[0] : null} />
+          { active ? <Notify message={ props.messages.length>0 ? props.messages[0] : null} /> : <></> }
           <Input type={"submit"} icon={"null"} label={" "} value={"Login"}/>
       </form>
     </div>

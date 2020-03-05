@@ -1,22 +1,20 @@
 import React, {useState,useEffect} from 'react'
 import { connect } from 'react-redux'
-import CreatePhoto from './components/CreatePhoto'
-import MassUpload from './components/MassUpload'
 import UserDialogs from './components/UserDialogs'
 import LoadingScreen from './components/LoadingScreen'
 import MainScreen from './components/MainScreen'
 import ImageEditor from './components/ImageEditor'
 import ImageViewer from './components/ImageViewer'
 import FilmStrip from './components/FilmStrip'
+import HamburgerMenu from './components/HamburgerMenu'
 import {initializeUser} from './reducers/userReducer'
 import {getOwnedPhotos} from './reducers/photoReducer'
 import {getAllLocations} from './reducers/locationReducer'
+import Upload from './components/Uploads'
 
 
 const App = (props) => {
   const [loggedIn,setLoggedIn] = useState(false)
-  const [singleUpload, setSingleUpload] = useState(false)
-  const [massUpload, setMassUpload] = useState(false)
   const [userInit, setUserInit] = useState(false)
 
   useEffect( ()=>{
@@ -38,11 +36,9 @@ const App = (props) => {
         <ImageEditor visibility={props.appstate.currentView.includes("imageEditor")} photo={props.appstate.options.photo} />
         <div className="container scroller">
           <MainScreen visibility={props.loggedIn} photos={props.photos} locations={props.locations}/>
-          <div className="rightsidebar">
-            <UserDialogs visibility={!props.loggedIn} setLoggedIn={setLoggedIn}/>
-            <CreatePhoto visibility={props.loggedIn&&!massUpload} setSingleUpload={setSingleUpload}/>
-            <MassUpload visibility={props.loggedIn&&!singleUpload} setMassUpload={setMassUpload}/>
-          </div>
+          <UserDialogs visibility={!props.loggedIn} setLoggedIn={setLoggedIn}/>
+          <HamburgerMenu/>
+          <Upload loggedIn={props.loggedIn}/>
         </div>
       </div>
     </>
