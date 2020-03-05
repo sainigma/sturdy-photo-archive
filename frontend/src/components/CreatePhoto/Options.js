@@ -76,6 +76,7 @@ const Options = (props) => {
   return(
     <>
       {props.lastmodified}
+      { props.hasFile ? <h3>Single upload</h3> : <></> }
       <NameSelector visibility={ !(showSubmenu || locationPickerActive) } initial={newName} setNewName={setNewName}/>
       <LocationPicker visibility={!showSubmenu} setLocationPickerActive={setLocationPickerActive} locationChanged={locationChanged} setLocationChanged={setLocationChanged}/>
       <DatePicker visibility={ !(showSubmenu || locationPickerActive) } toggleFetch={toggleFetch} changeDate={changeDate} fetchDate={fetchDate} startDate={startDate} endDate={endDate}/>

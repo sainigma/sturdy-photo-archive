@@ -4,6 +4,7 @@ import Login from './UserDialogs/Login'
 import CreateUser from './UserDialogs/CreateUser'
 import Input from './general/Input'
 import { reset } from './../reducers/userReducer'
+import IconButton from './general/IconButton'
 
 const ShowLoginControls = (props) => {
 
@@ -36,11 +37,22 @@ const ShowLoginControls = (props) => {
 const UserDialogs = (props) => {
   const [showLogin, setShowLogin] = useState(false)
   const [showCreateUser, setShowCreateUser] = useState(false)
+  const [active, setActive] = useState(false)
 
   if( props.visibility === false ) return (<></>)
 
+  const toggleActive = () => {
+    setActive(!active)
+  }
+
+  if( !active ) return (
+    <div className="mainactioniconright">
+      <IconButton icon='key' onClick={toggleActive}/>
+    </div>
+  )
+
   return(
-    <div>
+    <div className="rightsidebar">
       <Login visibility={showLogin} setLoggedIn={props.setLoggedIn} />
       <CreateUser visibility={showCreateUser}/>
       <ShowLoginControls 

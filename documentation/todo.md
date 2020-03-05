@@ -12,3 +12,4 @@
     - Inforuudun sijaintiin samanlainen UI kuin labeleihin. Jos sijainti löytyy -> napit: sijainti + muokkaa, jos ei löydy -> nappi: luo uusi
 ## Bugit:
 - Labelin poistaminen ei toimi jos labeleita on vain yksi
+- Thumbnailin luonti kuvalle epäonnistuu joskus

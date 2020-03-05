@@ -21,26 +21,48 @@ body{
   width:100%;
   height:calc(100% - 13em);
 }
-.rightsidebar{
+.rightsidebar,.leftsidebar{
   position:absolute;
-  right:10px;
   color:black;
   background: rgba(207, 207, 207, 0.8);
   box-shadow: 0em 0px 3em #242424;
   border-radius: 4px;
-  margin-top:5px;
+  margin-top:0.75em;
   padding:5px;
   width: calc(100% - 25px);
 }
+.rightsidebar{
+  right:0.75em;
+}
+.leftsidebar{
+  left:0.75em;
+}
+
 .floatLeft{
   float:left;
 }
 @media only screen and (min-width: 500px) {
-  .rightsidebar{
+  .rightsidebar,.leftsidebar{
     width: 500px;
     padding: 10px;
   }
 }
+.mainactioniconleft,.mainactioniconright,.mainactioniconleft2nd{
+  position:absolute;
+  width:5em;
+  height:5em;
+  top: 0.75em;
+}
+.mainactioniconleft{
+  left:1em;
+}
+.mainactioniconleft2nd{
+  left:6.5em;
+}
+.mainactioniconright{
+  right: 1em;
+}
+
 
 .mainscreen{
   width:100%;

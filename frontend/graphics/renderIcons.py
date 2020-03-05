@@ -11,7 +11,11 @@ icons = [
     'angleup',
     'angleright',
     'angleleft',
-    'back'
+    'back',
+    'hamburger',
+    'key',
+    'upload',
+    'user'
 ]
 output='//output/'
 filetype='.png'
