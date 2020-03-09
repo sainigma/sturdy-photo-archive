@@ -23,7 +23,6 @@ const FileSelector = (props) => {
     setFileToUpload(newFile)
     setFileName(newFile.name)
     setVisibleDate( `${pad(date.getDate())}/${pad(date.getMonth()+1)}/${date.getFullYear()} - ${pad( date.getHours())}:${pad( date.getMinutes())}`  )
-    //setFileName( `${newFile.name} ${pad(date.getDate())}/${pad(date.getMonth()+1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}` )
     setHasFile(true)
     props.setHasFile(true)
   }
