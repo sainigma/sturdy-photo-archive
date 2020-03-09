@@ -24,4 +24,5 @@
 | 3.3 | 8 | Tunnisteiden klikkaaminen kuvanäkymässä aukaisee hakunäkymän jossa kuvia voi avata samalla logiikalla kuin päänäkymässäkin. Sovelluksen tilasta pidetään kirjaa uusia näkymiä availlessa ja sulkunappi siirtää edelliseen näkymään kotinäkymään palauttamisen sijaan. Hakutuloksien hakeminen ja näyttäminen toteutettu, toimii myös useiden tunnisteiden ja sijaintien kanssa. Pienten bugien korjausta: Tunnisteiden lisääminen kuviin joista tunnisteet puuttuu toimii nyt oikein. FilmStrip -komponentti pysyy paremmin kärryillä appstatesta.
 | 4.3 | 8 | Labeleiden poistaminen toimii. Appstatessa voi liikkua sekä historiassa taaksepäin, että palata suoraan alkuun. Kuvien sijaintiparametria pystyy nyt siirtämään kuvastrippien välillä draggaamalla. Tutustumista css-animaatioihin. FilmStrip -komponentissa nyt toimiva preview. Readme:n ja todo-listan kirjoitusta.
 | 5.3 | 3 | Käyttöliittymän yhtenäistämistä ja tyylien hiomista, appin ja reducerien pientä refaktorointia.
-| yht   | 131 | | 
+| 9.3 | 4 | Rangesliderin tekoa.
+| yht   | 138 | | 
