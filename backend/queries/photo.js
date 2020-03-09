@@ -25,6 +25,7 @@ const getPublic = async () => {
         photos.id,
         filetype,
         equirectangular,
+        array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
         case when friend = -1 then location else null end as location
       from photos 
 
@@ -48,6 +49,7 @@ const getOwnedByUser = async (username) => {
         id,
         filetype,
         equirectangular,
+        array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
         location 
       from photos as photo
       
@@ -124,6 +126,7 @@ const search = async (username,labels,locations) => {
         id,
         filetype,
         equirectangular,
+        array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
         location 
       from photos as p
       where (${labelConditions}) and (${locationConditions})

@@ -15,7 +15,8 @@ icons = [
     'hamburger',
     'key',
     'upload',
-    'user'
+    'user',
+    'arrowup',
 ]
 output='//output/'
 filetype='.png'
