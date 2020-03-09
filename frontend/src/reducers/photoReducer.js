@@ -8,6 +8,15 @@ const initialState = {
   initialized:false
 }
 
+const dateInRange = (daterange, range) => {
+  return(
+    (daterange[0] > range.bottom
+    && daterange[0] < range.top)
+    || (daterange[1] > range.bottom
+    && daterange[1] < range.top)
+  )
+}
+
 const photoReducer = (state=initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
   if( action.type === 'initializePublic' ){
@@ -38,7 +47,6 @@ const photoReducer = (state=initialState, action) => {
       }
     }
     return newState
-
   }else if( action.type === 'appendComments' ){
     newState.selected.comments = action.comments
     return newState
@@ -50,6 +58,18 @@ const photoReducer = (state=initialState, action) => {
     return newState
   }else if( action.type === 'searchresults' ){
     newState.searchresult = action.searchresult
+    return newState
+  }else if( action.type === 'setRange' ){
+    newState.owned = state.owned.map( photo =>{
+      let result = photo
+      result.visible = dateInRange(photo.daterange, action.range)
+      return result
+    })
+    newState.public = state.public.filter( photo =>{
+      let result = photo
+      result.visible = dateInRange(photo.daterange, action.range)
+      return result
+    })
     return newState
   }
   return state
@@ -179,6 +199,16 @@ export const conductSearch = (options) => {
       dispatch({
         type:'previous'
       })
+    }
+  }
+}
+
+export const setRange = (bottom,top) => {
+  return{
+    type:'setRange',
+    range:{
+      bottom: new Date(bottom,1,1).getTime()/1000,
+      top: new Date(top+1,1,1).getTime()/1000
     }
   }
 }

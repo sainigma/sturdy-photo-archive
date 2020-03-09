@@ -12,9 +12,14 @@ fileRouter.post('/upload', async(req,res,next)=>{
   }
 
   const moveFile = async(photo) => {
-    await req.files.image.mv( `./public/photos/${photo.id}.${filetype}`, (error) => {
-      if( error ) return res.status(500).send(error)
-    })
+    try{
+      await req.files.image.mv( `./public/photos/${photo.id}.${filetype}`, (error) => {
+        if( error ) return res.status(500).send(error)
+      })
+    }catch(error){
+      console.log(error)
+    }
+    
     await generateThumbnail(photo)
     return res.json({"photo":photo}).status(200).end()
   }
