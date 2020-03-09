@@ -31,8 +31,8 @@ const ThumbnailButton = (props) => {
   }
 
   const specialStyle = props.thumbnailOnClick ? {cursor:'pointer'} : {}
+  const imgClassName = props.photo.equirectangular ? 'imgpreviewpanorama' : 'imgpreview'
   const previousView = props.appendix ? props.appendix : ''
-
   return (
     <div 
     className={className}
@@ -46,7 +46,7 @@ const ThumbnailButton = (props) => {
       <IconButton type={`imageEditor${previousView}`} icon="edit" className="previewleftbutton" visibility={props.user.token!==''?visibility:'none'} onClick={showDialog}/>
       <IconButton type={`imageViewer`} icon="view" className="previewrightbutton" visibility={visibility} onClick={props.thumbnailOnClick ? props.thumbnailOnClick : showDialog}/>
       <img
-        className='imgpreview'
+        className={imgClassName}
         src={'http://localhost:3001/photos/' + props.photo.id + 'thumb.' + props.photo.filetype}
         style={specialStyle}
         onClick={props.thumbnailOnClick ? props.thumbnailOnClick : null}

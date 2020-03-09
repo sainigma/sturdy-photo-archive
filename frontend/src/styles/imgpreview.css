@@ -21,7 +21,7 @@
   0% { opacity: 1; transform: scale(1);}
   100% { opacity:0.5; transform: scale(0); }
 }
-.imgpreview{
+.imgpreview,.imgpreviewpanorama{
   padding:0px;
   margin-top:0;
   margin-bottom:0;
@@ -29,6 +29,10 @@
   margin-right:0;
   height: 10em;
   border-radius:4px;
+}
+.imgpreviewpanorama{
+  width: 10em;
+  border-radius: 50%;
 }
 .iconbutton{
   z-index: 999;
