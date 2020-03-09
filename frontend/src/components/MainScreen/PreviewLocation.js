@@ -6,7 +6,7 @@ import {changeLocation} from './../../reducers/photoReducer'
 const PreviewLocation = (props) => {
   const filterPhotos = (photos,location) => {
     if( location.id === 'searchresult' ) return photos
-    return photos.filter( photo => { return photo.location === location.id } )
+    return photos.filter( photo => { return (photo.location === location.id && (photo.visible === undefined || photo.visible === true) ) } )
   }
 
   const onDrop = (event) => {

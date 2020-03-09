@@ -9,6 +9,7 @@ const uploadFile = async(user, fileToUpload, labels) => {
   formData.append("username", user.username)
   formData.append("labels", JSON.stringify( labels ))
 
+  console.log(labels)
   let response
   try{
     response = await axios.post( 'http://localhost:3001/api/files/upload', formData, config(user))
