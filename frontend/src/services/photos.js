@@ -80,11 +80,28 @@ const changeLocation = async(photoId, destination) => {
   return false
 }
 
+const createLocation = async(photoId, location) => {
+  const user = getUser()
+  if( !user )return false
+  let response
+  let formData = new FormData()
+
+  formData.append("type","newlocation")
+  formData.append("photoId",photoId)
+  formData.append("location",JSON.stringify(location))
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    return response
+  }catch(error){}
+  return false
+}
+
 export default{
   getPublic,
   getOwned,
   fetchSingle,
   sendInfo,
   search,
-  changeLocation
+  changeLocation,
+  createLocation
 }

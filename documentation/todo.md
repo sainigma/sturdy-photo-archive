@@ -10,8 +10,8 @@
 
     Pienet
     - Inforuudun sijaintiin samanlainen UI kuin labeleihin. Jos sijainti löytyy -> napit: sijainti + muokkaa, jos ei löydy -> nappi: luo uusi
+    - Piilota sijaintistrip näkyvistä kun siltä lähtee viimeinen jäsen ( näin käy jos sijainti poistetaan editorista, dragatessa ei )
 ## Bugit:
 - Labelin poistaminen ei toimi jos labeleita on vain yksi
-- Thumbnailin luonti kuvalle epäonnistuu joskus
 - Menuikonit klikattavissa vaikka ne olisi elementtien alla
 - Locationpickerin sulku jättää reduceriin vanhan arvon jos forminluonti jää vaiheeseen

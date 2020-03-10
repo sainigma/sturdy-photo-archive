@@ -49,7 +49,7 @@ const Location = (props) => {
 
   const changeLocation = (location) => {
     setLocation(location)
-    props.changeLocation( props.photoId, location.id, location.name )
+    props.changeLocation( props.photoId, location )
     setSelectActive(false)
   }
 

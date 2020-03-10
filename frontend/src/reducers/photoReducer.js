@@ -68,7 +68,6 @@ const photoReducer = (state=initialState, action) => {
         }
       })
       newState.selected.location = action.location
-      console.log(newState)
       return newState
     case 'UPDATESELECTED':
       newState.selected = action.response
@@ -124,21 +123,39 @@ export const updateSelected = (photoId,user) => {
 
 
 
-export const changeLocation = (photoId, destinationId, destinationName) => {
-  if( destinationId !== undefined ){
+export const changeLocation = ( photoId, location ) => {
+  if( ( location !== null && location.id !== undefined ) || location === null ){
+    console.log("olemassaoleva")
+    console.log( location )
     return async dispatch => {
       const response = await photoService.changeLocation(
-        photoId, destinationId !== null ? destinationId : 'null' )
-      if( response.status === 200 ){
+        photoId, location !== null ? location.id : 'null' )
+
+      if( response && response.status === 200 ){
         dispatch({
           type:'updateLocation',
           id: photoId,
-          location: destinationId !== null 
+          location: location !== null 
             ? {
-                id: destinationId,
-                name: destinationName
+                id: location.id,
+                name: location.name
               }
             : null
+        })
+      }else{
+        dispatch({
+          type:'ERROR'
+        })
+      }
+    }
+  }else{
+    return async dispatch => {
+      const response = await photoService.createLocation( photoId, location )
+      if( response && response.status === 200 ){
+        dispatch({
+          type:'updateLocation',
+          id: photoId,
+          location: response.data.location
         })
       }else{
         dispatch({
@@ -231,7 +248,9 @@ export const conductSearch = (options) => {
   return async dispatch => {
     const response = await photoService.search(options)
     if( response && response.status === 200 ){
+      
       const searchresult = response.data.searchresult
+      console.log(searchresult)
       dispatch({
         type:'searchresults',
         searchresult

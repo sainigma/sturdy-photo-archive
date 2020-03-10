@@ -29,6 +29,16 @@ const locationReducer = (state=initialState, action) => {
       return {
         locations: action.locations
       }
+    case 'updateLocation':
+      let newState = JSON.parse(JSON.stringify(state))
+      const locationExists = newState.locations.find( location => location.id === action.location.id )
+      if( locationExists === undefined ){
+        newState.locations = [
+          ...newState.locations,
+          action.location
+        ]
+      }
+      return newState
     default:
       break
   }
