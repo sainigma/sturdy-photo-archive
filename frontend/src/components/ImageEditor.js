@@ -42,7 +42,6 @@ const ImageEditor = (props) => {
     props.selected.uploader === undefined
   ) ? true : false
 
-
   const goBack = (event) => {
     if( props.previous.length === 1 ){
       props.changeView('home',{})
@@ -68,7 +67,7 @@ const ImageEditor = (props) => {
               owner={props.selected.owner}
               uploader={props.selected.uploader}
             />
-            <Location location={props.selected.location} locations={props.locations}/>
+            <Location photoId={props.selected.id} location={props.selected.location} locations={props.locations}/>
             
             <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
             <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>

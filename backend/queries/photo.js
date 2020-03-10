@@ -98,7 +98,7 @@ const getSingle = async (username, id) => {
 }
 
 const changeLocation = async(username, id, location) => {
-  const modifyQuery = (params) => {
+  const addLocationQuery = (params) => {
     return getQuery(`
       update photos
       set location = '${params.location}'
@@ -111,13 +111,32 @@ const changeLocation = async(username, id, location) => {
       returning id
     `)
   }
+  const removeLocationQuery = (params) => {
+    return getQuery(`
+      update photos
+      set location = null
+      where id = '${params.id}'
+      and(
+        username_to_uuid('${params.username}') = owner
+        or username_to_uuid('${params.username}') = uploader
+        or username_to_uuid('${params.username}') = any (people) 
+      )
+      returning id
+    `)
+  }
 
-  let result = await modifyQuery({username, id, location})
+  let result
+  if( location !== null ){
+    result = await addLocationQuery({username, id, location})
+  }else{
+    result = await removeLocationQuery({username, id, location})
+  }
   if( result.rowCount > 0 ){
     return true
   }
   return false
 }
+
 
 const search = async (username,labels,locations) => {
   const searchQuery = (params) => {

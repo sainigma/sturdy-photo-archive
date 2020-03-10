@@ -7,7 +7,7 @@ const MainScreen = (props) => {
   return(
     <div className="mainscreen">
       <div className="mainscreenHeader"/>
-      {locations.map( location => <PreviewLocation key={location.id} location={location} photos={ props.visibility ? props.photos.owned : props.photos.public }/> )}
+      {locations.map( location => <PreviewLocation key={location.id} location={location}/> )}
     </div>
   )
 }

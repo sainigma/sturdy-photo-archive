@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import ThumbnailButton from './../general/ThumbnailButton'
-import {changeLocation} from './../../reducers/photoReducer'
+import {changeLocationAndDiv} from './../../reducers/photoReducer'
 
 const PreviewLocation = (props) => {
   const filterPhotos = (photos,location) => {
@@ -14,11 +14,11 @@ const PreviewLocation = (props) => {
     if( !props.notDraggable ){
       const newpreview = event.dataTransfer.getData("imagepreviewtransfer")
       if( event.target.className === 'horizontalScroller' ){
-        props.changeLocation(event.target, newpreview, props.location)
+        props.changeLocationAndDiv(event.target, newpreview, props.location)
       }else if( event.target.parentElement.className === 'horizontalScroller'){
-        props.changeLocation(event.target.parentElement, newpreview, props.location)
+        props.changeLocationAndDiv(event.target.parentElement, newpreview, props.location)
       }else if( event.target.parentElement.parentElement.className === 'horizontalScroller' ){
-        props.changeLocation(event.target.parentElement.parentElement, newpreview, props.location)
+        props.changeLocationAndDiv(event.target.parentElement.parentElement, newpreview, props.location)
       }
     }
   }
@@ -30,8 +30,8 @@ const PreviewLocation = (props) => {
   const onDragLeave = (event) => {
     event.preventDefault()
   }
-
-  const photosToShow = filterPhotos(props.photos,props.location)
+  const photos = props.photos.owned.length > 0 ? props.photos.owned : props.photos.public
+  const photosToShow = filterPhotos(photos,props.location)
 
   if( photosToShow.length >0 )return(
     <>
@@ -56,4 +56,10 @@ const PreviewLocation = (props) => {
   )
   return (<></>)
 }
-export default connect(null,{changeLocation})(PreviewLocation)
+
+const mapStateToProps = (state) => {
+  return{
+    photos:state.photos
+  }
+}
+export default connect(mapStateToProps,{changeLocationAndDiv})(PreviewLocation)
