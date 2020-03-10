@@ -37,28 +37,37 @@ let initialState = {
 
 const formReducer = (state = initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
-  if( action.type === 'createPhotoLocation' ){
-    newState.createPhoto.location = action.location
-    newState.createPhoto.saved.location = true
-  }else if( action.type === 'cretePhotoOptions' ){
-    newState.createPhoto.name = action.name ? action.name : ''
-    newState.createPhoto.daterange.auto = action.daterange.auto
-    newState.createPhoto.daterange.start = action.daterange.start ? action.daterange.start : null
-    newState.createPhoto.daterange.end = action.daterange.end ? action.daterange.end : null
-    newState.createPhoto.privacy = action.privacy ? action.privacy : null
-    newState.createPhoto.saved.options = true
-  }else if( action.type === 'createPhotoSpecial' ){
-    newState.createPhoto.special = action.special
-    newState.createPhoto.saved.special = true
-  }else if( action.type === 'formlastmodified' ){
-    console.log(action.lastModified)
-    newState.createPhoto.lastModified = action.lastModified
-  }else if( action.type === 'UPLOADPHOTO' ){
-    if( action.status === 200 ){
-      console.log("create photo reset")
+
+  switch (action.type){
+    case 'createPhotoLocation':
+      newState.createPhoto.location = action.location
+      newState.createPhoto.saved.location = true
+      break
+    case 'createPhotoOptions':
+      newState.createPhoto.name = action.name ? action.name : ''
+      newState.createPhoto.daterange.auto = action.daterange.auto
+      newState.createPhoto.daterange.start = action.daterange.start ? action.daterange.start : null
+      newState.createPhoto.daterange.end = action.daterange.end ? action.daterange.end : null
+      newState.createPhoto.privacy = action.privacy ? action.privacy : null
+      newState.createPhoto.saved.options = true
+      break
+    case 'createPhotoSpecial':
+      newState.createPhoto.special = action.special
+      newState.createPhoto.saved.special = true
+      break
+    case 'formlastmodified':
+      newState.createPhoto.lastModified = action.lastModified
+      break
+    case 'UPLOADPHOTO':
+      if( action.status === 200 ){
+        newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
+        newState.createPhoto.privacy = state.createPhoto.privacy
+      }
+      break
+    case 'formreset':
       newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
       newState.createPhoto.privacy = state.createPhoto.privacy
-    }
+      break
   }
   return newState
 }
@@ -90,6 +99,12 @@ export const setOptions = (name, daterange, privacy) => {
     name,
     daterange,
     privacy
+  }
+}
+
+export const formReset = () => {
+  return{
+    type:'formreset'
   }
 }
 

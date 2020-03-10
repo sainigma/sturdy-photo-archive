@@ -52,7 +52,6 @@ const ImageEditor = (props) => {
   const goHome = () => {
     props.changeView('home',{})
   }
-
   const fileurl = `${url}${id}.${filetype}`
   return(
     <div className="imgeditorbackground">
@@ -69,7 +68,7 @@ const ImageEditor = (props) => {
               owner={props.selected.owner}
               uploader={props.selected.uploader}
             />
-            <Location location={props.selected.location}/>
+            <Location location={props.selected.location} locations={props.locations}/>
             
             <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
             <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
@@ -84,7 +83,8 @@ const ImageEditor = (props) => {
 const mapStateToProps = (state) => {
   return{
     selected:state.photos.selected,
-    previous:state.appstate.previous
+    previous:state.appstate.previous,
+    locations:state.locations.locations
   }
 }
 export default connect(mapStateToProps,{changeView,newLabel,updateSelected})(ImageEditor)

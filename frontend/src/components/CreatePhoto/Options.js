@@ -41,7 +41,7 @@ const Options = (props) => {
   const [newName, setNewName] = useState('')
   const [showSubmenu, setShowSubmenu] = useState(false)
   const [locationPickerActive, setLocationPickerActive] = useState(false)
-  const [locationChanged, setLocationChanged] = useState(false)
+  const [newLocation, setNewLocation] = useState(false)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [fetchDate, setFetchDate] = useState(true)
@@ -78,7 +78,7 @@ const Options = (props) => {
       {props.lastmodified}
       { props.hasFile ? <h3>Single upload</h3> : <></> }
       <NameSelector visibility={ !(showSubmenu || locationPickerActive) } initial={newName} setNewName={setNewName}/>
-      <LocationPicker visibility={!showSubmenu} setLocationPickerActive={setLocationPickerActive} locationChanged={locationChanged} setLocationChanged={setLocationChanged}/>
+      <LocationPicker visibility={!showSubmenu} setLocationPickerActive={setLocationPickerActive} newLocation={newLocation} setNewLocation={setNewLocation}/>
       <DatePicker visibility={ !(showSubmenu || locationPickerActive) } toggleFetch={toggleFetch} changeDate={changeDate} fetchDate={fetchDate} startDate={startDate} endDate={endDate}/>
       <PrivacySelector visibility={ !(showSubmenu || locationPickerActive) } selected={selectedPrivacy} setSelected={setSelectedPrivacy}/>
       <ToggleSubMenu visibility={ !(showSubmenu || locationPickerActive) } value="Special" setSubmenuVisibility={setShowSubmenu} />

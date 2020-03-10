@@ -4,6 +4,7 @@
   border:none;
   border-radius: 4px;
   box-sizing: border-box;
+  box-shadow: 1px 1px 5px #aaa;
 }
 .inputField[type=button],.inputField[type=submit] {
   color:white;

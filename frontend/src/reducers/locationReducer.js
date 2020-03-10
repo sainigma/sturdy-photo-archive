@@ -21,23 +21,19 @@ const initialState = {
 }
 
 const locationReducer = (state=initialState, action) => {
-  if( action.type === 'LOCATIONGET' ){
-    return {
-      locations: action.locations
-    }
-  }
-  else if( action.type === 'initializePublic'){
-    console.log("moi!")
-    return {
-      locations: action.locations
-    }
-  }
-  else if( action.type === 'initializeUser' ){
-    return{
-      locations: action.locations
-    }
+
+  switch( action.type ){
+    case 'LOCATIONGET':
+    case 'initializePublic':
+    case 'initializeUser':
+      return {
+        locations: action.locations
+      }
+    default:
+      break
   }
   return state
+  
 }
 
 export const getAllLocations = (user) => {
