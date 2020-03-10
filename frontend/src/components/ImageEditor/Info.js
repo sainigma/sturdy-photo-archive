@@ -22,7 +22,8 @@ const Info = (props) => {
       collapsed={collapsed}
       toggleCollapsed={toggleCollapsed}
     >
-      <p>Description: </p>
+      <h3>{props.name===null? 'Unnamed' : props.name}</h3>
+      <p>Description:</p>
       <p>{ props.daterange[0] === props.daterange[1] ?
         `Date: ${ trueDateStart }`:
         `Daterange: ${trueDateStart} - ${trueDateEnd}`

@@ -7,14 +7,23 @@ import {changeView} from './../reducers/appStateReducer'
 import {newLabel,updateSelected} from './../reducers/photoReducer'
 import Location from './ImageEditor/Location'
 import Info from './ImageEditor/Info'
+import PanoramaView from './ImageEditor/PanoramaView'
 
 const LeftContainer = (props) => {
-  return(
-    <div className="imgeditorleftcontainer">
-      <img className="uploadpreviewImg" src={props.fileurl}/>
-      <div className="uploadpreviewBackground" style={{backgroundImage: `url(${props.fileurl})`}}/>
-    </div>
-  )
+  if( props.selected && !props.selected.equirectangular ){
+    return(
+      <div className="imgeditorleftcontainer">
+        <img className="uploadpreviewImg" src={props.fileurl}/>
+        <div className="uploadpreviewBackground" style={{backgroundImage: `url(${props.fileurl})`}}/>
+      </div>
+    )
+  }else if( props.selected !== undefined ){
+    return(
+      <PanoramaView photo={props.selected}/>
+    )
+  }else{
+    return(<></>)
+  }
 }
 
 const RightContainer = (props) => {
@@ -57,7 +66,7 @@ const ImageEditor = (props) => {
       <Closer onClick={goBack} previous={true}/>
       <Closer onClick={goHome}/>
       <div className="imgeditorcontainer">
-        <LeftContainer fileurl={fileurl}/>
+        <LeftContainer selected={props.selected} fileurl={fileurl}/>
         <RightContainer>
           { hideRightContainer ? <></> :
           <>
