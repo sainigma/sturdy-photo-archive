@@ -18,7 +18,7 @@ const privacyObject = (related,public) => {
   }
 }
 
-const createNew = async(userId, visibility ) => {
+const createNew = async(user, visibility, useUsername ) => {
  
   const paramsToUse = () => {
     switch( Utils.varExists(visibility) ? visibility : 'private' ){
@@ -30,10 +30,12 @@ const createNew = async(userId, visibility ) => {
       return privacyObject(-1,0)
   }}
 
+  const userQuery = useUsername ? `username_to_uuid('${user}')` : `'${user}'`
+
   const newPermissionQuery = (params) => {
     return getQuery(`
       INSERT INTO permissions ( id, owner, parent, spouse, child, tangential, friend )
-      VALUES( uuid_generate_v4(), '${userId}', ${params.parent}, ${params.spouse}, ${params.child}, ${params.tangential}, ${params.friend} )
+      VALUES( uuid_generate_v4(), ${userQuery}, ${params.parent}, ${params.spouse}, ${params.child}, ${params.tangential}, ${params.friend} )
       RETURNING id
     `)
   }

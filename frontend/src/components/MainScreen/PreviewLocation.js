@@ -30,7 +30,13 @@ const PreviewLocation = (props) => {
   const onDragLeave = (event) => {
     event.preventDefault()
   }
-  const photos = props.photos.owned.length > 0 ? props.photos.owned : props.photos.public
+  console.log( props.photos )
+  let photos
+  if( props.photos === undefined ){
+    photos = props.reducerphotos.owned.length > 0 ? props.reducerphotos.owned : props.reducerphotos.public
+  }else{
+    photos = props.photos
+  }
   const photosToShow = filterPhotos(photos,props.location)
 
   if( photosToShow.length >0 )return(
@@ -59,7 +65,7 @@ const PreviewLocation = (props) => {
 
 const mapStateToProps = (state) => {
   return{
-    photos:state.photos
+    reducerphotos:state.photos
   }
 }
 export default connect(mapStateToProps,{changeLocationAndDiv})(PreviewLocation)

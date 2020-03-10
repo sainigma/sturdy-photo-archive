@@ -2,6 +2,8 @@ const { Client } = require('pg')
 const config = require('./../utils/config')
 const client = new Client(config.PSQLCONF)
 client.connect()
+const Utils = require('./../utils/utils')
+const PermissionQuery = require('./permission')
 
 const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
@@ -97,6 +99,76 @@ const getSingle = async (username, id) => {
   return await photosFromQuery(getFullInfoQuery, { id })
 }
 
+const createLocation = async(username, id, location) => {
+  const permissions = await PermissionQuery.createNew( username, ( location.privacy ? location.privacy : "private" ), true )
+
+  const insertWithCity = async() => {
+    const getCity = (city, country) => {
+      const countryQuery = country === undefined || country === '' ? `null` : `'${country}'`
+      return getQuery(`
+        select citycountry_to_uuid('${city}', ${countryQuery}) as id
+      `)
+    }
+    const createCity = (city, country) => {
+      return getQuery(`
+        insert into cities( id, name, country )
+        values( uuid_generate_v4(), '${city}', ${Utils.apostrophize(country)} )
+        returning id
+      `)
+    }
+
+    let cityId = await getCity(location.city, location.country)
+    console.log( cityId.rows[0].id )
+    if( cityId.rows[0].id === null  ){
+      cityId = await createCity(location.city, location.country)
+      if( cityId.rowCount > 0  ){
+        cityId = cityId.rows[0].id
+      }else{
+        cityId = false
+      }
+    }else if( cityId.rows[0].id !== undefined ){
+      cityId = cityId.rows[0].id
+    }else{
+      cityId = false
+    }
+    if( cityId ){
+      return getQuery(`
+      insert into locations( id, name, owner, latitude, longitude, address, postalcode, permission, city )
+      values( uuid_generate_v4(), '${location.name}', username_to_uuid('${username}'), ${Utils.apostrophize(location.latitude)}, ${Utils.apostrophize(location.longitude)}, ${Utils.apostrophize(location.address)}, ${Utils.apostrophize(location.postalcode)}, ${Utils.apostrophize(permissions)}, '${cityId}' )
+      returning id,name
+    `)
+    }
+    return false
+  }
+
+  const insertWithoutCity = () => {
+    return getQuery(`
+      insert into locations( id, name, owner, latitude, longitude, address, postalcode, permission )
+      values( uuid_generate_v4(), '${location.name}', username_to_uuid('${username}'), ${Utils.apostrophize(location.latitude)}, ${Utils.apostrophize(location.longitude)}, ${Utils.apostrophize(location.address)}, ${Utils.apostrophize(location.postalcode)}, ${Utils.apostrophize(permissions)} )
+      returning id,name
+    `)
+  }
+
+  let response = false
+  let newLocation = false
+  if( location.city === '' ){
+    response = await insertWithoutCity()
+  }else{
+    response = await insertWithCity()
+  }
+  
+  if( response && response.rowCount > 0 ){
+    newLocation = response.rows[0]
+  }
+
+
+  if( newLocation ){
+    response = await changeLocation(username, id, newLocation.id )
+  }
+
+  return newLocation
+}
+
 const changeLocation = async(username, id, location) => {
   const addLocationQuery = (params) => {
     return getQuery(`
@@ -172,5 +244,6 @@ module.exports = {
   getOwnedByUser,
   getSingle,
   search,
-  changeLocation
+  changeLocation,
+  createLocation
 }

@@ -80,7 +80,7 @@ const createFile = async(username,labelsString, checkSum, filetype) => {
 
   const createWithNewLocation = async() => {
     const newLocationId = await LocationQuery.createNew( user.id, labels.location )
-    const newPermissionId = newLocationId ? await PermissionQuery.createNew( user.id, labels.privacy ) : null
+    const newPermissionId = newLocationId ? await PermissionQuery.createNew( user.id, labels.privacy, false ) : null
     if( newLocationId && newPermissionId ){
       return await saveEntry( labels.name, user.id, newLocationId, newPermissionId )
     }
@@ -89,14 +89,14 @@ const createFile = async(username,labelsString, checkSum, filetype) => {
 
   const createWithOldLocation = async() => {
     const locationIdExists = await LocationQuery.findOne({id:labels.location.id})
-    const newPermissionId = locationIdExists ? await PermissionQuery.createNew( user.id, labels.privacy ) : null
+    const newPermissionId = locationIdExists ? await PermissionQuery.createNew( user.id, labels.privacy, false ) : null
     if( locationIdExists && newPermissionId ){
       return await saveEntry( labels.name, user.id, labels.location.id, newPermissionId )
     }
   }
 
   const createWithoutLocation = async() => {
-    const newPermissionId = await PermissionQuery.createNew( user.id, labels.privacy )
+    const newPermissionId = await PermissionQuery.createNew( user.id, labels.privacy, false )
     if( newPermissionId ){
       return await saveEntry( labels.name, user.id, null, newPermissionId )
     }

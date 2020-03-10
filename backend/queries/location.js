@@ -128,7 +128,7 @@ const createNew = async(userId, params) => {
   const address = params.address ? params.address : null
   const postalCode = params.postalCode ? params.postalCode.toString() : null
   const cityId = await getCityID( params.city, params.country )
-  const permissions = await PermissionQuery.createNew( userId, ( params.privacy ? params.privacy : "private" ) )
+  const permissions = await PermissionQuery.createNew( userId, ( params.privacy ? params.privacy : "private" ), false )
   console.log(permissions)
 
   const newLocationQuery = () => {
