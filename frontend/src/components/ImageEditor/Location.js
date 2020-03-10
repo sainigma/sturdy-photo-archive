@@ -1,14 +1,16 @@
 import React,{useState} from 'react'
+import { connect } from 'react-redux'
 import SectionToggler from '../general/SectionToggler'
 import IconButton from '../general/IconButton'
 import LocationPicker from '../CreatePhoto/LocationPicker'
+import {changeLocation} from '../../reducers/photoReducer'
 
 const LocationLabels = (props) => {
   const labelClicker = (event) => {
     props.setSelectActive(true)
   }
   const removeLabel = (event) => {
-
+    props.removeLocation()
   }
   if( props.location !== null ){
     return(
@@ -35,14 +37,20 @@ const Location = (props) => {
   const [collapsed,setCollapsed] = useState( props.location===null ? true : false )
   const [selectActive, setSelectActive] = useState(false)
   const [locationPickerActive, setLocationPickerActive] = useState(false)
-  const [newLocation, setNewLocation] = useState(false)
+  const [location, setLocation] = useState(props.location!==null ? props.location : false)
   const toggleCollapsed = () => {
     setCollapsed(!collapsed)
   }
 
-  const changeLocation = (value) => {
-    setNewLocation(value)
-    console.log("jotain tapahtui!")
+  const removeLocation = () => {
+    props.changeLocation( props.photoId, null, 'Unlabeled' )
+    setLocation(null)
+  }
+
+  const changeLocation = (location) => {
+    setLocation(location)
+    props.changeLocation( props.photoId, location.id, location.name )
+    setSelectActive(false)
   }
 
   return (
@@ -53,11 +61,11 @@ const Location = (props) => {
     >
       {
         !selectActive
-          ? <LocationLabels setSelectActive={setSelectActive} location={ props.location !== null ? props.location : {id:'-1'} }/>
-          : <LocationPicker visibility={true} setLocationPickerActive={setLocationPickerActive} newLocation={newLocation} setNewLocation={changeLocation}/>
+          ? <LocationLabels removeLocation={removeLocation} setSelectActive={setSelectActive} location={ location ? location : {id:'-1'} }/>
+          : <LocationPicker visibility={true} setLocationPickerActive={setLocationPickerActive} newLocation={location} setNewLocation={changeLocation}/>
       }
     </SectionToggler>
   )
 }
 
-export default Location
+export default connect(null,{changeLocation})(Location)

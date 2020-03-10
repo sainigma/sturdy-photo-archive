@@ -64,9 +64,12 @@ const formReducer = (state = initialState, action) => {
         newState.createPhoto.privacy = state.createPhoto.privacy
       }
       break
+    case 'updateLocation':
     case 'formreset':
       newState.createPhoto = JSON.parse(JSON.stringify(initialState.createPhoto))
       newState.createPhoto.privacy = state.createPhoto.privacy
+      break
+    case 'saveLocationForPhoto':
       break
   }
   return newState
@@ -105,6 +108,12 @@ export const setOptions = (name, daterange, privacy) => {
 export const formReset = () => {
   return{
     type:'formreset'
+  }
+}
+
+export const saveLocationForPhoto = () => {
+  return{
+    type:'saveLocationForPhoto'
   }
 }
 

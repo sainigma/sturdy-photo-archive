@@ -87,7 +87,7 @@ photoRouter.post('/modify', async(req,res,next) => {
     switch(type){
       case 'location':
         const photoId = req.body.photoId
-        const destination = req.body.destination
+        const destination = req.body.destination !== 'null' ? req.body.destination : null
         result = await photoQuery.changeLocation( username, photoId, destination )
         break
       default:

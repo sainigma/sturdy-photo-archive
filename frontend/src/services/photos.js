@@ -69,6 +69,7 @@ const changeLocation = async(photoId, destination) => {
   if( !user )return false
   let response
   let formData = new FormData()
+
   formData.append("type","location")
   formData.append("photoId",photoId)
   formData.append("destination",destination)

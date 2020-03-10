@@ -57,7 +57,19 @@ const photoReducer = (state=initialState, action) => {
     case 'searchresults':
       newState.searchresult = action.searchresult
       return newState
-    case 'saveLocationForPhoto':
+    case 'updateLocation':
+      newState.owned = newState.owned.map( photo => {
+        if( photo.id !== action.id ){
+          return photo
+        }else{
+          let modifiedPhoto = JSON.parse(JSON.stringify(photo))
+          modifiedPhoto.location = action.location !== null ? action.location.id : null
+          return modifiedPhoto
+        }
+      })
+      newState.selected.location = action.location
+      console.log(newState)
+      return newState
     case 'UPDATESELECTED':
       newState.selected = action.response
       return newState
@@ -110,10 +122,38 @@ export const updateSelected = (photoId,user) => {
   }
 }
 
-export const changeLocation = (targetDiv, imgdivId, destination) => {
+
+
+export const changeLocation = (photoId, destinationId, destinationName) => {
+  if( destinationId !== undefined ){
+    return async dispatch => {
+      const response = await photoService.changeLocation(
+        photoId, destinationId !== null ? destinationId : 'null' )
+      if( response.status === 200 ){
+        dispatch({
+          type:'updateLocation',
+          id: photoId,
+          location: destinationId !== null 
+            ? {
+                id: destinationId,
+                name: destinationName
+              }
+            : null
+        })
+      }else{
+        dispatch({
+          type:'ERROR'
+        })
+      }
+    }
+  }
+}
+
+export const changeLocationAndDiv = (targetDiv, imgdivId, destination) => {
   return async dispatch => {
     const photoId = imgdivId.slice(10)
-    const response = await photoService.changeLocation(photoId,destination.id)
+    const response = await photoService.changeLocation(
+      photoId, destination.id !== null ? destination.id : 'null' )
     if( response.status === 200 ){
       targetDiv.appendChild( document.getElementById(imgdivId) )
     }
