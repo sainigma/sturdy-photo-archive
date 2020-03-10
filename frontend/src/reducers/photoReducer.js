@@ -19,58 +19,60 @@ const dateInRange = (daterange, range) => {
 
 const photoReducer = (state=initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
-  if( action.type === 'initializePublic' ){
-    return{
-      public:action.photos,
-      owned:[],
-      searchresult:[],
-      initialized:true
-    }
-  }else if( action.type === 'initializeUser'){
-    return{
-      public:JSON.parse(JSON.stringify(state.public)),
-      owned:action.owned,
-      searchresult:[],
-      initialized:true
-    }
-  }else if( action.type === 'UPLOADPHOTO'){
-    if( action.status === 200 ){
-      newState.owned = [ ...newState.owned, action.data.photo ]
-      return newState
-    }
-  }else if( action.type === 'CHANGEVIEW' ){
-    if( action.newView === 'home' || action.newView === 'previous' ){
-      newState.selected = {}
-      if( action.newView === 'home' ){
-        console.log("koti!")
-        newState.searchresult = []
+
+  switch(action.type){
+    case 'initializePublic':
+      return{
+        public:action.photos,
+        owned:[],
+        searchresult:[],
+        initialized:true
       }
-    }
-    return newState
-  }else if( action.type === 'appendComments' ){
-    newState.selected.comments = action.comments
-    return newState
-  }else if( action.type === 'updateLabels' ){
-    newState.selected.labels = action.labels
-    return newState
-  }else if( action.type === 'UPDATESELECTED' ){
-    newState.selected = action.response
-    return newState
-  }else if( action.type === 'searchresults' ){
-    newState.searchresult = action.searchresult
-    return newState
-  }else if( action.type === 'setRange' ){
-    newState.owned = state.owned.map( photo =>{
-      let result = photo
-      result.visible = dateInRange(photo.daterange, action.range)
-      return result
-    })
-    newState.public = state.public.filter( photo =>{
-      let result = photo
-      result.visible = dateInRange(photo.daterange, action.range)
-      return result
-    })
-    return newState
+    case 'initializeUser':
+      return{
+        public:JSON.parse(JSON.stringify(state.public)),
+        owned:action.owned,
+        searchresult:[],
+        initialized:true
+      }
+    case 'UPLOADPHOTO':
+      if( action.status === 200 ){
+        newState.owned = [ ...newState.owned, action.data.photo ]
+        return newState
+      }else break
+    case 'CHANGEVIEW':
+      if( action.newView === 'home' || action.newView === 'previous' ){
+        newState.selected = {}
+        if( action.newView === 'home' ){
+          newState.searchresult = []
+        }
+      }
+      return newState
+    case 'appendComments':
+      newState.selected.comments = action.comments
+      return newState
+    case 'updateLabels':
+      newState.selected.labels = action.labels
+      return newState
+    case 'searchresults':
+      newState.searchresult = action.searchresult
+      return newState
+    case 'saveLocationForPhoto':
+    case 'UPDATESELECTED':
+      newState.selected = action.response
+      return newState
+    case 'setRange':
+      newState.owned = state.owned.map( photo =>{
+        let result = photo
+        result.visible = dateInRange(photo.daterange, action.range)
+        return result
+      })
+      newState.public = state.public.filter( photo =>{
+        let result = photo
+        result.visible = dateInRange(photo.daterange, action.range)
+        return result
+      })
+      return newState
   }
   return state
 }
@@ -95,8 +97,7 @@ export const initializePhotos = () => {
 export const updateSelected = (photoId,user) => {
   return async dispatch => {
     const response = await photoService.fetchSingle(photoId, user)
-    if( response ){
-      //console.log( response.data.result[0] )
+    if( response.status === 200 ){
       dispatch({
         type: 'UPDATESELECTED',
         response: response.data.result[0]

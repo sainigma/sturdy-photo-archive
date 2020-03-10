@@ -4,6 +4,7 @@ import Options from './CreatePhoto/Options'
 import FileSelector from './CreatePhoto/FileSelector'
 import Input from './general/Input'
 import ToggleSubMenu from './general/ToggleSubmenu'
+import {formReset} from './../reducers/formReducer'
 import {uploadFile} from './../reducers/uploadReducer'
 import {notifyUploadStart} from './../reducers/notifications'
 import Closer from './general/Closer'
@@ -39,6 +40,7 @@ const CreatePhoto = (props) => {
     setUploadActive(!uploadActive)
     if( uploadActive ){
       props.exitMenu()
+      props.formReset()
     }
   }
 
@@ -101,4 +103,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{uploadFile,notifyUploadStart})(CreatePhoto)
+export default connect(mapStateToProps,{uploadFile,notifyUploadStart,formReset})(CreatePhoto)

@@ -18,14 +18,14 @@ const LocationPicker = (props) => {
       setHasLocation(true)
       setLocationName( props.form.createPhoto.location.name )
     }
-    console.log("moi!")
   },[])
   
   if( !props.visibility ) return(<></>)
 
   const saveLocation = (parameters) => {
     props.setLocation( parameters.values, parameters.type )
-    console.log(parameters)
+    props.setNewLocation( parameters.values )
+    
     setLocationName( parameters.values.name )
     setActive(false)
     setHasLocation(true)

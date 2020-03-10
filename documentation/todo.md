@@ -14,3 +14,4 @@
 - Labelin poistaminen ei toimi jos labeleita on vain yksi
 - Thumbnailin luonti kuvalle epäonnistuu joskus
 - Menuikonit klikattavissa vaikka ne olisi elementtien alla
+- Locationpickerin sulku jättää reduceriin vanhan arvon jos forminluonti jää vaiheeseen

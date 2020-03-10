@@ -160,7 +160,7 @@ const HamburgerMenu = (props) => {
   const exit = () => {
     setActive(false)
   }
-  console.log(props.photos)
+  
   if( !active ){
     return(
       <>

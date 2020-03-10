@@ -25,4 +25,5 @@
 | 4.3 | 8 | Labeleiden poistaminen toimii. Appstatessa voi liikkua sekä historiassa taaksepäin, että palata suoraan alkuun. Kuvien sijaintiparametria pystyy nyt siirtämään kuvastrippien välillä draggaamalla. Tutustumista css-animaatioihin. FilmStrip -komponentissa nyt toimiva preview. Readme:n ja todo-listan kirjoitusta.
 | 5.3 | 3 | Käyttöliittymän yhtenäistämistä ja tyylien hiomista, appin ja reducerien pientä refaktorointia.
 | 9.3 | 7 | Rangesliderin tekoa. Näkyvät kuvat pystyy nyt filtteröimään logaritmisen aikarangen perusteella. Backendissä kuvien resizeemisen asyncbugi ehkä korjattu. ImgEditor -modulin viimeistely aloitettu.
-| yht   | 141 | | 
+| 10.3 | 2 | ImageEditorissa voi nyt määrittää sijainnin kuvalle. Reducerien refaktorointia.
+| yht   | 143 | | 
