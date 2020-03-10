@@ -19,6 +19,7 @@
     "react-scripts": "^3.3.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "three": "^0.114.0",
     "url-loader": "^3.0.0",
     "webpack-dev-server": "^3.9.0"
   },

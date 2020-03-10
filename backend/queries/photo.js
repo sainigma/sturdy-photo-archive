@@ -81,7 +81,10 @@ const getSingle = async (username, id) => {
           owner.username as owner,
           uploader.username as uploader,
           labeluuids_to_labels(labels) as labels,
-          commentuuids_to_comments(photos.comments) as comments
+          commentuuids_to_comments(photos.comments) as comments,
+          equirectangular,
+          panorama,
+          filetype
         from photos
         left join locations on(photos.location = locations.id)
         left join users owner on(photos.owner = owner.id)
