@@ -30,7 +30,6 @@ const PreviewLocation = (props) => {
   const onDragLeave = (event) => {
     event.preventDefault()
   }
-  console.log( props.photos )
   let photos
   if( props.photos === undefined ){
     photos = props.reducerphotos.owned.length > 0 ? props.reducerphotos.owned : props.reducerphotos.public

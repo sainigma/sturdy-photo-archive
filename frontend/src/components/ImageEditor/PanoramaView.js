@@ -5,8 +5,8 @@ class PanoramaView extends Component {
 
   componentDidMount(){
     let dimensions = {
-      x: this.mount.clientWidth/2,
-      y: this.mount.clientHeight
+      x: this.props.scaleX ? this.mount.clientWidth * this.props.scaleX : this.mount.clientWidth,
+      y: this.props.scaleY ? this.mount.clientHeight * this.props.scaleY : this.mount.clientHeight
     }
     let scene = new THREE.Scene()
     let camera = new THREE.PerspectiveCamera( 75, dimensions.x/dimensions.y, 0.1, 1000)
@@ -14,14 +14,19 @@ class PanoramaView extends Component {
     renderer.setSize( dimensions.x,dimensions.y )
     this.mount.appendChild( renderer.domElement )
 
+    const subdivisions = this.props.large ? 64 : 20
+
     let texture = new THREE.TextureLoader().load( `http://localhost:3001/photos/${this.props.photo.id}thumb.${this.props.photo.filetype}` )
-    let sphereGeometry = new THREE.SphereBufferGeometry(50,20,20)
+    let sphereGeometry = new THREE.SphereBufferGeometry(100,subdivisions,subdivisions)
+    let cylinderGeometry = new THREE.CylinderBufferGeometry(50,50,50,subdivisions,2,true)
     let material = new THREE.MeshBasicMaterial({map:texture})
     sphereGeometry.scale(-1,1,1)
-    let enviroSphere = new THREE.Mesh( sphereGeometry, material )
+    cylinderGeometry.scale(-1,1,1)
 
-    scene.add( enviroSphere )
-    camera.position.z = 45
+    let enviroMesh = this.props.photo.equirectangular ? new THREE.Mesh( sphereGeometry, material ) : new THREE.Mesh( cylinderGeometry, material )
+
+    scene.add( enviroMesh )
+    camera.position.z = this.props.photo.equirectangular ? 30 : -8
     let initialized = false
     const animate = () => {
       if( bigTexture !== undefined && !initialized ){
@@ -29,7 +34,7 @@ class PanoramaView extends Component {
         initialized = true
       }
       if( this.mount !== null ) {requestAnimationFrame( animate )}
-      enviroSphere.rotation.y += 0.01
+      enviroMesh.rotation.y += 0.0025
       renderer.render( scene, camera )
     }
     let bigTexture = new THREE.TextureLoader().load( `http://localhost:3001/photos/${this.props.photo.id}.${this.props.photo.filetype}` )
@@ -39,7 +44,7 @@ class PanoramaView extends Component {
 
   render(){
     return(
-      <div style={{width:'100%',height:'100%'}}ref={ref => (this.mount = ref)}/>
+      <div style={{width:'100%',height:'100%',zIndex:2000,cursor:'grab'}}ref={ref => (this.mount = ref)}/>
     )
   }
 }

@@ -10,7 +10,7 @@ import Info from './ImageEditor/Info'
 import PanoramaView from './ImageEditor/PanoramaView'
 
 const LeftContainer = (props) => {
-  if( props.selected && !props.selected.equirectangular ){
+  if( props.selected && !props.selected.panorama ){
     return(
       <div className="imgeditorleftcontainer">
         <img className="uploadpreviewImg" src={props.fileurl}/>
@@ -19,7 +19,7 @@ const LeftContainer = (props) => {
     )
   }else if( props.selected !== undefined ){
     return(
-      <PanoramaView photo={props.selected}/>
+      <PanoramaView photo={props.selected} scaleX={0.5}/>
     )
   }else{
     return(<></>)
