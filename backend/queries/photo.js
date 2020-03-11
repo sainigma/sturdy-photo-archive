@@ -26,6 +26,7 @@ const getPublic = async () => {
       select
         photos.id,
         filetype,
+        panorama,
         equirectangular,
         array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
         case when friend = -1 then location else null end as location
@@ -53,7 +54,9 @@ const getOwnedByUser = async (username) => {
         equirectangular,
         panorama,
         array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
-        location 
+        location,
+        array_length(labels,1) as labelcount,
+        array_length(likes,1) as likecount
       from photos as photo
       
       where photo.owner = (
@@ -85,7 +88,8 @@ const getSingle = async (username, id) => {
           commentuuids_to_comments(photos.comments) as comments,
           equirectangular,
           panorama,
-          filetype
+          filetype,
+          likes
         from photos
         left join locations on(photos.location = locations.id)
         left join users owner on(photos.owner = owner.id)
@@ -222,7 +226,7 @@ const search = async (username,labels,locations) => {
         filetype,
         equirectangular,
         array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
-        location 
+        location
       from photos as p
       where (${labelConditions}) and (${locationConditions})
     `)

@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { connect } from 'react-redux'
-import {setRange} from './../reducers/photoReducer'
+import { setRange, sortPhotos } from './../reducers/photoReducer'
 import IconButton from './general/IconButton'
 import Closer from './general/Closer'
 
@@ -152,7 +152,7 @@ const Sorter = (props) => {
       props.setSortAscending( false )
       props.setSortType( sortType )
     }
-    console.log(toReducer)
+    props.sortPhotos(toReducer)
   }
 
   const SortType = (props) => {
@@ -187,9 +187,6 @@ const Sorter = (props) => {
 }
 
 const GeneralMenu = (props) => {
-
-
-
   return(
     <div className="leftsidebar">
       <Closer onClick={props.exit}/>
@@ -209,11 +206,13 @@ const GeneralMenu = (props) => {
           setSortType={props.setSortType}
           sortAscending={props.sortAscending}
           setSortAscending={props.setSortAscending}
+          sortPhotos={props.sortPhotos}
         />
       <h3>Visible locations</h3>
     </div>
   )
 }
+
 const UserMenu = (props) => {
   return(
     <div className="leftsidebar">
@@ -238,7 +237,7 @@ const HamburgerMenu = (props) => {
     setActive(false)
   }
   
-  if( !active ){
+  if( !active || props.appstate.currentView !== 'home' ){
     return(
       <>
         <div className="mainactioniconleft">
@@ -267,6 +266,7 @@ const HamburgerMenu = (props) => {
           setSortType={setSortType}
           sortAscending={sortAscending}
           setSortAscending={setSortAscending}
+          sortPhotos={props.sortPhotos}
 
           exit={exit}
         />
@@ -286,4 +286,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{setRange})(HamburgerMenu)
+export default connect(mapStateToProps,{setRange,sortPhotos})(HamburgerMenu)
