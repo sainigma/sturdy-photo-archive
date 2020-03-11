@@ -51,6 +51,7 @@ const getOwnedByUser = async (username) => {
         id,
         filetype,
         equirectangular,
+        panorama,
         array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
         location 
       from photos as photo

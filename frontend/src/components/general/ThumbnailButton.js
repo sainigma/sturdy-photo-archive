@@ -29,9 +29,12 @@ const ThumbnailButton = (props) => {
       setClassName('divpreview')
     }
   }
-
   const specialStyle = props.thumbnailOnClick ? {cursor:'pointer'} : {}
-  const imgClassName = props.photo.equirectangular ? 'imgpreviewpanorama' : 'imgpreview'
+  let imgClassName = 'imgpreview'
+  if( props.photo.panorama ){
+    imgClassName += 'panorama'
+    if( props.photo.equirectangular ) imgClassName += 'equirect' 
+  }
   const previousView = props.appendix ? props.appendix : ''
   return (
     <div 

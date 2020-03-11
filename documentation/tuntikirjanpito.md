@@ -26,4 +26,5 @@
 | 5.3 | 3 | Käyttöliittymän yhtenäistämistä ja tyylien hiomista, appin ja reducerien pientä refaktorointia.
 | 9.3 | 7 | Rangesliderin tekoa. Näkyvät kuvat pystyy nyt filtteröimään logaritmisen aikarangen perusteella. Backendissä kuvien resizeemisen asyncbugi ehkä korjattu. ImgEditor -modulin viimeistely aloitettu.
 | 10.3 | 8 | ImageEditorissa määrittää sijainnin kuville olemassaolevien joukosta, tai poistaa sen. Sijainteja pystyy määrittämään joko editorin kautta tai drag&drop tyyliin filmstrippien välillä raahaamalla. Uusia sijainteja pystyy myös määrittämään image-editorin kautta, kumpikin tilanne ~valmis frontissa, backissa ja tietokannassa. Tietokannan ja backendin päivitystä, reducerien refaktorointia. Panoramakuville 3d-näkymä three.js:llä.
-| yht   | 149 | | 
+| 11.3 | 1 | Panoramamoden hiomista, erilliset näkymät pallo- ja sylinteriprojektioille.
+| yht   | 150 | | 

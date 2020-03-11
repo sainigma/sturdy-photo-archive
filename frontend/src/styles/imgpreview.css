@@ -21,7 +21,7 @@
   0% { opacity: 1; transform: scale(1);}
   100% { opacity:0.5; transform: scale(0); }
 }
-.imgpreview,.imgpreviewpanorama{
+.imgpreview,.imgpreviewpanorama,.imgpreviewpanoramaequirect{
   padding:0px;
   margin-top:0;
   margin-bottom:0;
@@ -30,9 +30,17 @@
   height: 10em;
   border-radius:4px;
 }
-.imgpreviewpanorama{
+.imgpreviewpanoramaequirect{
   width: 10em;
   border-radius: 50%;
+}
+.imgpreviewpanorama{
+  width:10em;
+  border-bottom-left-radius: 50% 25%;
+  border-bottom-right-radius: 50% 25%;
+  border-top-left-radius: 50% 25%;
+  border-top-right-radius: 50% 25%;
+  object-fit: cover;
 }
 .iconbutton{
   z-index: 999;

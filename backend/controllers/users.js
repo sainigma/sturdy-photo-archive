@@ -82,7 +82,7 @@ userRouter.post('/login', async(req,res,next)=>{
       result.token = jwt.sign({ 
         username:response.user,
         id:response.id,
-        exp: Math.floor(Date.now()/1000)+3600
+        exp: Math.floor(Date.now()/1000)+3600*24
       },config.SECRET)
       result.status = 200
       result.message = 'Login successful'

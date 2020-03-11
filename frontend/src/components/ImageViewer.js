@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Closer from './general/Closer'
 import { connect } from 'react-redux'
 import {changeView} from './../reducers/appStateReducer'
+import PanoramaView from './ImageEditor/PanoramaView'
 
 const ImageViewer = (props) => {
   const [zoomed, setZoomed] = useState(false)
@@ -21,7 +22,17 @@ const ImageViewer = (props) => {
   const filetype = props.photo.filetype
   const url = 'http://localhost:3001/photos/'
   const fileurl = `${url}${id}.${filetype}`
-  return(
+
+  if( props.photo.panorama ){
+    return (
+      <div className="imgeditorbackground">
+        <Closer onClick={goHome}/>
+        <PanoramaView photo={props.photo} large={true}/>
+      </div>
+    )
+  }
+  else {
+    return (
     <div className="imgeditorbackground">
       <Closer onClick={goHome}/>
       <div className="container scroller">
@@ -34,7 +45,7 @@ const ImageViewer = (props) => {
       </div>
       </div>
     </div>
-  )
+  )}
 }
 
 export default connect(null,{changeView})(ImageViewer)
