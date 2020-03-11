@@ -17,6 +17,14 @@ body{
   position: absolute;
   overflow: auto;
 }
+.fakelink,.fakelinkselected{
+  color:#0000EE;
+  cursor:pointer;
+  user-select:none;
+}
+.fakelinkselected{
+  color: black;
+}
 .filmstripPreview{
   width:100%;
   height:calc(100% - 13em);
