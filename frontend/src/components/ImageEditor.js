@@ -8,6 +8,7 @@ import {newLabel,updateSelected} from './../reducers/photoReducer'
 import Location from './ImageEditor/Location'
 import Info from './ImageEditor/Info'
 import PanoramaView from './ImageEditor/PanoramaView'
+import Permissions from './ImageEditor/Permissions'
 
 const LeftContainer = (props) => {
   if( props.selected && !props.selected.panorama ){
@@ -79,6 +80,7 @@ const ImageEditor = (props) => {
             <Location photoId={props.selected.id} location={props.selected.location} locations={props.locations}/>
             
             <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
+            <Permissions />
             <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
           </>
           }

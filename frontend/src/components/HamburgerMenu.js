@@ -49,17 +49,20 @@ const Cursor = (props) => {
 }
 
 const RangeSlider = (props) => {
-  const [ leftCursorPosition, setLeftCursorPosition ] = useState(0)
-  const [ rightCursorPosition, setRighCursorPosition ] = useState(100)
-  const [ bottomValue, setBottomValue ] = useState(1930)
-  const [ topValue, setTopValue ] = useState(2020)
+  const [ bottomValue, setBottomValue ] = useState(1900)
+  const [ topValue, setTopValue ] = useState(2100)
   const [ initialMouse, setInitialMouse ] = useState(-1)
   const [ sliderWidth, setSliderWidth ] = useState(0)
   const cursorOffset = 1
-  const rangeBottom = 1930
-  const rangeTop = 2020
+  const rangeBottom = props.rangeBottom
+  const rangeTop = props.rangeTop
 
-  const setValues = (bottom,top) => {
+  useEffect( ()=>{
+    setValues( props.leftCursorPosition, props.rightCursorPosition, false )
+  },[])
+
+
+  const setValues = (bottom,top, initialized) => {
     const range = rangeTop - rangeBottom
     const logRange = 10 - 1
     const newBottom = Math.round(range*Math.log10(logRange*bottom*0.01+1)+rangeBottom)
@@ -67,21 +70,21 @@ const RangeSlider = (props) => {
     if( newBottom !== bottomValue || newTop !== topValue ){
       setBottomValue( newBottom )
       setTopValue( newTop )
-      props.setRange( newBottom, newTop )
+      if( initialized )  props.setRange( newBottom, newTop )
     }
   }
 
   const onMouseMove = (event) => {
     if( initialMouse !== -1 ){
       const moveLeft = event.target.attributes.left.value === "1"
-      const oldCursorPosition = moveLeft ? leftCursorPosition : rightCursorPosition
+      const oldCursorPosition = moveLeft ? props.leftCursorPosition : props.rightCursorPosition
       const newPosition = 100* (event.clientX -initialMouse ) / sliderWidth
       if( newPosition > 0 && newPosition < 100 && Math.abs(newPosition - oldCursorPosition)>0.01 ){
-        if( moveLeft ){ setLeftCursorPosition( newPosition ) }
-        else{ setRighCursorPosition( newPosition ) 
+        if( moveLeft ){ props.setLeftCursorPosition( newPosition ) }
+        else{ props.setRighCursorPosition( newPosition ) 
       }
         setInitialMouse( initialMouse + 0.1*(newPosition-oldCursorPosition) )
-        setValues( leftCursorPosition, rightCursorPosition )
+        setValues( props.leftCursorPosition, props.rightCursorPosition, true )
       }
     }
   }
@@ -89,7 +92,7 @@ const RangeSlider = (props) => {
   const onMouseDown = (event) => {
     if( initialMouse === -1 && event.clientX ){
       const container = document.getElementById(`rangesliderContainer${props.id}`)
-      const cursorPosition = event.target.attributes.left.value === "1" ? leftCursorPosition * 0.01 : rightCursorPosition * 0.01
+      const cursorPosition = event.target.attributes.left.value === "1" ? props.leftCursorPosition * 0.01 : props.rightCursorPosition * 0.01
       const slider = container.clientWidth*(1-2*cursorOffset*0.01)
       setSliderWidth( slider )
       setInitialMouse( event.clientX - cursorPosition * slider )
@@ -119,24 +122,94 @@ const RangeSlider = (props) => {
         position:'absolute',
         marginLeft:0,
         top:'0.08em',
-        left:`${cursorOffset+leftCursorPosition}%`,
-        right:`${ 100 - rightCursorPosition + cursorOffset }%`,
+        left:`${cursorOffset+props.leftCursorPosition}%`,
+        right:`${ 100 - props.rightCursorPosition + cursorOffset }%`,
         height:'1em',
         background:'#cccccc',
       }}/>
-      <Cursor offset={cursorOffset} value={bottomValue} leftPosition={leftCursorPosition} onMouseMove={onMouseMove} onMouseDown={onMouseDown} onMouseUp={onMouseUp}/>
-      <Cursor offset={cursorOffset} value={topValue} rightPosition={rightCursorPosition} onMouseMove={onMouseMove} onMouseDown={onMouseDown} onMouseUp={onMouseUp}/>
+      <Cursor offset={cursorOffset} value={bottomValue} leftPosition={props.leftCursorPosition} onMouseMove={onMouseMove} onMouseDown={onMouseDown} onMouseUp={onMouseUp}/>
+      <Cursor offset={cursorOffset} value={topValue} rightPosition={props.rightCursorPosition} onMouseMove={onMouseMove} onMouseDown={onMouseDown} onMouseUp={onMouseUp}/>
     </div>
   )
 }
 
+const Sorter = (props) => {
+  const sortTypes = ['none', 'date', 'likes', 'labelcount']
+
+  const changeSortType = (event) => {
+    const index = event.target.attributes.value.value
+    const sortType = sortTypes[index]
+    const ascending = props.sortAscending
+    let toReducer = sortType
+    if( sortType === 'none' ){
+      props.setSortType( sortType )
+    }else if( sortType === props.sortType ){
+      toReducer += `${!ascending ? 'ascending' : 'descending'}`
+      props.setSortAscending( !props.sortAscending )
+      props.setSortType( sortType )
+    }else{
+      toReducer += 'descending'
+      props.setSortAscending( false )
+      props.setSortType( sortType )
+    }
+    console.log(toReducer)
+  }
+
+  const SortType = (props) => {
+    let className = 'fakelink'
+    let value = props.index
+    let direction = ''
+    if( props.selected === props.name ){
+      className += 'selected'
+      if( props.name !== 'none' ){ 
+        direction = props.ascending ? '▲' : '▼'
+      }
+    }
+
+    return(
+      <span className={className} onClick={props.onClick} value={value}>{` ${props.name}${direction} `}</span>
+    )
+  }
+  return(
+    <>|
+      {sortTypes.map( (type,index) => 
+      <><SortType 
+          name={type}
+          index={index}
+          selected={props.sortType}
+          ascending={props.sortAscending}
+          onClick={changeSortType}
+        />
+      |</>
+    )}
+    </>
+  )
+}
+
 const GeneralMenu = (props) => {
+
+
+
   return(
     <div className="leftsidebar">
       <Closer onClick={props.exit}/>
       <h3>Range</h3>
-        <RangeSlider setRange={props.setRange}/>
+        <RangeSlider
+          setRange={props.setRange}
+          rangeTop={props.rangeTop}
+          rangeBottom={props.rangeBottom}
+          leftCursorPosition={props.leftCursorPosition}
+          setLeftCursorPosition={props.setLeftCursorPosition}
+          rightCursorPosition={props.rightCursorPosition}
+          setRighCursorPosition={props.setRighCursorPosition}
+        />
       <h3>Sort</h3>
+        <Sorter 
+          sortType={props.sortType}
+          setSortType={props.setSortType}
+          sortAscending={props.sortAscending}
+          setSortAscending={props.setSortAscending}
+        />
       <h3>Visible locations</h3>
     </div>
   )
@@ -152,6 +225,10 @@ const UserMenu = (props) => {
 
 const HamburgerMenu = (props) => {
   const [active, setActive] = useState(false)
+  const [ leftCursorPosition, setLeftCursorPosition ] = useState(0)
+  const [ rightCursorPosition, setRighCursorPosition ] = useState(100)
+  const [ sortType, setSortType ] = useState('none')
+  const [ sortAscending, setSortAscending ] = useState(false)
 
   const changeMenu = (event) => {
     setActive(event.target.attributes.type.value)
@@ -175,7 +252,25 @@ const HamburgerMenu = (props) => {
   }
   switch(active){
     case 'general':
-      return( <GeneralMenu setRange={props.setRange} exit={exit}/> )
+      return ( 
+        <GeneralMenu
+          setRange={props.setRange}
+
+          rangeTop={2020}
+          rangeBottom={1970}
+          leftCursorPosition={leftCursorPosition}
+          setLeftCursorPosition={setLeftCursorPosition}
+          rightCursorPosition={rightCursorPosition}
+          setRighCursorPosition={setRighCursorPosition}
+          
+          sortType={sortType}
+          setSortType={setSortType}
+          sortAscending={sortAscending}
+          setSortAscending={setSortAscending}
+
+          exit={exit}
+        />
+      )
     case 'user':
       return( <UserMenu exit={exit}/> )
     default:
