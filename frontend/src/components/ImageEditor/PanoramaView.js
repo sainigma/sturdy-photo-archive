@@ -21,12 +21,12 @@ class PanoramaView extends Component {
     let cylinderGeometry = new THREE.CylinderBufferGeometry(50,50,50,subdivisions,2,true)
     let material = new THREE.MeshBasicMaterial({map:texture})
     sphereGeometry.scale(-1,1,1)
-    cylinderGeometry.scale(-1,1,1)
+    cylinderGeometry.scale(-1,1.5,1)
 
     let enviroMesh = this.props.photo.equirectangular ? new THREE.Mesh( sphereGeometry, material ) : new THREE.Mesh( cylinderGeometry, material )
 
     scene.add( enviroMesh )
-    camera.position.z = this.props.photo.equirectangular ? 30 : -8
+    camera.position.z = this.props.photo.equirectangular ? 30 : 10
     let initialized = false
     const animate = () => {
       if( bigTexture !== undefined && !initialized ){

@@ -4,6 +4,7 @@ import ThumbnailButton from './../general/ThumbnailButton'
 import {changeLocationAndDiv} from './../../reducers/photoReducer'
 
 const PreviewLocation = (props) => {
+
   const filterPhotos = (photos,location) => {
     if( location.id === 'searchresult' ) return photos
     return photos.filter( photo => { return (photo.location === location.id && (photo.visible === undefined || photo.visible === true) ) } )
@@ -37,11 +38,12 @@ const PreviewLocation = (props) => {
     photos = props.photos
   }
   const photosToShow = filterPhotos(photos,props.location)
+  const visibility = (props.location.visible === undefined || props.location.visible) ? {} : {display:'none'}
 
-  if( photosToShow.length >0 )return(
+  if( photosToShow.length >0  )return(
     <>
-    <h4 className="locationLabel">{props.location.name}</h4>
-    <div className="horizontalScrollerContainer scroller">
+    <h4 className="locationLabel" style={ visibility }>{props.location.name}</h4>
+    <div className="horizontalScrollerContainer scroller" style={ visibility }>
       <div className="horizontalScroller"
       onDragOver={onDragOver}
       onDrop={onDrop}
