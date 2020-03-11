@@ -20,6 +20,7 @@ const InputText = (props) => {
         onChange={props.params.onChange}
         style={ props.params.label ? {} : {width:"100%"} }
       />
+      {props.params.children}
     </div>
   )
 }

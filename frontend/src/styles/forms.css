@@ -12,6 +12,7 @@
 }
 .inputField[type=checkbox]{
   width:40px;
+  margin-left:auto;
 }
 .inputField[type=button]:hover,.inputField[type=submit]:hover {
   background-color: #4caf50;

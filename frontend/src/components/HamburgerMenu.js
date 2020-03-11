@@ -1,8 +1,11 @@
 import React, {useState,useEffect} from 'react'
 import { connect } from 'react-redux'
 import { setRange, sortPhotos } from './../reducers/photoReducer'
+import { toggleLocationVisibility } from './../reducers/locationReducer'
 import IconButton from './general/IconButton'
 import Closer from './general/Closer'
+import Input from './general/Input'
+import SectionToggler from './general/SectionToggler'
 
 const Cursor = (props) => {
   let style = {
@@ -105,7 +108,7 @@ const RangeSlider = (props) => {
   }
 
   return(
-    <div id={`rangesliderContainer${props.id}`} style={{width:'100%',height:'6em',position:'relative'}}>
+    <div id={`rangesliderContainer${props.id}`} style={{width:'100%',height:'4em',position:'relative'}}>
       <div id={`rangeslider${props.id}`} style={{
         position:'absolute',
         width:`${100-cursorOffset}%`,
@@ -167,29 +170,76 @@ const Sorter = (props) => {
     }
 
     return(
-      <span className={className} onClick={props.onClick} value={value}>{` ${props.name}${direction} `}</span>
+      <><span className={className} onClick={props.onClick} value={value}>{` ${props.name}${direction} `}</span> |</>
     )
   }
   return(
     <>|
       {sortTypes.map( (type,index) => 
-      <><SortType 
+      <SortType 
+          key={`SortType${index}`}
           name={type}
           index={index}
           selected={props.sortType}
           ascending={props.sortAscending}
           onClick={changeSortType}
         />
-      |</>
     )}
     </>
   )
 }
 
+const LocationMenu = (props) => {
+  const toggleLocation = (event) => {
+    props.toggleLocationVisibility(event.target.value)
+  }
+  const toggleAll = () => {
+    if( props.allToggled ){
+      props.toggleLocationVisibility( 'allOff' )
+      props.setAllToggled(false)
+    }else{
+      props.toggleLocationVisibility( 'allOn' )
+      props.setAllToggled(true)
+    }
+
+  }
+
+  return(
+    <div style={{position:'relative', height:'25em'}}>
+      <div style={{height:'100%',overflowY:'auto'}} className='scroller'>
+        <Input type='checkbox' icon='null' checked={props.allToggled} onChange={toggleAll} value={props.allToggled} label={<b>All</b>}/>
+        { props.locations.map( location =>
+          <Input 
+            icon='null'
+            key={`LocationMenu${location.id}`}
+            checked={location.visible !== undefined ? location.visible : true}
+            type='checkbox'
+            label={location.name}
+            value={location.id}
+            onChange={toggleLocation}
+          />
+        ) }
+      </div>
+      
+    </div>
+  )
+}
+
 const GeneralMenu = (props) => {
+  const toggleLocations = () => {
+    props.setLocationsCollapsed(!props.locationsCollapsed)
+  }
   return(
     <div className="leftsidebar">
       <Closer onClick={props.exit}/>
+      <h3>Sort</h3>
+        <Sorter 
+          sortType={props.sortType}
+          setSortType={props.setSortType}
+          sortAscending={props.sortAscending}
+          setSortAscending={props.setSortAscending}
+          sortPhotos={props.sortPhotos}
+        />
       <h3>Range</h3>
         <RangeSlider
           setRange={props.setRange}
@@ -200,15 +250,18 @@ const GeneralMenu = (props) => {
           rightCursorPosition={props.rightCursorPosition}
           setRighCursorPosition={props.setRighCursorPosition}
         />
-      <h3>Sort</h3>
-        <Sorter 
-          sortType={props.sortType}
-          setSortType={props.setSortType}
-          sortAscending={props.sortAscending}
-          setSortAscending={props.setSortAscending}
-          sortPhotos={props.sortPhotos}
-        />
-      <h3>Visible locations</h3>
+        <SectionToggler
+          title='Visible locations'
+          collapsed={props.locationsCollapsed}
+          toggleCollapsed={toggleLocations}
+        >
+          <LocationMenu
+            locations={props.locations}
+            toggleLocationVisibility={props.toggleLocationVisibility}          
+            allToggled={props.allToggled}
+            setAllToggled={props.setAllToggled}
+            />
+        </SectionToggler>
     </div>
   )
 }
@@ -228,6 +281,8 @@ const HamburgerMenu = (props) => {
   const [ rightCursorPosition, setRighCursorPosition ] = useState(100)
   const [ sortType, setSortType ] = useState('none')
   const [ sortAscending, setSortAscending ] = useState(false)
+  const [ locationsCollapsed, setLocationsCollapsed ] = useState(true)
+  const [ allToggled, setAllToggled ] = useState(true)
 
   const changeMenu = (event) => {
     setActive(event.target.attributes.type.value)
@@ -268,6 +323,13 @@ const HamburgerMenu = (props) => {
           setSortAscending={setSortAscending}
           sortPhotos={props.sortPhotos}
 
+          locations={props.locations}
+          locationsCollapsed={locationsCollapsed}
+          setLocationsCollapsed={setLocationsCollapsed}
+          toggleLocationVisibility={props.toggleLocationVisibility}
+          allToggled={allToggled}
+          setAllToggled={setAllToggled}
+
           exit={exit}
         />
       )
@@ -282,8 +344,9 @@ const HamburgerMenu = (props) => {
 const mapStateToProps = (state) => {
   return{
     appstate:state.appstate,
+    locations:state.locations.locations,
     photos:state.photos
   }
 }
 
-export default connect(mapStateToProps,{setRange,sortPhotos})(HamburgerMenu)
+export default connect(mapStateToProps,{setRange,sortPhotos,toggleLocationVisibility})(HamburgerMenu)
