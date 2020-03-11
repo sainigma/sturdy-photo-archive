@@ -5,7 +5,8 @@ const initialState = {
   public:[],
   owned:[],
   searchresult:[],
-  initialized:false
+  initialized:false,
+  sorting:'none'
 }
 
 const dateInRange = (daterange, range) => {
@@ -19,7 +20,7 @@ const dateInRange = (daterange, range) => {
 
 const photoReducer = (state=initialState, action) => {
   let newState = JSON.parse(JSON.stringify(state))
-
+  let sendNewState = false
   switch(action.type){
     case 'initializePublic':
       return{
@@ -38,8 +39,9 @@ const photoReducer = (state=initialState, action) => {
     case 'UPLOADPHOTO':
       if( action.status === 200 ){
         newState.owned = [ ...newState.owned, action.data.photo ]
-        return newState
-      }else break
+        sendNewState = true
+      }
+      break
     case 'CHANGEVIEW':
       if( action.newView === 'home' || action.newView === 'previous' ){
         newState.selected = {}
@@ -47,16 +49,20 @@ const photoReducer = (state=initialState, action) => {
           newState.searchresult = []
         }
       }
-      return newState
+      sendNewState = true
+      break
     case 'appendComments':
       newState.selected.comments = action.comments
-      return newState
+      sendNewState = true
+      break
     case 'updateLabels':
       newState.selected.labels = action.labels
-      return newState
+      sendNewState = true
+      break
     case 'searchresults':
       newState.searchresult = action.searchresult
-      return newState
+      sendNewState = true
+      break
     case 'updateLocation':
       newState.owned = newState.owned.map( photo => {
         if( photo.id !== action.id ){
@@ -68,10 +74,12 @@ const photoReducer = (state=initialState, action) => {
         }
       })
       newState.selected.location = action.location
-      return newState
+      sendNewState = true
+      break
     case 'UPDATESELECTED':
       newState.selected = action.response
-      return newState
+      sendNewState = true
+      break
     case 'setRange':
       newState.owned = state.owned.map( photo =>{
         let result = photo
@@ -83,7 +91,32 @@ const photoReducer = (state=initialState, action) => {
         result.visible = dateInRange(photo.daterange, action.range)
         return result
       })
-      return newState
+      sendNewState = true
+      break
+    case 'setSorting':
+      newState.sorting = action.value
+      sendNewState = true
+      break
+  }
+
+  if( sendNewState ){
+    if( newState.sorting === 'none' || newState.sorting === undefined ) return newState
+
+    const ascending = newState.sorting.includes('ascending')
+    const sortFunction = (value1, value2, ascending) => {
+      if( value1 < value2 ) return !ascending
+      return ascending
+    }
+    console.log('sort')
+    if( newState.sorting.includes('date') ){
+      newState.owned = newState.owned.sort( (a,b) => { return sortFunction(a.daterange[0],b.daterange[0],ascending) } )
+    } else if( newState.sorting.includes('labelcount') ){
+      newState.owned = newState.owned.sort( (a,b) => { return sortFunction(a.labelcount,b.labelcount,ascending) } )
+    } else if( newState.sorting.includes('likes') ){
+      newState.owned = newState.owned.sort( (a,b) => { return sortFunction(a.likecount,b.likecount,ascending) } )
+    }
+
+    return newState
   }
   return state
 }
@@ -270,6 +303,13 @@ export const setRange = (bottom,top) => {
       bottom: new Date(bottom,1,1).getTime()/1000,
       top: new Date(top+1,1,1).getTime()/1000
     }
+  }
+}
+
+export const sortPhotos = (value) => {
+  return{
+    type:'setSorting',
+    value
   }
 }
 
