@@ -7,7 +7,7 @@ import {changeLocation} from '../../reducers/photoReducer'
 
 const LocationLabels = (props) => {
   const labelClicker = (event) => {
-    props.setSelectActive(true)
+    if( props.hasEditRights ) props.setSelectActive(true)
   }
   const removeLabel = (event) => {
     props.removeLocation()
@@ -15,7 +15,7 @@ const LocationLabels = (props) => {
   if( props.location !== null ){
     return(
     <div className="labelcontainer">
-      <div className="labeltitle" onClick={labelClicker}>
+      <div className="labeltitle" style={ props.hasEditRights ? {} : {cursor:'auto'} } onClick={labelClicker}>
         {
           props.location.id !== '-1'
             ? props.location.name
@@ -24,7 +24,7 @@ const LocationLabels = (props) => {
       </div>
       <div className="labelcloser">
         {
-          props.location.id !== '-1'
+          props.location.id !== '-1' && props.hasEditRights
             ? <IconButton icon="close" onClick={removeLabel} invert={true}/>
             : <></>
         }
@@ -61,7 +61,7 @@ const Location = (props) => {
     >
       {
         !selectActive
-          ? <LocationLabels removeLocation={removeLocation} setSelectActive={setSelectActive} location={ location ? location : {id:'-1'} }/>
+          ? <LocationLabels hasEditRights={props.hasEditRights} removeLocation={removeLocation} setSelectActive={setSelectActive} location={ location ? location : {id:'-1'} }/>
           : <LocationPicker visibility={true} setLocationPickerActive={setLocationPickerActive} newLocation={location} setNewLocation={changeLocation}/>
       }
     </SectionToggler>

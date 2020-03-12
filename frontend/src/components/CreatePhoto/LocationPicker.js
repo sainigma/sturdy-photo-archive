@@ -40,11 +40,11 @@ const LocationPicker = (props) => {
   } else {
     if( !hasLocation ){
       return (
-        <Input type={"button"} icon={"map"} value={"Choose location"} onClick={toggleActive} setShowSubmenu={props.setShowSubmenu} />
+        <Input type={"button"} icon={"map-marker"} value={"Choose location"} onClick={toggleActive} setShowSubmenu={props.setShowSubmenu} />
       )
     } else{
       return (
-        <Input type={"none"} icon={"map"} label={locationName}/>
+        <Input type={"none"} icon={"map-marker"} label={locationName}/>
       )
     }
   }

@@ -40,7 +40,7 @@ const Label = (props) => {
                 {props.label.name}
               </div>
               <div className="labelcloser">
-                {props.label.id !== '-1'
+                {props.label.id !== '-1' && props.hasEditRights
                   ? <IconButton icon="close" onClick={removeLabel} invert={true}/>
                   : <></>
                 }
@@ -89,12 +89,17 @@ const Labels = (props) => {
             changeView={props.changeView}
             removeLabel={props.removeLabel}
             previousLabels={previousLabels}
+            hasEditRights={props.hasEditRights}
           />)
         }
-        <Label
-          newLabel={props.newLabel}
-          label={{ id: '-1', target:props.id, name: 'Create new' }} 
-        />
+        { 
+          props.hasEditRights 
+          ? <Label
+              newLabel={props.newLabel}
+              label={{ id: '-1', target:props.id, name: 'Create new' }} 
+            />
+          : <></>
+        }
       </div>
     </SectionToggler>
   )

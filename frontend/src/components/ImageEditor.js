@@ -61,6 +61,10 @@ const ImageEditor = (props) => {
   const goHome = () => {
     props.changeView('home',{})
   }
+
+  let hasEditRights = false
+  if( props.selected !== undefined && ( props.selected.owner === props.activeUser || props.selected.uploader === props.activeUser ) ) hasEditRights = true
+
   const fileurl = `${url}${id}.${filetype}`
   return(
     <div className="imgeditorbackground">
@@ -76,11 +80,12 @@ const ImageEditor = (props) => {
               daterange={props.selected.daterange}
               owner={props.selected.owner}
               uploader={props.selected.uploader}
+              hasEditRights={hasEditRights}
             />
-            <Location photoId={props.selected.id} location={props.selected.location} locations={props.locations}/>
+            <Location photoId={props.selected.id} location={props.selected.location} locations={props.locations} hasEditRights={hasEditRights}/>
             
-            <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels}/>
-            <Permissions />
+            <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels} hasEditRights={hasEditRights}/>
+            <Permissions hasEditRights={hasEditRights}/>
             <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
           </>
           }
@@ -94,7 +99,8 @@ const mapStateToProps = (state) => {
   return{
     selected:state.photos.selected,
     previous:state.appstate.previous,
-    locations:state.locations.locations
+    locations:state.locations.locations,
+    activeUser:state.user.username,
   }
 }
 export default connect(mapStateToProps,{changeView,newLabel,updateSelected})(ImageEditor)
