@@ -61,12 +61,35 @@ const Icon = (props) => {
     return(<></>)
   }
   else{
+    let size
+    switch( props.size ){
+      case 'insane':
+        size = 2
+        break
+      case 'huge':
+        size = 1.5
+        break
+      case 'large':
+        size = 1.25
+        break
+      case 'small':
+        size = 0.75
+        break
+      case 'tiny':
+        size = 0.5
+        break
+      case 'normal':
+      default:
+        size = 1
+        break
+    }
     //const iconClass = getIcon(props.icon)
     console.log(props.icon)
     return(
       <div style={{
-        minWidth:'2em',
-        padding:'0.5em',
+        minWidth: `${size}em`,
+        minHeight: `${size}em`,
+        padding:`${10*size}px`,
         display:'inlineBlock',
         backgroundImage:`url(./icons/${props.icon}.png)`,
         backgroundSize:'contain',
