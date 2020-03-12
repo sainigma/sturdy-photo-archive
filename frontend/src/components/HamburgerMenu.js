@@ -299,7 +299,7 @@ const HamburgerMenu = (props) => {
           <IconButton icon='hamburger' onClick={changeMenu} type='general'/>
         </div>
         <div className="mainactioniconleft2nd">
-          <IconButton icon='user' onClick={changeMenu} type='user'/>
+          <IconButton icon='userbutton' onClick={changeMenu} type='user'/>
         </div>
       </>
     )

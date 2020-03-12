@@ -40,7 +40,7 @@ const AvailableLocations = (props) => {
     return(
       <>
       <h3 className="formHeading">Choose location</h3>
-      <Input type={"select"} icon={"map"} useSeparator={true} selections={[...locationDefaults, ...props.locations]} onChange={selectionChanged}/>
+      <Input type={"select"} icon={"map-marker"} useSeparator={true} selections={[...locationDefaults, ...props.locations]} onChange={selectionChanged}/>
       </>
     )
   }else{

@@ -136,6 +136,9 @@ body{
 .inline{
   display:inline;
 }
+.inlineblock{
+  display:inline-block;
+}
 .notify{
   width:100%;
   background-color: white;

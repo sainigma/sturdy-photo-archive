@@ -10,6 +10,8 @@ const Permissions = (props) => {
   const [friends, setFriends] = useState( 0 )
   const [isPublic, setPublic] = useState( false )
 
+  if( !props.hasEditRights )return(<></>)
+
   const toggleCollapsed = () => {
     setCollapsed(!collapsed)
   }
@@ -41,7 +43,7 @@ const Permissions = (props) => {
           <th>Share</th>
         </tr>
         <tr>
-        <td>Relatives {relatives}</td>
+        <td>Relatives</td>
           <td><Input type='checkbox' checked={relatives>0 || isPublic} value={ relatives < 1 ? 1 : 0 } onChange={setRelative} icon='null'/></td>
           <td><Input type='checkbox' checked={relatives>1 || isPublic} value={ relatives < 2 ? 2 : 1 } onChange={setRelative} icon='null'/></td>
         </tr>

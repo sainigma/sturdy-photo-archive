@@ -47,7 +47,7 @@ const UserDialogs = (props) => {
 
   if( !active ) return (
     <div className="mainactioniconright">
-      <IconButton icon='key' onClick={toggleActive}/>
+      <IconButton icon='keybutton' onClick={toggleActive}/>
     </div>
   )
 

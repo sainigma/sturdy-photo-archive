@@ -63,8 +63,8 @@ const LocationCreator = (props) => {
           <Input type={"text"} icon={"address"} name={"address"} label={"Address"} value={newAddress} onChange={changeAddress}/>
           <Input type={"text"} icon={"address"} name={"postalcode"} label={"Postal code"} value={newPostal} onChange={changeAddress}/>
           <Input type={"text"} icon={"address"} name={"city"} label={"City"} value={newCity} onChange={changeAddress}/>
-          <Input type={"text"} icon={"map"} name={"latitude"} label={"Latitude"} title="In decimal form" value={newLatitude} onChange={changeCoordinate} />
-          <Input type={"text"} icon={"map"} name={"longitude"} label={"Longitude"} title="In decimal form" value={newLongitude} onChange={changeCoordinate}/>
+          <Input type={"text"} icon={"map-marker"} name={"latitude"} label={"Latitude"} title="In decimal form" value={newLatitude} onChange={changeCoordinate} />
+          <Input type={"text"} icon={"map-marker"} name={"longitude"} label={"Longitude"} title="In decimal form" value={newLongitude} onChange={changeCoordinate}/>
           <PrivacySelector visibility={true} selected={privacy} setSelected={setPrivacy} label={"Visibility"}/>
           <Input type={"submit"} icon={"save"} value={"Save location"}/>
         </form>

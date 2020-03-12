@@ -1,4 +1,5 @@
 import React from 'react'
+import { InvertStencilOp } from 'three'
 
 const getIcon = (icon) => {
   let iconClass = 'null'
@@ -60,7 +61,20 @@ const Icon = (props) => {
     return(<></>)
   }
   else{
-    const iconClass = getIcon(props.icon)
+    //const iconClass = getIcon(props.icon)
+    console.log(props.icon)
+    return(
+      <div style={{
+        minWidth:'2em',
+        padding:'0.5em',
+        display:'inlineBlock',
+        backgroundImage:`url(./icons/${props.icon}.png)`,
+        backgroundSize:'contain',
+        backgroundRepeat:'no-repeat',
+        filter:`invert(${ props.invert ? 0 : 1 })`,
+        opacity:0.7
+      }}/>
+    )
     return(
       <i className={iconClass}/>
     )
