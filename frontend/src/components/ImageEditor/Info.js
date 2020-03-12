@@ -4,34 +4,62 @@ import IconButton from '../general/IconButton'
 import Input from '../general/Input'
 import dateFormatter,{dateIsValid} from '../general/dateFormatter'
 
+const DescriptionEditor = (props) => {
+  const setDescription = (event) => {
+    props.setDescription(event.target.value)
+  }
+
+  return(
+    <div style={{width:'90%'}}>
+      <textarea className="inputField" rows="5" value={props.description} onChange={setDescription}/>
+      <Input type="button" icon="null" value='save' onClick={ props.saveDescription }/>
+    </div>
+  )
+}
+
 const Description = (props) => {
   const [description, setDescription] = useState('')
+  const [editorActive, setEditorActive] = useState(false)
+
   useEffect( ()=>{
     if( props.description !== null ){
       setDescription(props.description)
     }
   },[])
-  const toggleEditor = () => {}
+
+  const toggleEditor = () => {
+    setEditorActive(!editorActive)
+  }
 
   if( !props.hasEditRights && description === '' )return(<></>)
+
+  const descriptions = description.split('\n')
 
   return(
     <div style={{paddingTop:'0.25em'}}>
       <div style={{height:'100%'}}>Description: </div>
-      <div style={{height:'100%',paddingTop:'0.25em',paddingLeft:'0.5em'}}>
-        {
-          description === ''
-          ? 'Add description'
-          : description
-        }
-        {
-          props.hasEditRights
-          ? <div className="inlineblock" style={{ width: '1em', height: '1em', paddingLeft:'0.5em' }}>
-              <IconButton onClick={toggleEditor} invert={true} icon='edit' />
-            </div>
-          : ''
-        }
-      </div>
+      {
+        !editorActive
+        ?<div className="inlineblock" style={{width:'90%', height:'100%',paddingTop:'0.25em',paddingBottom:'0.0em',paddingLeft:'0.5em'}}>
+          {
+            description === ''
+            ? 'Add description'
+            : <p className='descriptionparagraph'>{
+              descriptions.map( (row, index) => {
+                return <span key={`descRow${index}`}>{row}<br/></span>
+            })}
+            </p>
+          }
+          {
+            props.hasEditRights
+            ? <div className="inlineblock" style={{ width: '1em', height: '1em', paddingLeft:'0.5em' }}>
+                <IconButton onClick={toggleEditor} invert={true} icon='edit' />
+              </div>
+            : ''
+          }
+        </div>
+        :<DescriptionEditor description={description} saveDescription={toggleEditor} setDescription={setDescription}/>
+      }
     </div>
   )
 }

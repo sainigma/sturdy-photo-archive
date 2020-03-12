@@ -100,6 +100,33 @@
   margin-bottom:1em;
 }
 
+.likecounter,.likebutton{
+  position: relative;
+  float: left;
+  color: white;
+  margin-top: 1em;
+  padding-top: 0;
+  height: 2.5em;
+  border-radius: 0.5em;
+}
+.likecounter{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 2em;
+  background-color: #cccccc;
+}
+.likebutton{
+  width:6em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  cursor:pointer;
+  background-color: #409443;
+}
+.descriptionparagraph{
+  text-indent: 1em;
+  margin-top: 0.25em;
+  text-align: justify;
+}
 .labelcontainer{
   position: relative;
   padding:0.25em;
