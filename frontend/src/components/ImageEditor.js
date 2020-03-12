@@ -9,6 +9,7 @@ import Location from './ImageEditor/Location'
 import Info from './ImageEditor/Info'
 import PanoramaView from './ImageEditor/PanoramaView'
 import Permissions from './ImageEditor/Permissions'
+import Like from './ImageEditor/Like'
 
 const LeftContainer = (props) => {
   if( props.selected && !props.selected.panorama ){
@@ -64,7 +65,7 @@ const ImageEditor = (props) => {
 
   let hasEditRights = false
   if( props.selected !== undefined && ( props.selected.owner === props.activeUser || props.selected.uploader === props.activeUser ) ) hasEditRights = true
-
+  console.log( props.selected )
   const fileurl = `${url}${id}.${filetype}`
   return(
     <div className="imgeditorbackground">
@@ -87,6 +88,7 @@ const ImageEditor = (props) => {
             <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels} hasEditRights={hasEditRights}/>
             <Permissions hasEditRights={hasEditRights}/>
             <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
+            <Like likes={props.selected.likes}/>
           </>
           }
         </RightContainer>

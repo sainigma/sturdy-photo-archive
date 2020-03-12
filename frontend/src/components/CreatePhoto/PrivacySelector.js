@@ -10,7 +10,7 @@ const PrivacySelector = (props) => {
   }
 
   return (
-    <Input type={"select"} icon={"user"} label={props.label} selections={selections} selected={props.selected} onChange={selectionChanged}/>
+    <Input type={"select"} icon={"users"} label={props.label} selections={selections} selected={props.selected} onChange={selectionChanged}/>
   )
 }
 export default PrivacySelector

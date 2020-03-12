@@ -29,6 +29,7 @@ icons = [
     'calendar',
     'options',
     'key',
+    'fist',
 ]
 output='//output/'
 filetype='.png'

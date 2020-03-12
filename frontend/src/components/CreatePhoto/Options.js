@@ -14,7 +14,6 @@ const NameSelector = (props) => {
   const changeName = (event) => {
     props.setNewName(event.target.value)
     setName(event.target.value)
-    
   }
   return(
     <Input type="text" label="Name" value={name} onChange={changeName}/>

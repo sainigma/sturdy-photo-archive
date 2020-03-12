@@ -1,3 +1,11 @@
+export const dateIsValid = (value) => {
+  const dmyFormat = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/
+  if( dmyFormat.test(value) ){
+    return true
+  }
+  return false
+}
+
 const dateFormatter = (inputString, value, onChange) => {
   const dFormat = /^[0-9]{0,2}$/
   const dmFormat = /^[0-9]{1,2}\/[0-9]{0,2}$/
