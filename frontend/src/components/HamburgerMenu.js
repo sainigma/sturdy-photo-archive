@@ -284,6 +284,8 @@ const HamburgerMenu = (props) => {
   const [ locationsCollapsed, setLocationsCollapsed ] = useState(true)
   const [ allToggled, setAllToggled ] = useState(true)
 
+  if( !props.appstate.loggedIn ) return(<></>)
+
   const changeMenu = (event) => {
     setActive(event.target.attributes.type.value)
   }

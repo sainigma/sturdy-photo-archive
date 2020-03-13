@@ -121,6 +121,12 @@ photoRouter.post('/modify', async(req,res,next) => {
         result = await photoQuery.changeDate( username, photoId, newDate )
         if( result ) res.status(200).end()
         break
+      case 'title':
+        photoId = req.body.photoId
+        const title = req.body.title
+        result = await photoQuery.changeTitle( username, photoId, title )
+        if( result )res.status(200).end()
+        break
       default:
         console.log("outoa")
         break

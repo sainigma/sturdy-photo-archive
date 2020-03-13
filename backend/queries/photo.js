@@ -331,6 +331,23 @@ const changeDate = async (username,id,newDate) => {
   return true
 }
 
+const changeTitle = async(username,id,title) => {
+  const titleChanger = (params) => {
+    getQuery(`
+      update photos set
+        name = '${params.title}'
+      where photos.id = '${params.id}'
+      and(
+        username_to_uuid('${params.username}') = owner
+        or username_to_uuid('${params.username}') = uploader
+        or username_to_uuid('${params.username}') = any (people) 
+      )
+    `)
+  }
+  await titleChanger({username,id,title})
+  return true
+}
+
 module.exports = {
   getPublic,
   getOwnedByUser,
@@ -341,5 +358,6 @@ module.exports = {
   modifyPermissions,
   toggleLike,
   changeDescription,
-  changeDate
+  changeDate,
+  changeTitle
 }

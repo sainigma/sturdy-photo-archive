@@ -127,6 +127,15 @@
   margin-top: 0.25em;
   text-align: justify;
 }
+.descriptioncontainer{
+  border-radius: 0.25em;
+  background-color: #eeeeee;
+  width: 90%;
+  height: 100%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 0.5em;
+}
 .labelcontainer{
   position: relative;
   padding:0.25em;
@@ -165,15 +174,7 @@
   padding-left:0.5em;
   float:left;
 }
-.descriptioncontainer{
-  border-radius: 0.25em;
-  background-color: #eeeeee;
-  width: 90%;
-  height: 100%;
-  padding-top: 0.5em;
-  padding-bottom: 0.25em;
-  padding-left: 0.5em;
-}
+
 
 @media only screen and (min-width: 500px){
   .imgeditorcontainer{
