@@ -187,6 +187,56 @@ end$$;
 
 
 --
+-- Name: toggle_likes(text, uuid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.toggle_likes(username text, targetid uuid) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$declare
+	was_success boolean;
+	useruuid uuid;
+	newlikes uuid[];
+	oglikes uuid[];
+begin
+oglikes := (select likes from photos as p where p.id = targetid );
+useruuid := username_to_uuid(username);
+if useruuid is null then
+	return false;
+end if;
+if useruuid = any(oglikes) then
+	newlikes := array_remove(oglikes, useruuid);
+	update photos set likes = newlikes where photos.id = targetid;
+	return true;
+else
+	newlikes := array_append(oglikes, useruuid);
+	update photos set likes = newlikes where photos.id = targetid;
+	return true;
+end if;
+return false;
+end;$$;
+
+
+--
+-- Name: user_has_liked(text, uuid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.user_has_liked(username text, targetid uuid) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$declare
+useruuid uuid;
+likes uuid[];
+begin
+useruuid := username_to_uuid(username);
+likes := (select p.likes from photos as p where p.id = targetid);
+if useruuid = any( likes ) then
+	return true;
+else
+	return false;
+end if;
+end;$$;
+
+
+--
 -- Name: username_to_uuid(text); Type: FUNCTION; Schema: public; Owner: -
 --
 

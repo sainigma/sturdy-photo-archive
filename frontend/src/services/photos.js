@@ -113,6 +113,21 @@ const createLocation = async(photoId, location) => {
   return false
 }
 
+const toggleLike = async(photoId) => {
+  const user = getUser()
+  if( !user )return false
+  let response
+  let formData = new FormData()
+
+  formData.append("type","like")
+  formData.append("photoId",photoId)
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    return response
+  }catch(error){}
+  return false
+}
+
 export default{
   getPublic,
   getOwned,
@@ -121,5 +136,6 @@ export default{
   search,
   changeLocation,
   createLocation,
-  changePermissions
+  changePermissions,
+  toggleLike
 }
