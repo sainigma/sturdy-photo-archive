@@ -213,6 +213,50 @@ const changeLocation = async(username, id, location) => {
 }
 
 
+const modifyPermissions = async( username, id, values ) => {
+  const touchPermission = (params) => {
+    return getQuery(`
+      update permissions set
+        parent = ${params.relatives},
+        child = ${params.relatives},
+        spouse = ${params.relatives},
+        tangential = ${params.relatives},
+        friend = ${params.friends}
+      where permissions.id = '${params.id}'
+      and permissions.owner = username_to_uuid('${params.username}')
+      returning id
+    `)
+  }
+  const sanitizer = (value) => {
+    switch(value){
+      case 0:
+        return 0
+      case 1:
+        return 1
+      case 2:
+        return -1
+      default:
+        return null
+    }
+  }
+
+
+  let result
+  let relatives, friends
+  if( values.public ){
+    relatives = -1
+    friends = -1
+  }else{
+    relatives = sanitizer( parseInt( values.relatives ) )
+    friends = sanitizer( parseInt( values.friends ) )
+  }
+  if( relatives !== null && friends !== null ){
+    result = await touchPermission({username, id, relatives, friends})
+    if( result.rowCount > 0 ) return true
+  }
+  return false
+}
+
 const search = async (username,labels,locations) => {
   const searchQuery = (params) => {
     return getQuery(`
@@ -248,5 +292,6 @@ module.exports = {
   getSingle,
   search,
   changeLocation,
-  createLocation
+  createLocation,
+  modifyPermissions
 }

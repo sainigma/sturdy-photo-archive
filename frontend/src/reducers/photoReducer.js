@@ -98,7 +98,6 @@ const photoReducer = (state=initialState, action) => {
       sendNewState = true
       break
     case 'updatePermissions':
-      console.log( action.values )
       sendNewState = false
       break
   }
@@ -315,7 +314,7 @@ export const sortPhotos = (value) => {
   }
 }
 
-export const updatePermissions = async(id, values) => {
+export const updatePermissions = (id, values) => {
   return async dispatch => {
     const response = await photoService.changePermissions(id, values)
     if( response && response.status === 200 ){
@@ -323,11 +322,10 @@ export const updatePermissions = async(id, values) => {
         type:'updatePermissions',
         values
       })
-    }else{
-      dispatch({
-        type:'ERROR'
-      })
     }
+    dispatch({
+      type:'ERROR'
+    })
   }
 }
 

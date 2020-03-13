@@ -38,6 +38,9 @@ const Location = (props) => {
   const [selectActive, setSelectActive] = useState(false)
   const [locationPickerActive, setLocationPickerActive] = useState(false)
   const [location, setLocation] = useState(props.location!==null ? props.location : false)
+
+  if( !props.hasEditRights && props.location === null ) return(<></>)
+
   const toggleCollapsed = () => {
     setCollapsed(!collapsed)
   }
