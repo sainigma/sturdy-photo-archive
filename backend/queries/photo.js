@@ -297,6 +297,40 @@ const search = async (username,labels,locations) => {
   return await photosFromQuery(searchQuery, labelConditions, locationConditions)
 }
 
+const changeDescription = async (username,id,description) => {
+  const descriptionChanger = (params) => {
+    getQuery(`
+      update photos set
+      description = '${params.description}'
+      where photos.id = '${params.id}'
+      and(
+        username_to_uuid('${params.username}') = owner
+        or username_to_uuid('${params.username}') = uploader
+        or username_to_uuid('${params.username}') = any (people) 
+      ) returning id
+    `)
+  }
+  await descriptionChanger({username, id, description})
+  return true
+}
+
+const changeDate = async (username,id,newDate) => {
+  const dateChanger = (params) => {
+    getQuery(`
+      update photos set
+      timerange = array[to_timestamp(${params.newDate}),to_timestamp(${params.newDate})]
+      where photos.id = '${params.id}'
+      and(
+        username_to_uuid('${params.username}') = owner
+        or username_to_uuid('${params.username}') = uploader
+        or username_to_uuid('${params.username}') = any (people) 
+      )
+    `)
+  }
+  await dateChanger({username, id, newDate:parseInt(newDate)})
+  return true
+}
+
 module.exports = {
   getPublic,
   getOwnedByUser,
@@ -305,5 +339,7 @@ module.exports = {
   changeLocation,
   createLocation,
   modifyPermissions,
-  toggleLike
+  toggleLike,
+  changeDescription,
+  changeDate
 }

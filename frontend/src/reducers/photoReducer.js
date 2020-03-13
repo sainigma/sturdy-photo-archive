@@ -100,6 +100,16 @@ const photoReducer = (state=initialState, action) => {
     case 'updatePermissions':
       sendNewState = false
       break
+    case 'hasLiked':
+      sendNewState = true
+      newState.owned = state.owned.map( photo=> {
+        let result = photo
+        if( photo.id === action.photoId ){
+          photo.likecount += action.liked ? 1 : -1
+        }
+        return result
+      })
+      break
   }
 
   if( sendNewState ){
@@ -329,12 +339,42 @@ export const updatePermissions = (id, values) => {
   }
 }
 
-export const toggleLike = (photoId) => {
+export const toggleLike = (photoId,liked) => {
   return async dispatch => {
     const response = await photoService.toggleLike(photoId)
     if( response && response.status === 200 ){
       dispatch({
-        type:'hasliked'
+        type:'hasLiked',
+        photoId,
+        liked
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
+export const changeDescription = (photoId,description) => {
+  return async dispatch => {
+    const response = await photoService.changeDescription(photoId,description)
+    if( response && response.status === 200 ){
+      dispatch({
+        type:'descriptionChanged'
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
+export const modifyDate = (photoId,newDate) => {
+  return async dispatch => {
+    const response = await photoService.changeDate(photoId,newDate)
+    if( response && response.status === 200 ){
+      dispatch({
+        type:'dateChanged'
       })
     }
     dispatch({
