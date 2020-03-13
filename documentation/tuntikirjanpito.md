@@ -28,5 +28,5 @@
 | 10.3 | 8 | ImageEditorissa määrittää sijainnin kuville olemassaolevien joukosta, tai poistaa sen. Sijainteja pystyy määrittämään joko editorin kautta tai drag&drop tyyliin filmstrippien välillä raahaamalla. Uusia sijainteja pystyy myös määrittämään image-editorin kautta, kumpikin tilanne ~valmis frontissa, backissa ja tietokannassa. Tietokannan ja backendin päivitystä, reducerien refaktorointia. Panoramakuville 3d-näkymä three.js:llä.
 | 11.3 | 7 | Panoramamoden hiomista, erilliset näkymät pallo- ja sylinteriprojektioille. Kuvien järjestelyyn on nyt käyttöliittymä, ja sen mekanismit on implementoitu myös backendissä ja tietokannassa. Sijaintien näkyvyyttä pystyy suodattamaan.
 | 12.3 | 8 | Font-awesomesta riippuva moduuli on nyt siitä riippumaton, omien ikonien tekoa. ImageEditorissa UI näyttää vain ne toiminnot joihin käyttäjällä on backendissä oikeus, infonäkymän tekoa. ImageEditorin käyttöliittymässä suurin osa lopullisista toiminnoista (tietojen haku, lisääminen ja muutos), ei vielä tukea backendissä.
-| 13.3 | 3 | Lisää tietokantafunktioita. Nyt front hakee kaikki kuvat joihin sillä on suora oikeus (omistaja tai julkinen kuva), eri toiminnallisuudet omistajuudesta riippuen. Oikeuksien muuttamisen toiminnallisuutta pohjustettu.
-| yht   | 167 | | 
+| 13.3 | 5 | Lisää tietokantafunktioita. Nyt front hakee kaikki kuvat joihin sillä on suora oikeus (omistaja tai julkinen kuva), eri toiminnallisuudet omistajuudesta riippuen. Yksittäisten kuvien oikeuksia voi muuttaa, ominaisuus toteutettu koko stackissa.
+| yht   | 169 | | 

@@ -98,7 +98,10 @@ photoRouter.post('/modify', async(req,res,next) => {
         result = await photoQuery.createLocation( username, photoId, location )
         res.json({location:result}).status(200).end()
       case 'permissions':
-        res.status(200).end()
+        const permissionId = req.body.permissionId
+        const values = JSON.parse( req.body.values )
+        result = await photoQuery.modifyPermissions( username, permissionId, values )
+        if( result ) res.status(200).end()
       default:
         break
     }

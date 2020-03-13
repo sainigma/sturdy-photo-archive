@@ -65,6 +65,8 @@ const Labels = (props) => {
     setCollapsed(!collapsed)
   }
 
+  if( !props.hasEditRights && props.labels === null )return(<></>)
+
   let previousLabels = []
   const previousLength = props.previous.length
   if( previousLength > 0 && props.previous[previousLength-1].currentView === 'filmstrip' ){

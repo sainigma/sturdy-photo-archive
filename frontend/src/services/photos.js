@@ -67,6 +67,17 @@ const search = async(options) => {
 const changePermissions = async(permissionId, values) => {
   const user = getUser()
   if( !user )return false
+  let response
+  let formData = new FormData()
+  console.log("moi!")
+  console.log(values)
+  formData.append('type','permissions')
+  formData.append('values',JSON.stringify(values))
+  formData.append('permissionId',permissionId)
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    return response
+  }catch(error){}
   return false
 }
 
