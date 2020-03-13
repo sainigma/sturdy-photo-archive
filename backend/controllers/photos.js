@@ -97,16 +97,32 @@ photoRouter.post('/modify', async(req,res,next) => {
         console.log(location)
         result = await photoQuery.createLocation( username, photoId, location )
         res.json({location:result}).status(200).end()
+        break
       case 'permissions':
         const permissionId = req.body.permissionId
         const values = JSON.parse( req.body.values )
         result = await photoQuery.modifyPermissions( username, permissionId, values )
         if( result ) res.status(200).end()
+        break
       case 'like':
         photoId = req.body.photoId
         result = await photoQuery.toggleLike( username, photoId )
         if( result ) res.status(200).end()
+        break
+      case 'description':
+        photoId = req.body.photoId
+        const description = req.body.description
+        result = await photoQuery.changeDescription( username, photoId, description )
+        if( result ) res.status(200).end()
+        break
+      case 'date':
+        photoId = req.body.photoId
+        const newDate = req.body.date
+        result = await photoQuery.changeDate( username, photoId, newDate )
+        if( result ) res.status(200).end()
+        break
       default:
+        console.log("outoa")
         break
     }
   }

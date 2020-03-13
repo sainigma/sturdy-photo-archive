@@ -118,9 +118,47 @@ const toggleLike = async(photoId) => {
   if( !user )return false
   let response
   let formData = new FormData()
-
   formData.append("type","like")
   formData.append("photoId",photoId)
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    return response
+  }catch(error){}
+  return false
+}
+
+const changeDescription = async(photoId, description) => {
+  const user = getUser()
+  if( !user )return false
+  let response
+  let formData = new FormData()
+  formData.append("type","description")
+  formData.append("photoId",photoId)
+  formData.append("description",description)
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    return response
+  }catch(error){}
+  return false
+}
+
+const changeDate = async(photoId, newDate) => {
+  const user = getUser()
+  if( !user )return false
+  let response
+
+  const parseDate = newDate.split('/')
+  let dateToSend = new Date()
+  dateToSend.setFullYear(parseDate[2])
+  dateToSend.setMonth(parseDate[1]-1)
+  dateToSend.setDate(parseDate[0])
+
+  let formData = new FormData()
+  formData.append("type","date")
+  formData.append("photoId",photoId)
+  formData.append("date",dateToSend/1000)
+
+
   try{
     response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
     return response
@@ -137,5 +175,7 @@ export default{
   changeLocation,
   createLocation,
   changePermissions,
-  toggleLike
+  toggleLike,
+  changeDescription,
+  changeDate
 }

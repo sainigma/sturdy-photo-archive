@@ -77,11 +77,13 @@ const ImageEditor = (props) => {
           { hideRightContainer ? <></> :
           <>
             <Info
+              id={props.selected.id}
               name={props.selected.name}
               daterange={props.selected.daterange}
               owner={props.selected.owner}
               uploader={props.selected.uploader}
               hasEditRights={hasEditRights}
+              description={props.selected.description}
             />
             <Location photoId={props.selected.id} location={props.selected.location} locations={props.locations} hasEditRights={hasEditRights}/>
             

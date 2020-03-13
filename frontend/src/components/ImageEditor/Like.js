@@ -14,6 +14,7 @@ const Like = (props) => {
   },[])
 
   const toggleLike = () => {
+    props.changeLikes(props.id, !liked)
     if( !liked ){
       setLikes(likes+1)
       setLiked(true)
@@ -21,7 +22,6 @@ const Like = (props) => {
       setLikes(likes-1)
       setLiked(false)
     }
-    props.changeLikes(props.id)
   }
 
   return(
