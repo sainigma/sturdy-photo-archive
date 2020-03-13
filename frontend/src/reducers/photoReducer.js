@@ -97,6 +97,10 @@ const photoReducer = (state=initialState, action) => {
       newState.sorting = action.value
       sendNewState = true
       break
+    case 'updatePermissions':
+      console.log( action.values )
+      sendNewState = false
+      break
   }
 
   if( sendNewState ){
@@ -281,9 +285,7 @@ export const conductSearch = (options) => {
   return async dispatch => {
     const response = await photoService.search(options)
     if( response && response.status === 200 ){
-      
       const searchresult = response.data.searchresult
-      console.log(searchresult)
       dispatch({
         type:'searchresults',
         searchresult
@@ -310,6 +312,22 @@ export const sortPhotos = (value) => {
   return{
     type:'setSorting',
     value
+  }
+}
+
+export const updatePermissions = async(id, values) => {
+  return async dispatch => {
+    const response = await photoService.changePermissions(id, values)
+    if( response && response.status === 200 ){
+      dispatch({
+        type:'updatePermissions',
+        values
+      })
+    }else{
+      dispatch({
+        type:'ERROR'
+      })
+    }
   }
 }
 

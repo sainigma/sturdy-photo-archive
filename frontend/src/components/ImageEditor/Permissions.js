@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 
 import SectionToggler from '../general/SectionToggler'
 import Input from '../general/Input'
@@ -10,6 +10,14 @@ const Permissions = (props) => {
   const [friends, setFriends] = useState( 0 )
   const [isPublic, setPublic] = useState( false )
 
+  useEffect( ()=>{
+    if( props.permissions !== null && props.permissions.friend === -1 ){
+      setPublic(true)
+      setRelatives(2)
+      setFriends(2)
+    }
+  },[])
+
   if( !props.hasEditRights )return(<></>)
 
   const toggleCollapsed = () => {
@@ -17,17 +25,39 @@ const Permissions = (props) => {
   }
 
   const togglePublic = () => {
-    setPublic(!isPublic)
+    if( !isPublic ){
+      setPublic(true)
+      setRelatives(2)
+      setFriends(2)
+      props.updatePermissions({
+        relatives:2,
+        friends:2,
+        public:true
+      })
+    }
+    else setPublic(!isPublic)
   }
 
   const setRelative = (event) => {
-    const value = event.target.value
+    let value = event.target.value
     setRelatives( value )
+    if( isPublic ) setPublic(false)
+    props.updatePermissions({
+      relatives:event.target.value,
+      friends,
+      public:false
+    })
   }
 
   const setFriend = (event) => {
     const value = event.target.value
     setFriends( value )
+    if( isPublic ) setPublic(false)
+    props.updatePermissions({
+      relatives,
+      friends:event.target.value,
+      public:false
+    })
   }
 
   return(
