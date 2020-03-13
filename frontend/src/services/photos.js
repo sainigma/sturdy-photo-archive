@@ -166,6 +166,23 @@ const changeDate = async(photoId, newDate) => {
   return false
 }
 
+const changeTitle = async(photoId,title) => {
+  const user = getUser()
+  if( !user )return false
+  let response
+  let formData = new FormData()
+  
+  formData.append("type","title")
+  formData.append("photoId",photoId)
+  formData.append("title",title)
+
+  try{
+    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    return response
+  }catch(error){}
+  return false
+}
+
 export default{
   getPublic,
   getOwned,
@@ -177,5 +194,6 @@ export default{
   changePermissions,
   toggleLike,
   changeDescription,
-  changeDate
+  changeDate,
+  changeTitle
 }

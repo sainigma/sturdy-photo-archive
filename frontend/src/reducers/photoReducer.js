@@ -383,4 +383,18 @@ export const modifyDate = (photoId,newDate) => {
   }
 }
 
+export const modifyTitle = (photoId,title) => {
+  return async dispatch => {
+    const response = await photoService.changeTitle(photoId,title)
+    if( response && response.status === 200 ){
+      dispatch({
+        type:'titleChanged'
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
 export default photoReducer
