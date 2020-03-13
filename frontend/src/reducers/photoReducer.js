@@ -329,4 +329,18 @@ export const updatePermissions = (id, values) => {
   }
 }
 
+export const toggleLike = (photoId) => {
+  return async dispatch => {
+    const response = await photoService.toggleLike(photoId)
+    if( response && response.status === 200 ){
+      dispatch({
+        type:'hasliked'
+      })
+    }
+    dispatch({
+      type:'ERROR'
+    })
+  }
+}
+
 export default photoReducer

@@ -8,11 +8,12 @@ const Like = (props) => {
     if( props.likes !== null ){
       setLikes(props.likes)
     }
+    if( props.hasliked !== null ){
+      setLiked(props.hasliked)
+    }
   },[])
 
-
-
-  const toggleLike = (props) => {
+  const toggleLike = () => {
     if( !liked ){
       setLikes(likes+1)
       setLiked(true)
@@ -20,6 +21,7 @@ const Like = (props) => {
       setLikes(likes-1)
       setLiked(false)
     }
+    props.changeLikes(props.id)
   }
 
   return(

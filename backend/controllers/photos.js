@@ -102,6 +102,10 @@ photoRouter.post('/modify', async(req,res,next) => {
         const values = JSON.parse( req.body.values )
         result = await photoQuery.modifyPermissions( username, permissionId, values )
         if( result ) res.status(200).end()
+      case 'like':
+        photoId = req.body.photoId
+        result = await photoQuery.toggleLike( username, photoId )
+        if( result ) res.status(200).end()
       default:
         break
     }

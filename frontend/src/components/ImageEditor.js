@@ -4,7 +4,7 @@ import Labels from './ImageEditor/Labels'
 import Closer from './general/Closer'
 import { connect } from 'react-redux'
 import {changeView} from './../reducers/appStateReducer'
-import {newLabel,updateSelected,updatePermissions} from './../reducers/photoReducer'
+import {newLabel,updateSelected,updatePermissions,toggleLike} from './../reducers/photoReducer'
 import Location from './ImageEditor/Location'
 import Info from './ImageEditor/Info'
 import PanoramaView from './ImageEditor/PanoramaView'
@@ -88,7 +88,7 @@ const ImageEditor = (props) => {
             <Labels id={props.selected.id} newLabel={props.newLabel} labels={props.selected.labels} hasEditRights={hasEditRights}/>
             <Permissions hasEditRights={hasEditRights} permissions={props.selected.permissions} updatePermissions={props.updatePermissions}/>
             <Comments collapsed={true} id={props.selected.id} comments={props.selected.comments}/>
-            <Like likes={props.selected.likes}/>
+            <Like id={props.selected.id} changeLikes={props.toggleLike} likes={props.selected.likes} hasliked={props.selected.hasliked}/>
           </>
           }
         </RightContainer>
@@ -105,4 +105,4 @@ const mapStateToProps = (state) => {
     activeUser:state.user.username,
   }
 }
-export default connect(mapStateToProps,{changeView,newLabel,updateSelected,updatePermissions})(ImageEditor)
+export default connect(mapStateToProps,{changeView,newLabel,updateSelected,updatePermissions,toggleLike})(ImageEditor)

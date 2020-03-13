@@ -84,7 +84,8 @@ const getSingle = async (username, id) => {
           equirectangular,
           panorama,
           filetype,
-          likes,
+          array_length(likes,1) as likes,
+          user_has_liked('${params.username}', '${params.id}') as hasliked,
           permission_to_json(pointer_to_permission(photo.permissions,'${params.username}')) as permissions
         from photos as photo
         left join locations on(photo.location = locations.id)
@@ -212,6 +213,16 @@ const changeLocation = async(username, id, location) => {
   return false
 }
 
+const toggleLike = async( username, id ) => {
+  const touchLikes = (params) => {
+    return getQuery(`
+      select toggle_likes('${params.username}', '${params.id}')
+    `)
+  }
+  let result = await touchLikes({username, id})
+  if( result.rowCount > 0 && result.rows[0] )return true
+  else return false
+}
 
 const modifyPermissions = async( username, id, values ) => {
   const touchPermission = (params) => {
@@ -293,5 +304,6 @@ module.exports = {
   search,
   changeLocation,
   createLocation,
-  modifyPermissions
+  modifyPermissions,
+  toggleLike
 }
