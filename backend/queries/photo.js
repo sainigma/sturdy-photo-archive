@@ -56,45 +56,40 @@ const getOwnedByUser = async (username) => {
         array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
         location,
         array_length(labels,1) as labelcount,
-        array_length(likes,1) as likecount
+        array_length(likes,1) as likecount,
+        photo_is_public(photo.permissions)
       from photos as photo
       
       where photo.owner = (
         select id from users where username='${params.username}'
-      )
+      ) or photo_is_public(photo.permissions)
     `)
   }
   return await photosFromQuery(getOwnedQuery, { username })
 }
 
 const getSingle = async (username, id) => {
-  const getBasicInfoQuery = (params) => {
-    return getQuery(`
-      select * from photos as photo
-      where photo.id = '${params.id}'
-    `)
-  }
   const getFullInfoQuery = (params) => {
     return getQuery(`
       select
-          photos.id,
-          photos.name,
-          photos.description,
+          photo.id,
+          photo.name,
+          photo.description,
           array[timestamp_to_epoch(timerange[1]),timestamp_to_epoch(timerange[2])] as daterange,
           row_to_json(locations.*) as location,
-          owner.username as owner,
-          uploader.username as uploader,
+          uuid_to_username(photo.owner) as owner,
+          uuid_to_username(photo.uploader) as uploader,
           labeluuids_to_labels(labels) as labels,
-          commentuuids_to_comments(photos.comments) as comments,
+          commentuuids_to_comments(photo.comments) as comments,
           equirectangular,
           panorama,
           filetype,
-          likes
-        from photos
-        left join locations on(photos.location = locations.id)
-        left join users owner on(photos.owner = owner.id)
-        left join users uploader on(photos.uploader = uploader.id)
-      where photos.id = '${params.id}'
+          likes,
+          permission_to_json(pointer_to_permission(photo.permissions,'${params.username}')) as permissions
+        from photos as photo
+        left join locations on(photo.location = locations.id)
+      where photo.id = '${params.id}'
+      and ( photo.owner = username_to_uuid('${params.username}') or photo_is_public(photo.permissions) )
  `)
   }
 

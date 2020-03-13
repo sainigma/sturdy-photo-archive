@@ -27,12 +27,8 @@ const locationReducer = (state=initialState, action) => {
     case 'LOCATIONGET':
     case 'initializePublic':
     case 'initializeUser':
-      if( state.locations.length === 0 ){
-        return {
-          locations: action.locations
-        }
-      }else{
-        return state
+      return {
+        locations: action.locations
       }
 
     case 'updateLocation':

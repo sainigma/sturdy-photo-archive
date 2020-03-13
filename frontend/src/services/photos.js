@@ -64,6 +64,12 @@ const search = async(options) => {
   return false
 }
 
+const changePermissions = async(permissionId, values) => {
+  const user = getUser()
+  if( !user )return false
+  return false
+}
+
 const changeLocation = async(photoId, destination) => {
   const user = getUser()
   if( !user )return false
@@ -103,5 +109,6 @@ export default{
   sendInfo,
   search,
   changeLocation,
-  createLocation
+  createLocation,
+  changePermissions
 }

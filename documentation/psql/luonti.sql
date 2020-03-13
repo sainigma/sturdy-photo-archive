@@ -40,21 +40,150 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 
 --
+-- Name: citycountry_to_uuid(text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.citycountry_to_uuid(cityname text, countryname text) RETURNS uuid
+    LANGUAGE plpgsql
+    AS $$begin
+return( select id from cities where name = cityname and ( country = countryname or ( country is null and countryname is null ) ) );
+end$$;
+
+
+--
+-- Name: commentuuids_to_comments(uuid[]); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.commentuuids_to_comments(commentpointers uuid[]) RETURNS json[]
+    LANGUAGE plpgsql
+    AS $$declare
+	retarray json[];
+begin
+if commentpointers is null then
+	retarray := null;
+else
+	for i in array_lower(commentpointers,1)..array_upper(commentpointers,1) loop
+	retarray[i] := uuid_to_comment( commentpointers[i] );
+	end loop;
+end if;
+return retarray;
+end;$$;
+
+
+--
+-- Name: labeluuids_to_labels(uuid[]); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.labeluuids_to_labels(labelpointers uuid[]) RETURNS json[]
+    LANGUAGE plpgsql
+    AS $$declare
+	retarray json[];
+begin
+if labelpointers is null then
+	retarray := null;
+else
+	for i in array_lower(labelpointers,1)..array_upper(labelpointers,1) loop
+	retarray[i] := uuid_to_label( labelpointers[i] );
+	end loop;
+end if;
+return retarray;
+end;$$;
+
+
+--
 -- Name: labeluuids_to_names(uuid[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.labeluuids_to_names(oglabels uuid[]) RETURNS text[]
     LANGUAGE plpgsql
-    AS $$
-declare
+    AS $$declare
 retarray text[];
 begin
-for i in array_lower(oglabels,1)..array_upper(oglabels,1) loop
-retarray[i] := uuid_to_label(oglabels[i]);
-end loop;
+if oglabels is null then
+	retarray := null;
+else
+	for i in array_lower(oglabels,1)..array_upper(oglabels,1) loop
+	retarray[i] := uuid_to_label(oglabels[i]);
+	end loop;
+end if;
 return retarray;
 end;
 $$;
+
+
+--
+-- Name: permission_to_json(uuid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.permission_to_json(pointertopermit uuid) RETURNS json
+    LANGUAGE plpgsql
+    AS $$begin
+return (
+	select row_to_json(omittedpermissions) from 
+	( select p.id, p.child, p.friend, p.parent, p.spouse, p.tangential from permissions as p where p.id = pointertopermit ) as omittedpermissions
+	);
+end$$;
+
+
+--
+-- Name: photo_is_public(uuid[]); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.photo_is_public(permissions uuid[]) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$declare
+notpublic_count integer;
+friend integer;
+begin
+notpublic_count := 0;
+if permissions is null then 
+	notpublic_count  := 1;
+else
+	for i in array_lower(permissions,1)..array_upper(permissions,1) loop
+		friend := (select per.friend from permissions as per where per.id = permissions[i]);
+		if friend != -1 then
+			notpublic_count := notpublic_count + 1;
+		end if;
+	end loop;
+end if;
+return notpublic_count = 0;
+end;$$;
+
+
+--
+-- Name: pointer_to_permission(uuid[], text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.pointer_to_permission(ogpermissions uuid[], username text) RETURNS uuid
+    LANGUAGE plpgsql
+    AS $$declare
+	useruuid uuid;
+	currentuser uuid;
+begin
+useruuid := username_to_uuid(username);
+if ogpermissions is null then
+	return null;
+else
+	for i in array_lower(ogpermissions,1)..array_upper(ogpermissions,1) loop
+		currentuser := (select p.owner from permissions as p where p.id = ogpermissions[i]);
+		if currentuser = useruuid then
+			return ogpermissions[i];
+		end if;
+	end loop;
+end if;
+return null;
+end;$$;
+
+
+--
+-- Name: timestamp_to_epoch(timestamp without time zone); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.timestamp_to_epoch("timestamp" timestamp without time zone) RETURNS double precision
+    LANGUAGE plpgsql
+    AS $$begin
+	return ( select date_part('epoch',timestamp) );
+end$$;
 
 
 --
@@ -69,13 +198,55 @@ end;$$;
 
 
 --
+-- Name: uuid_to_comment(uuid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.uuid_to_comment(commentuuid uuid) RETURNS json
+    LANGUAGE plpgsql
+    AS $$begin
+	return(
+		select row_to_json(s)
+		from (
+			select
+				c.id,
+				uuid_to_username(c.userid) as username,
+				c.content,
+				timestamp_to_epoch(c.timestamp) as timestamp
+			from comments as c
+			where c.id = commentuuid
+		) as s
+	);
+end;$$;
+
+
+--
 -- Name: uuid_to_label(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.uuid_to_label(inputlabel uuid) RETURNS text
+CREATE FUNCTION public.uuid_to_label(labeluuid uuid) RETURNS json
     LANGUAGE plpgsql
     AS $$begin
-return (select name from labels where labels.id = inputlabel);
+	return(
+		select row_to_json(s)
+		from (
+			select
+				l.id,
+				l.name
+			from labels as l
+			where l.id = labeluuid
+		) as s
+	);
+end;$$;
+
+
+--
+-- Name: uuid_to_username(uuid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.uuid_to_username(useruuid uuid) RETURNS text
+    LANGUAGE plpgsql
+    AS $$begin
+return (select username from users where users.id = useruuid);
 end;$$;
 
 
@@ -90,15 +261,6 @@ SET default_with_oids = false;
 CREATE TABLE public.albums (
     id uuid,
     name text
-);
-
-
---
--- Name: asdfasdf; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE public.asdfasdf (
-    id uuid
 );
 
 
@@ -197,7 +359,8 @@ CREATE TABLE public.photos (
     panorama boolean,
     timerange timestamp without time zone[],
     md5 text,
-    filetype text
+    filetype text,
+    likes uuid[]
 );
 
 
