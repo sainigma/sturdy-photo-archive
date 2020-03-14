@@ -5,22 +5,21 @@ const Jimp = require('jimp')
 
 fileRouter.post('/upload', async(req,res,next)=>{
 
-  const generateThumbnail = async(photo) => {
-    let thumbnail = await Jimp.read(`./public/photos/${photo.id}.${filetype}`)
+  const generateThumbnail = async(photo, buffer) => {
+    let thumbnail = await Jimp.read(buffer)
     await thumbnail.scaleToFit(256,256).quality(90).writeAsync(`./public/photos/${photo.id}thumb.${filetype}`)
     return true
   }
 
   const moveFile = async(photo) => {
     try{
+      await generateThumbnail(photo, req.files.image.data)
       await req.files.image.mv( `./public/photos/${photo.id}.${filetype}`, (error) => {
         if( error ) return res.status(500).send(error)
       })
     }catch(error){
       console.log(error)
     }
-    
-    await generateThumbnail(photo)
     return res.json({"photo":photo}).status(200).end()
   }
 

@@ -9,10 +9,16 @@ const initialState = {
 const uploadReducer = (state = initialState, action) => {
   if( action.type === 'UPLOADPHOTO' ){
     console.log(action.status)
-    return{
-      status:action.status,
-      timestamp:Date.now(),
-      photo:action.data.photo
+    if( action.status !== 400 ){
+      return{
+        status:action.status,
+        timestamp:Date.now(),
+        photo:action.data.photo
+      }
+    }else return{
+      status:400,
+      timestamp:0,
+      photo:null
     }
   }else if( action.type === 'RESET' ){
     return{
