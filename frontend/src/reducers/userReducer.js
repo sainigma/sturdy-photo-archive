@@ -71,13 +71,11 @@ const spawnUser = async(login) => {
     }
   }else{
     const photoQuery = await photoService.getPublic()
-    if( photoQuery ){
-      return{
-        loggedIn: false,
-        photos: photoQuery.data.photos,
-        locations: photoQuery.data.locations,
-        user:{}
-      }
+    return{
+      loggedIn: false,
+      photos: photoQuery ? photoQuery.data.photos : [],
+      locations: photoQuery ? photoQuery.data.locations : [],
+      user:{}
     }
   }
   return false
