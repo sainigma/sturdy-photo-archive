@@ -4,12 +4,15 @@ const { Client } = require('pg')
 const config = require('./../utils/config')
 const client = new Client(config.PSQLCONF)
 client.connect()
+const Utils = require('./../utils/utils')
 
 const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
 }
 
-const login = async(username,password) => {
+const login = async(rawusername,rawpassword) => {
+  const username = Utils.sanitize(rawusername,"string")
+  const password = Utils.sanitize(rawpassword,"string")
   const fetchUser = () => {
     return getQuery(`
       SELECT hash, active, id FROM users
@@ -25,7 +28,6 @@ const login = async(username,password) => {
 
   try {
     const query = await fetchUser()
-    //console.log(query)
     if(query.rows.length>0){
       user = username
       id = query.rows[0].id
@@ -40,7 +42,8 @@ const login = async(username,password) => {
   return {user,hash,active,hasErrors,result}
 }
 
-const verify = async(verification) => {
+const verify = async(rawverification) => {
+  const verification = Utils.sanitize(rawverification,"verification")
 
   const fetchUserFromVerifications = () => {
     return getQuery(`
@@ -81,11 +84,20 @@ const verify = async(verification) => {
   return hasErrors
 }
 
-const createNew = async(username,password,email) => {
+const createNew = async(rawusername,rawpassword,rawemail) => {
+  const username = Utils.sanitize(rawusername,"string")
+  const password = Utils.sanitize(rawpassword,"string")
+  const email = Utils.sanitize(rawemail,"string")
+  let hasErrors = false
+  if( !username || !password || !rawemail ){
+    hasErrors = true
+    return hasErrors
+  }
+
 
   const hash = await bcrypt.hash(password,10)
   const verification = await bcrypt.hash(username+password+email,5)
-  let hasErrors = false
+  
 
   try {
     const query = await client.query(`
@@ -111,9 +123,9 @@ const getAll = async() => {
 }
 
 const findOne = async(params) => {
-  const username = params.username ? params.username : "null"
-  const name = params.name ? params.name : "null"
-  const email = params.email ? params.email : "null"
+  const username = params.username ? Utils.sanitize(params.username,"string") : "null"
+  const name = params.name ? Utils.sanitize(params.name,"string") : "null"
+  const email = params.email ? Utils.sanitize(params.email,"string") : "null"
 
   let user = null
   try {

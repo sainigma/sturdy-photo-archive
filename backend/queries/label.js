@@ -2,6 +2,7 @@ const { Client } = require('pg')
 const config = require('./../utils/config')
 const client = new Client(config.PSQLCONF)
 client.connect()
+const Utils = require('./../utils/utils')
 
 const getQuery = (sqlcommand) => {
   return client.query(sqlcommand)
@@ -11,12 +12,12 @@ const remove = async(username,target,id) => {
   const removeLabel = (params) => {
     return getQuery(`
     update photos
-    set labels = array_remove(labels,'${params.id}')
-    where id = '${params.target}'
+    set labels = array_remove(labels,'${Utils.sanitize(params.id,"string")}')
+    where id = '${Utils.sanitize(params.target,"string")}'
     and(
-      username_to_uuid('${params.username}') = owner
-      or username_to_uuid('${params.username}') = uploader
-      or username_to_uuid('${params.username}') = any (people) 
+      username_to_uuid('${Utils.sanitize(params.username,"string")}') = owner
+      or username_to_uuid('${Utils.sanitize(params.username,"string")}') = uploader
+      or username_to_uuid('${Utils.sanitize(params.username,"string")}') = any (people) 
     )
     returning labeluuids_to_labels(labels) as labels
     `)
@@ -30,7 +31,7 @@ const addNew = async(username,target,content) => {
 
   const getExistingLabel = (params) => {
     return getQuery(`
-      select id from labels where name = '${params.content}'
+      select id from labels where name = '${Utils.sanitize(params.content,"string")}'
     `)
   }
 
@@ -42,7 +43,7 @@ const addNew = async(username,target,content) => {
       )
       values(
         uuid_generate_v4(),
-        '${params.content}'
+        '${Utils.sanitize(params.content,"string")}'
       )
       returning id
     `)
@@ -51,13 +52,13 @@ const addNew = async(username,target,content) => {
   const appendLabelToTarget = (params) => {
     return getQuery(`
       update photos
-      set labels = array_append(labels,'${params.id}')
-      where id = '${params.target}'
-      and (labels is null or '${params.id}' != any (labels))
+      set labels = array_append(labels,'${Utils.sanitize(params.id,"string")}')
+      where id = '${Utils.sanitize(params.target,"string")}'
+      and (labels is null or '${Utils.sanitize(params.id,"string")}' != any (labels))
       and(
-        username_to_uuid('${params.username}') = owner
-        or username_to_uuid('${params.username}') = uploader
-        or username_to_uuid('${params.username}') = any (people) 
+        username_to_uuid('${Utils.sanitize(params.username,"string")}') = owner
+        or username_to_uuid('${Utils.sanitize(params.username,"string")}') = uploader
+        or username_to_uuid('${Utils.sanitize(params.username,"string")}') = any (people) 
       )
       returning labeluuids_to_labels(labels) as labels
     `)

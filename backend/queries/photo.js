@@ -85,11 +85,11 @@ const getSingle = async (username, id) => {
           panorama,
           filetype,
           array_length(likes,1) as likes,
-          user_has_liked('${params.username}', '${params.id}') as hasliked,
+          user_has_liked('${params.username}', '${Utils.sanitize(params.id,"string")}') as hasliked,
           permission_to_json(pointer_to_permission(photo.permissions,'${params.username}')) as permissions
         from photos as photo
         left join locations on(photo.location = locations.id)
-      where photo.id = '${params.id}'
+      where photo.id = '${Utils.sanitize(params.id,"string")}'
       and ( photo.owner = username_to_uuid('${params.username}') or photo_is_public(photo.permissions) )
  `)
   }
@@ -108,15 +108,15 @@ const createLocation = async(username, id, location) => {
 
   const insertWithCity = async() => {
     const getCity = (city, country) => {
-      const countryQuery = country === undefined || country === '' ? `null` : `'${country}'`
+      const countryQuery = country === undefined || country === '' ? `null` : `'${Utils.sanitize(country,"string")}'`
       return getQuery(`
-        select citycountry_to_uuid('${city}', ${countryQuery}) as id
+        select citycountry_to_uuid('${Utils.sanitize(city,"string")}', ${countryQuery}) as id
       `)
     }
     const createCity = (city, country) => {
       return getQuery(`
         insert into cities( id, name, country )
-        values( uuid_generate_v4(), '${city}', ${Utils.apostrophize(country)} )
+        values( uuid_generate_v4(), '${Utils.sanitize(city,"string")}', ${Utils.apostrophize(country)} )
         returning id
       `)
     }
@@ -138,7 +138,7 @@ const createLocation = async(username, id, location) => {
     if( cityId ){
       return getQuery(`
       insert into locations( id, name, owner, latitude, longitude, address, postalcode, permission, city )
-      values( uuid_generate_v4(), '${location.name}', username_to_uuid('${username}'), ${Utils.apostrophize(location.latitude)}, ${Utils.apostrophize(location.longitude)}, ${Utils.apostrophize(location.address)}, ${Utils.apostrophize(location.postalcode)}, ${Utils.apostrophize(permissions)}, '${cityId}' )
+      values( uuid_generate_v4(), '${Utils.sanitize(location.name,"string")}', username_to_uuid('${username}'), ${Utils.apostrophize(location.latitude)}, ${Utils.apostrophize(location.longitude)}, ${Utils.apostrophize(location.address)}, ${Utils.apostrophize(location.postalcode)}, ${Utils.apostrophize(permissions)}, '${cityId}' )
       returning id,name
     `)
     }
@@ -148,7 +148,7 @@ const createLocation = async(username, id, location) => {
   const insertWithoutCity = () => {
     return getQuery(`
       insert into locations( id, name, owner, latitude, longitude, address, postalcode, permission )
-      values( uuid_generate_v4(), '${location.name}', username_to_uuid('${username}'), ${Utils.apostrophize(location.latitude)}, ${Utils.apostrophize(location.longitude)}, ${Utils.apostrophize(location.address)}, ${Utils.apostrophize(location.postalcode)}, ${Utils.apostrophize(permissions)} )
+      values( uuid_generate_v4(), '${Utils.sanitize(location.name,"string")}', username_to_uuid('${username}'), ${Utils.apostrophize(location.latitude)}, ${Utils.apostrophize(location.longitude)}, ${Utils.apostrophize(location.address)}, ${Utils.apostrophize(location.postalcode)}, ${Utils.apostrophize(permissions)} )
       returning id,name
     `)
   }
@@ -177,8 +177,8 @@ const changeLocation = async(username, id, location) => {
   const addLocationQuery = (params) => {
     return getQuery(`
       update photos
-      set location = '${params.location}'
-      where id = '${params.id}'
+      set location = '${Utils.sanitize(params.location,"string")}'
+      where id = '${Utils.sanitize(params.id,"string")}'
       and(
         username_to_uuid('${params.username}') = owner
         or username_to_uuid('${params.username}') = uploader
@@ -191,7 +191,7 @@ const changeLocation = async(username, id, location) => {
     return getQuery(`
       update photos
       set location = null
-      where id = '${params.id}'
+      where id = '${Utils.sanitize(params.id,"string")}'
       and(
         username_to_uuid('${params.username}') = owner
         or username_to_uuid('${params.username}') = uploader
@@ -216,7 +216,7 @@ const changeLocation = async(username, id, location) => {
 const toggleLike = async( username, id ) => {
   const touchLikes = (params) => {
     return getQuery(`
-      select toggle_likes('${params.username}', '${params.id}')
+      select toggle_likes('${params.username}', '${Utils.sanitize(params.id,"string")}')
     `)
   }
   let result = await touchLikes({username, id})
@@ -301,8 +301,8 @@ const changeDescription = async (username,id,description) => {
   const descriptionChanger = (params) => {
     getQuery(`
       update photos set
-      description = '${params.description}'
-      where photos.id = '${params.id}'
+      description = '${Utils.sanitize(params.description,"string")}'
+      where photos.id = '${Utils.sanitize(params.id,"string")}'
       and(
         username_to_uuid('${params.username}') = owner
         or username_to_uuid('${params.username}') = uploader
@@ -335,8 +335,8 @@ const changeTitle = async(username,id,title) => {
   const titleChanger = (params) => {
     getQuery(`
       update photos set
-        name = '${params.title}'
-      where photos.id = '${params.id}'
+        name = '${Utils.sanitize(params.title,"string")}'
+      where photos.id = '${Utils.sanitize(params.id,"string")}'
       and(
         username_to_uuid('${params.username}') = owner
         or username_to_uuid('${params.username}') = uploader

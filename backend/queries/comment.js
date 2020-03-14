@@ -1,3 +1,4 @@
+const Utils = require('./../utils/utils')
 const { Client } = require('pg')
 const config = require('./../utils/config')
 const client = new Client(config.PSQLCONF)
@@ -17,9 +18,9 @@ const addNew = async(username,target,content) => {
         timestamp
       )
       values( 
-        username_to_uuid('${params.username}'),
+        username_to_uuid('${Utils.sanitize(params.username,"string")}'),
         uuid_generate_v4(),
-        '${params.content}',
+        '${Utils.sanitize(params.content,"string")}',
         now()
       )
       returning id
@@ -28,8 +29,8 @@ const addNew = async(username,target,content) => {
   const appendCommentToTarget = (params) => {
     return getQuery(`
       update photos
-      set comments = array_append(comments,'${params.newCommentId}')
-      where id = '${params.target}'
+      set comments = array_append(comments,'${Utils.sanitize(params.newCommentId,"string")}')
+      where id = '${Utils.sanitize(params.target,"string")}'
       returning id
     `)
   }
@@ -38,7 +39,7 @@ const addNew = async(username,target,content) => {
       select
         commentuuids_to_comments(comments) as comments
         from photos
-      where photos.id = '${params.target}'
+      where photos.id = '${Utils.sanitize(params.target,"string")}'
     `)
   }
 

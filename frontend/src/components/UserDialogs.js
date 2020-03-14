@@ -23,7 +23,7 @@ const ShowLoginControls = (props) => {
 
   if( props.visibility === false ){
     return(
-      <Input name={"cancel"} type={"button"} icon={"null"} value={"Cancel"} onClick={handleClick}/>
+      <Input name={"cancel"} type={"button"} icon={"null"} value={"Close"} onClick={handleClick}/>
     )
   }
   return(

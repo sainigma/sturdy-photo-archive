@@ -268,9 +268,9 @@ const GeneralMenu = (props) => {
 
 const UserMenu = (props) => {
   return(
-    <div className="leftsidebar">
+    <div className="leftsidebar" style={{height:'4em'}}>
       <Closer onClick={props.exit}/>
-      mio2
+      Work in progress
     </div>
   )
 }
