@@ -42,6 +42,8 @@ Kuvaneditointinäkymä näkyy myös kuvan omistamattomalle käyttäjälle, sill�
 - Panoramoihin hiirikontrolli
 - Panoramoihin mukaan asemoituna kaikki sijainnin kuvat joihin on tallennettu asemoinnin erikoisasetuksia
 - Mailiserveri uusien käyttäjien todentamiseen
+- Kuvien poisto
+- Dynaamisia hakuja, esim sijainnin parametrien perusteella
 
 ### Löydetyt bugit
 
