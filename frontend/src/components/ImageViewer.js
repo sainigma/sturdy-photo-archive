@@ -3,6 +3,7 @@ import Closer from './general/Closer'
 import { connect } from 'react-redux'
 import {changeView} from './../reducers/appStateReducer'
 import PanoramaView from './ImageEditor/PanoramaView'
+const rootURI = 'http://localhost:3001'
 
 const ImageViewer = (props) => {
   const [zoomed, setZoomed] = useState(false)
@@ -20,7 +21,7 @@ const ImageViewer = (props) => {
 
   const id = props.photo.id
   const filetype = props.photo.filetype
-  const url = 'http://localhost:3001/photos/'
+  const url = `${rootURI}/photos/`
   const fileurl = `${url}${id}.${filetype}`
 
   if( props.photo.panorama ){

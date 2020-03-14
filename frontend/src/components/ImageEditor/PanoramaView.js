@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as THREE from 'three'
+const rootURI = 'http://localhost:3001'
 
 class PanoramaView extends Component {
 
@@ -16,7 +17,7 @@ class PanoramaView extends Component {
 
     const subdivisions = this.props.large ? 64 : 20
 
-    let texture = new THREE.TextureLoader().load( `http://localhost:3001/photos/${this.props.photo.id}thumb.${this.props.photo.filetype}` )
+    let texture = new THREE.TextureLoader().load( `${rootURI}/photos/${this.props.photo.id}thumb.${this.props.photo.filetype}` )
     let sphereGeometry = new THREE.SphereBufferGeometry(100,subdivisions,subdivisions)
     let cylinderGeometry = new THREE.CylinderBufferGeometry(50,50,50,subdivisions,2,true)
     let material = new THREE.MeshBasicMaterial({map:texture})
@@ -37,7 +38,7 @@ class PanoramaView extends Component {
       enviroMesh.rotation.y += 0.0025
       renderer.render( scene, camera )
     }
-    let bigTexture = new THREE.TextureLoader().load( `http://localhost:3001/photos/${this.props.photo.id}.${this.props.photo.filetype}` )
+    let bigTexture = new THREE.TextureLoader().load( `${rootURI}/photos/${this.props.photo.id}.${this.props.photo.filetype}` )
     animate()
   }
 

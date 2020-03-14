@@ -10,6 +10,7 @@ import Info from './ImageEditor/Info'
 import PanoramaView from './ImageEditor/PanoramaView'
 import Permissions from './ImageEditor/Permissions'
 import Like from './ImageEditor/Like'
+const rootURI = 'http://localhost:3001'
 
 const LeftContainer = (props) => {
   if( props.selected && !props.selected.panorama ){
@@ -45,7 +46,7 @@ const ImageEditor = (props) => {
 
   const id = props.photo.id
   const filetype = props.photo.filetype
-  const url = 'http://localhost:3001/photos/'
+  const url = `${rootURI}/photos/`
   const hideRightContainer = (
     props.selected === undefined || 
     props.selected.daterange === undefined || 
