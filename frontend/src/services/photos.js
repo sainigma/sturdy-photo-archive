@@ -1,10 +1,11 @@
 import axios from 'axios'
 import {config, getUser} from './general/serviceUtils'
+const rootURI = 'http://localhost:3001'
 
 const getPublic = async() => {
   let response
   try{
-    response = await axios.get( 'http://localhost:3001/api/photos/' )
+    response = await axios.get( `${rootURI}/api/photos/` )
   }catch(error){
     return false
   }
@@ -14,7 +15,7 @@ const getPublic = async() => {
 const getOwned = async(newuser) => {
   let response
   try{
-    response = await axios.get('http://localhost:3001/api/photos/user', config(newuser))
+    response = await axios.get(`${rootURI}/api/photos/user`, config(newuser))
     return response
   }catch(error){
     console.log(error)
@@ -26,7 +27,7 @@ const fetchSingle = async(id, userOut) => {
   let user = userOut ? userOut : getUser()
   let response
   try{
-    response = await axios.get(`http://localhost:3001/api/photos/${id}`, config(user))
+    response = await axios.get(`${rootURI}/api/photos/${id}`, config(user))
     return response
   }catch(error){
     console.log(error)
@@ -43,7 +44,7 @@ const sendInfo = async(target,content,type,additive) => {
   formData.append("content",content)
   formData.append("additive",additive)
   try{
-    response = await axios.post(`http://localhost:3001/api/info/${type}`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/info/${type}`, formData, config(user))
     return response
   }catch(error){
     console.log(error)
@@ -58,7 +59,7 @@ const search = async(options) => {
   let formData = new FormData()
   formData.append("searchterms",JSON.stringify(options.searchterms))
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/search`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/search`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -75,7 +76,7 @@ const changePermissions = async(permissionId, values) => {
   formData.append('values',JSON.stringify(values))
   formData.append('permissionId',permissionId)
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -91,7 +92,7 @@ const changeLocation = async(photoId, destination) => {
   formData.append("photoId",photoId)
   formData.append("destination",destination)
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -107,7 +108,7 @@ const createLocation = async(photoId, location) => {
   formData.append("photoId",photoId)
   formData.append("location",JSON.stringify(location))
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -121,7 +122,7 @@ const toggleLike = async(photoId) => {
   formData.append("type","like")
   formData.append("photoId",photoId)
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -136,7 +137,7 @@ const changeDescription = async(photoId, description) => {
   formData.append("photoId",photoId)
   formData.append("description",description)
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -160,7 +161,7 @@ const changeDate = async(photoId, newDate) => {
 
 
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false
@@ -177,7 +178,7 @@ const changeTitle = async(photoId,title) => {
   formData.append("title",title)
 
   try{
-    response = await axios.post(`http://localhost:3001/api/photos/modify`, formData, config(user))
+    response = await axios.post(`${rootURI}/api/photos/modify`, formData, config(user))
     return response
   }catch(error){}
   return false

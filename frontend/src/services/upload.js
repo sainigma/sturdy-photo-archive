@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { config } from './general/serviceUtils.js'
+const rootURI = 'http://localhost:3001'
 
 const uploadFile = async(user, fileToUpload, labels) => {
   
@@ -12,7 +13,7 @@ const uploadFile = async(user, fileToUpload, labels) => {
   console.log(labels)
   let response
   try{
-    response = await axios.post( 'http://localhost:3001/api/files/upload', formData, config(user))
+    response = await axios.post( `${rootURI}/api/files/upload`, formData, config(user))
   }catch(error){
     response = {
       status:error.response.status

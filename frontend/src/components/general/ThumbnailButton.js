@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import {changeView} from './../../reducers/appStateReducer'
 import IconButton from './IconButton'
+const rootURI = 'http://localhost:3001'
 
 const ThumbnailButton = (props) => {
   const [visibility, setVisibility] = useState('none')
@@ -50,7 +51,7 @@ const ThumbnailButton = (props) => {
       <IconButton type={`imageViewer`} icon="view" className="previewrightbutton" visibility={visibility} onClick={props.thumbnailOnClick ? props.thumbnailOnClick : showDialog}/>
       <img
         className={imgClassName}
-        src={'http://localhost:3001/photos/' + props.photo.id + 'thumb.' + props.photo.filetype}
+        src={`${rootURI}/photos/${props.photo.id}thumb.${props.photo.filetype}`}
         style={specialStyle}
         onClick={props.thumbnailOnClick ? props.thumbnailOnClick : null}
         draggable='false'

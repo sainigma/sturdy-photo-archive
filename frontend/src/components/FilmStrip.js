@@ -4,7 +4,7 @@ import Closer from './general/Closer'
 import { changeView } from './../reducers/appStateReducer'
 import { conductSearch } from './../reducers/photoReducer'
 import PreviewLocation from './MainScreen/PreviewLocation'
-
+const rootURI = 'http://localhost:3001'
 const PreviewImage = (props) => {
   if( !props.photo && !props.default )return(<div className="filmstripPreview" ></div>)
   const photo = props.photo ? props.photo : props.default
@@ -12,7 +12,7 @@ const PreviewImage = (props) => {
     <div className="filmstripPreview" >
       <img
         className="imgeditorimg"
-        src={`http://localhost:3001/photos/${photo.id}.${photo.filetype}`}
+        src={`${rootURI}/photos/${photo.id}.${photo.filetype}`}
       />
     </div>
   )
