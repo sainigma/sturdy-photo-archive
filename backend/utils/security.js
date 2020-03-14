@@ -11,7 +11,7 @@ const checkHeaders = (req, usernameRequired) => {
     }
     
     if( !decodedToken || ( decodedToken.username !== req.body.username && usernameRequired ) ) return false
-    else return decodedToken.username
+    else { console.log(decodedToken.username+" logged in."); return decodedToken.username}
   }else return false
 }
 
