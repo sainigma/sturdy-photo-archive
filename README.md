@@ -8,3 +8,11 @@ Tällä hetkellä projektissa on toiminnallisena käyttäjien luonti ja kirjautu
 Käyttäjien suhteista riippuvat toiminnallisuudet ovat suureksi osaksi vielä kesken. Tällä hetkellä kaksi käyttäjää pääsee käsiksi samaan kuvaan vain jos kumpikin on kuvan täys- tai osaomistajia. Käyttäjän asetuksia ei myöskään pysty vielä muokkaamaan.
 
 Käyttöliittymä on toteutettu react-reduxilla, backend Nodella ja expressillä, tietokanta PostgreSQL:llä
+
+## Tuntikirjanpito
+[kts. linkki](./documentation/tuntikirjanpito.md)
+
+## Käyttöohjeet
+[Ohjeet käyttöön](./documentation/kayttoohje.md)
+
+[Ohjeet asennukseen](./documentation/asennusohje.md)

@@ -29,5 +29,5 @@
 | 11.3 | 7 | Panoramamoden hiomista, erilliset näkymät pallo- ja sylinteriprojektioille. Kuvien järjestelyyn on nyt käyttöliittymä, ja sen mekanismit on implementoitu myös backendissä ja tietokannassa. Sijaintien näkyvyyttä pystyy suodattamaan.
 | 12.3 | 8 | Font-awesomesta riippuva moduuli on nyt siitä riippumaton, omien ikonien tekoa. ImageEditorissa UI näyttää vain ne toiminnot joihin käyttäjällä on backendissä oikeus, infonäkymän tekoa. ImageEditorin käyttöliittymässä suurin osa lopullisista toiminnoista (tietojen haku, lisääminen ja muutos), ei vielä tukea backendissä.
 | 13.3 | 8 | Lisää tietokantafunktioita. Nyt front hakee kaikki kuvat joihin sillä on suora oikeus (omistaja tai julkinen kuva), eri toiminnallisuudet omistajuudesta riippuen. Yksittäisten kuvien oikeuksia voi muuttaa, ominaisuus toteutettu koko stackissa. Kuvien tykkäys toimii. Päivämäärää voi vaihtaa, pieniä muutoksia tyyleihin. Refaktorointia
-| 14.3 | 8 | Projektin alustamista buildia varten, digitaloceaniin tutustumista, tietokannan uudelleenluonti. Queryjen sanitointia. Bugien korjaamista.
-| yht   | 180 | | 
+| 14.3 | 10 | Projektin alustamista buildia varten, digitaloceaniin tutustumista, tietokannan uudelleenluonti. Queryjen sanitointia. Bugien korjaamista. Käyttöohjeen kirjoitusta
+| yht   | 181 | | 
