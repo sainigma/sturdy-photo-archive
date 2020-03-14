@@ -26,7 +26,7 @@ const App = (props) => {
     props.getAllLocations(props.user)
     setUserInit(true)
   }
-
+  
   return(
     <>
       <div className="container scroller">

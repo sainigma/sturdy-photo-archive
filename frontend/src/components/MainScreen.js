@@ -8,11 +8,13 @@ const MainScreen = (props) => {
     return(<></>)
   }
   let locations
-  if( props.locations.length === 0 ){
-    locations = [...props.locations.locations,{id:null,name:'Unlabeled'}]
-  }else{
+
+  if( props.locations === undefined || props.locations.length === 0 ){
     locations = [{id:null,name:'Unlabeled'}]
+  }else{
+    locations = [ ...props.locations.locations, {id:null,name:'Unlabeled'}]
   }
+
   return(
     <div className="mainscreen">
       <div className="mainscreenHeader"/>
