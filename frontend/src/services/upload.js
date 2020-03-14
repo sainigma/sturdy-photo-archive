@@ -12,6 +12,14 @@ const uploadFile = async(user, fileToUpload, labels) => {
 
   console.log(labels)
   let response
+  const fileSizeMB = fileToUpload.size / (1024 * 1024)
+  if( fileSizeMB > 10 ){
+    alert('File too large, limit 10mb')
+    return {
+      status:400
+    }
+  }
+
   try{
     response = await axios.post( `${rootURI}/api/files/upload`, formData, config(user))
   }catch(error){

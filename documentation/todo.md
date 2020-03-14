@@ -10,3 +10,4 @@
 ## Bugit:
 - Labelin poistaminen ei toimi jos labeleita on vain yksi
 - Menuikonit klikattavissa vaikka ne olisi elementtien alla
+- Jimp kuluttaa hulluna muistia, siirry johonkin toiseen kirjastoon
