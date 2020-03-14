@@ -7,7 +7,7 @@ const getAll = async(user) => {
   try{
     response = await axios.get( `${rootURI}/api/locations/all`, config(user) )
   }catch(error){
-    console.log(error)
+    //console.log(error)
     return false
   }
   return response

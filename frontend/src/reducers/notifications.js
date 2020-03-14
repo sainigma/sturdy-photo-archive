@@ -39,7 +39,6 @@ const notificationsReducer = (state=initialState,action) => {
       messages:[ ...state.messages ]
     }
   }else if( action.type === 'failedLogin' ){
-
     const content = ( (status)=>{
       switch(status){
         case 401:

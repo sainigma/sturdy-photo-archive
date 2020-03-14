@@ -63,13 +63,11 @@ const spawnUser = async(login) => {
   if( user ){
     const photoQuery = await photoService.getOwned(user)
     const locationQuery = await locationService.getAll(user)
-    if( photoQuery && locationQuery ){
-      return {
-        loggedIn: true,
-        photos: photoQuery.data.photos,
-        locations: locationQuery.data.locations,
-        user
-      }
+    return {
+      loggedIn: true,
+      photos: photoQuery ? photoQuery.data.photos : [],
+      locations: locationQuery ? locationQuery.data.locations :[],
+      user
     }
   }else{
     const photoQuery = await photoService.getPublic()
