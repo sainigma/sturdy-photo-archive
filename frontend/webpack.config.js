@@ -67,7 +67,7 @@ const config = {
     new CopyWebpackPlugin([
       {from:'./public/icons',to:'icons'},
       {from:'./public/backgrounds',to:'backgrounds'},
-    ])
+    ]),
     //new UglifyJSPlugin()
   ],
   stats: {

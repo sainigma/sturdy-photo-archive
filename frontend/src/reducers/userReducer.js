@@ -126,12 +126,24 @@ export const login = (username,password) => {
 
 export const newUser = (username,password,email) => {
   return async dispatch => {
-    const response = await loginService.newUser(username,password,email)
-    dispatch({
-      type: 'NEWUSER',
-      content: response,
-      username: username,
-    })
+    try{
+      const response = await loginService.newUser(username,password,email)
+      if( response && response.status === 200 ){
+        dispatch({
+          type: 'NEWUSER',
+          content: response,
+          username: username,
+          status: 200
+        })
+      }
+    }catch(error){
+      dispatch({
+        type: 'NEWUSER',
+        content:{status:400},
+        username:null,
+        status: 400
+      })
+    }
   }
 }
 

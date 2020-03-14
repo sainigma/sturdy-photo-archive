@@ -27,6 +27,9 @@
   margin-left:auto;
   border: 1px solid #ccc;
 }
+.disabled{
+  opacity:0.2;
+}
 .selectField{
   display: inline-block;
 }

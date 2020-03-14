@@ -45,7 +45,7 @@ const notificationsReducer = (state=initialState,action) => {
         case 401:
           return 'Invalid credentials'
         case 403:
-          return 'Account unverified, check your email for verification message'
+          return 'Account unverified, contact administator for verification'
         default:
           return 'Something weird happened!'
       }
@@ -61,6 +61,20 @@ const notificationsReducer = (state=initialState,action) => {
         },
         ...state.messages,
       ]
+    }
+  }else if(action.type==='NEWUSER'){
+    if(action.content.status===400){
+      return{
+        loading:false,
+        messages:[{
+          autodismiss:true,
+          timestamp:Date.now(),
+          content: 'Account name taken',
+          success:false
+        },
+        ...state.messages
+        ]
+      }
     }
   }
   return state

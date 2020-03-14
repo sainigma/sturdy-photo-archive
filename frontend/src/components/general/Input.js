@@ -3,11 +3,13 @@ import Icon from './Icon'
 import { varExists } from './../../utils/utils'
 
 const InputText = (props) => {
+  const className = !props.params.disabled ? "inputContainer" : "inputContainer disabled"
   return (
-    <div className="inputContainer">
+    <div className={className}>
       <Icon icon={props.params.icon} />
       <InputLabel content={props.params.label} />
       <input 
+        disabled={props.params.disabled}
         className="inputField"
         disabled={props.params.disabled}
         checked={props.params.checked}

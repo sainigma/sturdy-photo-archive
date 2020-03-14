@@ -38,7 +38,7 @@ const Login = (props) => {
           <Input type={"text"} icon={"user"} label={"username"} name={"username"} onChange={handleChange}/>
           <Input type={"password"} icon={"key"} label={"password"} name={"password"} onChange={handleChange}/>
           { active ? <Notify message={ props.messages.length>0 ? props.messages[0] : null} /> : <></> }
-          <Input type={"submit"} icon={"null"} label={" "} value={"Login"}/>
+          <Input type={"submit"} icon={"null"} value={"Login"}/>
       </form>
     </div>
     

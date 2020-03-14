@@ -21,20 +21,20 @@ const getCityID = async( originalCityName, originalCountryName ) => {
   const fetchIDbyName = () => {
     return getQuery(`
       SELECT id FROM cities
-      WHERE name='${cityName}'
+      WHERE name='${Utils.sanitize(cityName,"string")}'
     `)
   }
   const fetchIDbyNameAndCountry = () => {
     return getQuery(`
       SELECT id FROM cities
-      WHERE name='${cityName}'
-      AND country='${countryName}'
+      WHERE name='${Utils.sanitize(cityName,"string")}'
+      AND country='${Utils.sanitize(countryName,"string")}'
     `)
   }
   const insertNewCity = () => {
     return getQuery(`
       INSERT INTO cities ( id, name, country )
-      VALUES ( uuid_generate_v4(), '${cityName}', ${Utils.apostrophize(countryName)} )
+      VALUES ( uuid_generate_v4(), '${Utils.sanitize(cityName,"string")}', ${Utils.apostrophize(countryName)} )
     `)
   }
 
@@ -84,7 +84,7 @@ const findOne = async(params) => {
   try {
     const query = await client.query(`
       SELECT name FROM locations
-      WHERE id='${id}'
+      WHERE id='${Utils.sanitize(id,"string")}'
     `)
     location = query.rows[0]
   } catch(error){ if(error.routine!=="errorMissingColumn")console.log(error); location=null }
@@ -134,7 +134,7 @@ const createNew = async(userId, params) => {
   const newLocationQuery = () => {
     return getQuery(`
       INSERT INTO locations ( id, name, owner, latitude, longitude, address, postalcode, city, permission )
-      VALUES( uuid_generate_v4(), '${name}', '${owner}', ${Utils.apostrophize(latitude)}, ${Utils.apostrophize(longitude)}, ${Utils.apostrophize(address)}, ${Utils.apostrophize(postalCode)}, ${Utils.apostrophize(cityId)}, ${Utils.apostrophize(permissions)} )
+      VALUES( uuid_generate_v4(), '${Utils.sanitize(name,"string")}', '${Utils.sanitize(owner,"string")}', ${Utils.apostrophize(latitude)}, ${Utils.apostrophize(longitude)}, ${Utils.apostrophize(address)}, ${Utils.apostrophize(postalCode)}, ${Utils.apostrophize(cityId)}, ${Utils.apostrophize(permissions)} )
       RETURNING id
     `)
   }

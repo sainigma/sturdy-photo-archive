@@ -38,7 +38,7 @@ const MassUpload = (props) => {
     if( showSubmenu ) setShowSubmenu(false)
 
     return(
-      <Input type="button" icon="file" value="Mass upload photos" onClick={toggleUploadActive}/>
+      <Input disabled={true} type="button" icon="file" value="Mass upload photos" onClick={toggleUploadActive}/>
     )
   }
 

@@ -30,7 +30,7 @@ const createNew = async(user, visibility, useUsername ) => {
       return privacyObject(-1,0)
   }}
 
-  const userQuery = useUsername ? `username_to_uuid('${user}')` : `'${user}'`
+  const userQuery = useUsername ? `username_to_uuid('${Utils.sanitize(user,"string")}')` : `'${Utils.sanitize(user,"string")}'`
 
   const newPermissionQuery = (params) => {
     return getQuery(`
