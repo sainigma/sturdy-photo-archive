@@ -17,11 +17,11 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "file-system": "^2.2.2",
-    "jimp": "^0.9.3",
+    "jimp": "^0.9.8",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^7.14.0"
+    "pg": "^7.18.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   }
 }
