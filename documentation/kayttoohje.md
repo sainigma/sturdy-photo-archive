@@ -1,7 +1,5 @@
 # Käyttöohje
 
-Live-versio osoitteessa http://134.122.65.19/
-
 Uusien käyttäjien todentaminen toimii toistaiseksi manuaalisesti
 
 ## Toiminta
